@@ -6,6 +6,7 @@ import Header from './components/Header/Header';
 import About from './routes/About';
 import Overview from './routes/Overview';
 import Footer from './components/Footer/Footer';
+import Login from './routes/Login';
 
 const App = () => {
   return (
@@ -14,6 +15,9 @@ const App = () => {
       <Switch>
         <Route path="/about">
           <About />
+        </Route>
+        <Route path="/login">
+          <Login />
         </Route>
         <Route path="/">
           <Overview />
