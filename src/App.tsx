@@ -11,7 +11,8 @@ const App = () => {
   return (
     <BrowserRouter>
       <Header />
-      <Switch>
+      <div className="app">
+        <Switch>
         <Route path="/about">
           <About />
         </Route>
@@ -19,6 +20,7 @@ const App = () => {
           <Overview />
         </Route>
       </Switch>
+      </div>
       <Footer />
     </BrowserRouter>
   );
