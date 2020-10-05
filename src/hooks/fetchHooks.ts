@@ -4,44 +4,76 @@ import { useEffect, useState } from 'react';
 
 const BASE_URL = 'https://localhost:5001/api';
 
-export function useGetFetchOnMount<T>(url: string): [T | undefined, string, boolean]  {
+export function useGetFetch<T>(
+  url: string
+): [T | undefined, () => void, string, boolean] {
+  return useFetch(url, 'GET');
+}
+
+export function usePostFetch<T>(
+  url: string
+): [T | undefined, (body: T) => void, string, boolean] {
+  return useFetch(url, 'POST');
+}
+
+export function usePutFetch<T>(
+  url: string
+): [T | undefined, (body: T) => void, string, boolean] {
+  return useFetch(url, 'PUT');
+}
+
+export function useGetOnMountFetch<T>(
+  url: string
+): [T | undefined, () => void, string, boolean] {
+  return useFetch(url, 'GET', true);
+}
+
+export function useFetch<T>(
+  url: string,
+  method: string,
+  onMount?: boolean
+): [T | undefined, (body?: T) => void, string, boolean] {
   const [response, setResponse] = useState<T>();
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    const signal = abortController.signal;
-    const doFetch = async () => {
-      setFetching(true);
-      try {
-        const res = await fetch(BASE_URL + url, {
-          method: 'GET',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          },
-        });
-        const json = await res.json();
-        if (!signal.aborted) {
-          setResponse(json);
-        }
-      } catch (e) {
-        if (!signal.aborted) {
-          setError(e);
-        }
-      } finally {
-        if (!signal.aborted) {
-          setFetching(false);
-        }
+  const abortController = new AbortController();
+  const signal = abortController.signal;
+
+  const doFetch = async (body?: T) => {
+    console.log('hallo');
+    setFetching(true);
+    try {
+      const res = await fetch(BASE_URL + url, {
+        method: method,
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify(body),
+      });
+      const json = await res.json();
+      if (!signal.aborted) {
+        setResponse(json);
       }
-    };
-    doFetch();
-    return () => {
-      abortController.abort();
-    };
+      return res;
+    } catch (e) {
+      if (!signal.aborted) {
+        setError(e);
+      }
+    } finally {
+      if (!signal.aborted) {
+        setFetching(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (onMount) {
+      doFetch();
+    }
   }, [url]);
 
-  return [ response, error, fetching ];
+  return [response, doFetch, error, fetching];
 }
