@@ -4,24 +4,35 @@ import { useEffect, useState } from 'react';
 
 const BASE_URL = 'https://localhost:5001/api';
 
+//Fetches when called. Takes no body
 export function useGetFetch<T>(
   url: string
 ): [T | undefined, () => void, string, boolean] {
   return useFetch(url, 'GET');
 }
 
+//Posts with a body. Returns the response.
 export function usePostFetch<T>(
   url: string
 ): [T | undefined, (body: T) => void, string, boolean] {
   return useFetch(url, 'POST');
 }
 
+//Put with a body.
 export function usePutFetch<T>(
   url: string
 ): [T | undefined, (body: T) => void, string, boolean] {
   return useFetch(url, 'PUT');
 }
 
+//Use id in url to delete correct element.
+export function useDeleteFetch<T>(
+  url: string
+): [T | undefined, () => void, string, boolean] {
+  return useFetch(url, 'DELETE');
+}
+
+//Use hook to get onMount. onMount is set to true.
 export function useGetOnMountFetch<T>(
   url: string
 ): [T | undefined, () => void, string, boolean] {
@@ -72,7 +83,7 @@ export function useFetch<T>(
     if (onMount) {
       doFetch();
     }
-  }, [url]);
+  });
 
   return [response, doFetch, error, fetching];
 }
