@@ -41,7 +41,6 @@ export function useFetch<T>(
   const signal = abortController.signal;
 
   const doFetch = async (body?: T) => {
-    console.log('hallo');
     setFetching(true);
     try {
       const res = await fetch(BASE_URL + url, {
