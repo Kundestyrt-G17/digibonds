@@ -4,7 +4,7 @@ import {
   usePostFetch,
   useGetOnMountFetch,
   usePutFetch,
-  useDeleteFetch,
+  useDeleteFetch, useGetFetch,
 } from '../../hooks/fetchHooks';
 
 interface Data {
@@ -21,15 +21,13 @@ interface Meeting {
 }
 
 const Overview = () => {
-  const [data, postMeeting, fetching] = usePostFetch<Data>('/meetings');
-  const [, putMeeting, loading, error] = usePutFetch<Data>('/meetings/6');
-  const [deleteResponse, deleteMeeting, , deleteError] = useDeleteFetch<Data>(
-    '/meetings/8'
+  const [response, postMeeting, , fetching] = usePostFetch<Data>('/meetings');
+  const [putMeeting, error,loading] = usePutFetch<Data>('/meetings/1');
+  const [deleteMeeting, deleteError, ] = useDeleteFetch<Data>(
+    '/meetings/8',
   );
-
-  const [meetings, getMeetings, fetchingMeetings] = useGetOnMountFetch<
-    Meeting[]
-  >('/meetings');
+  const [meeting, getMeeting, meetingError, fetchingMeeting] = useGetFetch<Data>('/meetings/6');
+  const [meetings, getMeetings, fetchingMeetings] = useGetOnMountFetch<Meeting[]>('/meetings');
 
   const test: Data = {
     meetingName: 'Ny Post',
@@ -42,23 +40,24 @@ const Overview = () => {
       {fetchingMeetings
         ? 'loading'
         : meetings?.map((meeting) => {
-            return <p key={meeting.id}>{meeting.meetingName}</p>;
-          })}
-      <button onClick={handleClick}>Trykk</button>
-      {data?.meetingName}
-      <button onClick={handlePut}>Hallo</button>
+          return <p key={meeting.id}>{meeting.meetingName}</p>;
+        })}
+      <button onClick={handlePost}>Post</button>
+      {response?.meetingName}
+      <button onClick={handlePut}>Put</button>
       <button onClick={handleDelete}>Delete</button>
+      <button onClick={handleGet}>Get</button>
+      {meetingError ? meetingError : meeting?.meetingName}
     </div>
   );
 
-  async function handleClick() {
-    const res = await postMeeting(test);
-    console.log(res);
+  async function handlePost() {
+    await postMeeting(test);
     getMeetings();
   }
 
-  async function handlePut() {
-    await putMeeting({
+  function handlePut() {
+    putMeeting({
       isin: 'hjfhjhfj',
       meetingName: 'Ny PUT',
       date: '2015-05-29T00:00:00',
@@ -66,10 +65,13 @@ const Overview = () => {
     getMeetings();
   }
 
+  function handleGet() {
+    getMeeting();
+  }
+
+
   async function handleDelete() {
-    const res = await deleteMeeting();
-    console.log(res);
-    console.log(deleteResponse);
+    deleteMeeting();
     getMeetings();
   }
 };
