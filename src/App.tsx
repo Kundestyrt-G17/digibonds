@@ -11,16 +11,16 @@ const App = () => {
   return (
     <BrowserRouter>
       <Header />
-      <div className="app">
-        <Switch>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/">
-          <Overview />
-        </Route>
-      </Switch>
-      </div>
+        <div className="app">
+          <Switch>
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/">
+              <Overview />
+            </Route>
+          </Switch>
+        </div>
       <Footer />
     </BrowserRouter>
   );
