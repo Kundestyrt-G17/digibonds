@@ -4,7 +4,8 @@ import {
   usePostFetch,
   useGetOnMountFetch,
   usePutFetch,
-  useDeleteFetch, useGetFetch,
+  useDeleteFetch,
+  useGetFetch,
 } from '../../hooks/fetchHooks';
 
 interface Data {
@@ -22,12 +23,14 @@ interface Meeting {
 
 const Overview = () => {
   const [postMeeting, , fetching] = usePostFetch<Data, Meeting>('/meetings');
-  const [putMeeting, error,loading] = usePutFetch<Data>('/meetings/1');
-  const [deleteMeeting, deleteError, ] = useDeleteFetch<Data>(
-    '/meetings/8',
-  );
-  const [meeting, getMeeting, meetingError, fetchingMeeting] = useGetFetch<Data>('/meetings/6');
-  const [meetings, getMeetings, fetchingMeetings] = useGetOnMountFetch<Meeting[]>('/meetings');
+  const [putMeeting, error, loading] = usePutFetch<Data>('/meetings/1');
+  const [deleteMeeting, deleteError] = useDeleteFetch<Data>('/meetings/8');
+  const [meeting, getMeeting, meetingError, fetchingMeeting] = useGetFetch<
+    Data
+  >('/meetings/6');
+  const [meetings, getMeetings, fetchingMeetings] = useGetOnMountFetch<
+    Meeting[]
+  >('/meetings');
 
   const test: Data = {
     meetingName: 'Ny Post',
@@ -40,8 +43,8 @@ const Overview = () => {
       {fetchingMeetings
         ? 'loading'
         : meetings?.map((meeting) => {
-          return <p key={meeting.id}>{meeting.meetingName}</p>;
-        })}
+            return <p key={meeting.id}>{meeting.meetingName}</p>;
+          })}
       <button onClick={handlePost}>Post</button>
       <button onClick={handlePut}>Put</button>
       <button onClick={handleDelete}>Delete</button>
@@ -66,7 +69,6 @@ const Overview = () => {
   function handleGet() {
     getMeeting();
   }
-
 
   async function handleDelete() {
     deleteMeeting();

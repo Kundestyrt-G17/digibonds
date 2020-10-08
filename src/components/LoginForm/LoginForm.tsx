@@ -4,7 +4,7 @@ import './LoginForm.css';
 import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@material-ui/core';
 import { usePostFetch } from '../../hooks/fetchHooks';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 export interface UserPost {
   username: string;
@@ -12,8 +12,12 @@ export interface UserPost {
 }
 
 export interface UserFetch {
-  username: string;
   jwt: string;
+  user: {
+    id: number;
+    username: string;
+    isBroker: boolean;
+  };
 }
 
 interface Props {
@@ -23,20 +27,26 @@ interface Props {
 export default function LoginForm(props: Props) {
   const { setUserData } = props;
   const { register, handleSubmit } = useForm();
-  const [postAuthentication, postAuthenticationError, fetchingPostResponse] = usePostFetch<UserPost, any>('/login/authenticate');
   const history = useHistory();
-
+  const [
+    postAuthentication,
+    postAuthenticationError,
+    fetchingPostResponse,
+  ] = usePostFetch<UserPost, any>('/login/authenticate');
 
   return (
     <div className="login-form">
       <h2 className="login-form_title">Sign in</h2>
       <form
         onSubmit={handleSubmit(async (data) => {
-          const res = await postAuthentication({ username: data.username, password: data.password });
-          if(!res?.status) {
-            history.push("/")
+          const res = await postAuthentication({
+            username: data.username,
+            password: data.password,
+          });
+          if (!res?.status) {
+            history.push('/');
+            setUserData(res);
           }
-          setUserData(res);
         })}
       >
         <TextField
@@ -67,7 +77,9 @@ export default function LoginForm(props: Props) {
           Sign In
         </Button>
       </form>
-      {postAuthenticationError && <p>{postAuthenticationError}, username and/or password may be wrong</p>}
+      {postAuthenticationError && (
+        <p>Username and/or password may be wrong</p>
+      )}
     </div>
   );
 }

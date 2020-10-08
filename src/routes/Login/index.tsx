@@ -3,7 +3,7 @@ import './index.css';
 
 import LoginForm, { UserFetch } from '../../components/LoginForm/LoginForm';
 
-interface Props{
+interface Props {
   setUserData: (userFetch: UserFetch) => void;
 }
 

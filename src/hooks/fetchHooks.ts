@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 //https://medium.com/better-programming/learn-to-create-your-own-usefetch-react-hook-9cc31b038e53
 
-const BASE_URL = 'https://localhost:5001/api';
+const BASE_URL = 'http://localhost:5000/api';
 
 //Fetches when called. Takes no body
 export function useGetFetch<T>(
