@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header/Header';
 import About from './routes/About';
-import Overview from './routes/Overview';
+import WelcomePage from './routes/WelcomePage';
 import Footer from './components/Footer/Footer';
 
 const App = () => {
@@ -17,11 +17,10 @@ const App = () => {
               <About />
             </Route>
             <Route path="/">
-              <Overview />
+              <WelcomePage />
             </Route>
           </Switch>
         </div>
-      <Footer />
     </BrowserRouter>
   );
 };

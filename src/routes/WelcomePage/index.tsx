@@ -4,7 +4,7 @@ import {Button} from "@material-ui/core";
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 
 
-const Overview = () => 
+const WelcomePage = () =>
 <div className="welcome-page">
     <h1 className="welcome-page_title">NORWEGIAN BONDHOLDERS' MEETING</h1>
     <div className="welcome-page_body">
@@ -29,4 +29,4 @@ const Overview = () =>
 </div>;
 
 
-export default Overview;
+export default WelcomePage;
