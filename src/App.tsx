@@ -4,22 +4,23 @@ import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header/Header';
 import About from './routes/About';
-import Overview from './routes/Overview';
+import WelcomePage from './routes/WelcomePage';
 import Footer from './components/Footer/Footer';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Header />
-      <Switch>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/">
-          <Overview />
-        </Route>
-      </Switch>
-      <Footer />
+        <div className="app">
+          <Switch>
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/">
+              <WelcomePage />
+            </Route>
+          </Switch>
+        </div>
     </BrowserRouter>
   );
 };
