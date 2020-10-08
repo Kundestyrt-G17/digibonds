@@ -21,7 +21,7 @@ interface Meeting {
 }
 
 const Overview = () => {
-  const [response, postMeeting, , fetching] = usePostFetch<Data>('/meetings');
+  const [postMeeting, , fetching] = usePostFetch<Data, Meeting>('/meetings');
   const [putMeeting, error,loading] = usePutFetch<Data>('/meetings/1');
   const [deleteMeeting, deleteError, ] = useDeleteFetch<Data>(
     '/meetings/8',
@@ -43,7 +43,6 @@ const Overview = () => {
           return <p key={meeting.id}>{meeting.meetingName}</p>;
         })}
       <button onClick={handlePost}>Post</button>
-      {response?.meetingName}
       <button onClick={handlePut}>Put</button>
       <button onClick={handleDelete}>Delete</button>
       <button onClick={handleGet}>Get</button>
@@ -52,7 +51,6 @@ const Overview = () => {
   );
 
   async function handlePost() {
-    await postMeeting(test);
     getMeetings();
   }
 

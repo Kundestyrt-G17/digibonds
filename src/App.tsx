@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 import './App.css';
@@ -7,24 +7,29 @@ import About from './routes/About';
 import WelcomePage from './routes/WelcomePage';
 import Footer from './components/Footer/Footer';
 import VoteNowPage from './routes/VoteNowPage';
+import Login from './routes/Login';
+import { UserFetch } from './components/LoginForm/LoginForm';
 
 const App = () => {
+  const [userData, setUserData] = useState<UserFetch>();
+
   return (
     <BrowserRouter>
-      <Header />
-        <div className="app">
-          <Switch>
-            <Route path="/about">
-              <About />
-            </Route>
-            <Route path="/vote">
-                <VoteNowPage />
-            </Route>
-            <Route path="/">
-              <WelcomePage />
-            </Route>
-          </Switch>
-        </div>
+      <Header userData={userData}/>
+      <Switch>
+        <Route path="/about">
+          <About/>
+        </Route>
+        <Route path="/login">
+          <Login setUserData={setUserData}/>
+        </Route>
+        <Route path="/vote">
+          <VoteNowPage />
+        </Route>
+        <Route path="/">
+          {userData && <WelcomePage/>}
+        </Route>
+      </Switch>
     </BrowserRouter>
   );
 };

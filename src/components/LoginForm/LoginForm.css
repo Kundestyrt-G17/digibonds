@@ -1,0 +1,19 @@
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    padding: 10px;
+}
+
+.login-form_title {
+    font-family: Work Sans;
+    font-weight: 300;
+    font-size: 48px;
+}
+
+.login-form_button{
+    margin-top: 15px !important;
+}
+
