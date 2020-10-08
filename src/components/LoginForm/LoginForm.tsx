@@ -1,38 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './LoginForm.css';
 
 import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@material-ui/core';
+import { usePostFetch } from '../../hooks/fetchHooks';
+import { useHistory } from "react-router-dom";
 
-export default function LoginForm() {
+export interface UserPost {
+  username: string;
+  password: string;
+}
+
+export interface UserFetch {
+  username: string;
+  jwt: string;
+}
+
+interface Props {
+  setUserData: (userFetch: UserFetch) => void;
+}
+
+export default function LoginForm(props: Props) {
+  const { setUserData } = props;
   const { register, handleSubmit } = useForm();
+  const [postAuthentication, postAuthenticationError, fetchingPostResponse] = usePostFetch<UserPost, any>('/login/authenticate');
+  const history = useHistory();
+
 
   return (
     <div className="login-form">
       <h2 className="login-form_title">Sign in</h2>
       <form
-        onSubmit={handleSubmit((data) => {
-          console.log(data);
-          //TODO: API stuff and authentication
+        onSubmit={handleSubmit(async (data) => {
+          const res = await postAuthentication({ username: data.username, password: data.password });
+          if(!res?.status) {
+            history.push("/")
+          }
+          setUserData(res);
         })}
       >
         <TextField
-          label="Email Address"
+          label="Username"
           variant="outlined"
           inputRef={register}
           fullWidth
           autoFocus
           margin="normal"
-          autoComplete="email"
-          type="email"
-          name="email"
+          name="username"
         />
         <TextField
           label="Password"
           variant="outlined"
           inputRef={register}
           fullWidth
-          autoFocus
           margin="normal"
           type="password"
           name="password"
@@ -47,6 +67,7 @@ export default function LoginForm() {
           Sign In
         </Button>
       </form>
+      {postAuthenticationError && <p>{postAuthenticationError}, username and/or password may be wrong</p>}
     </div>
   );
 }

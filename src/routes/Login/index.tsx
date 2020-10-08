@@ -1,11 +1,15 @@
 import React from 'react';
 import './index.css';
 
-import LoginForm from '../../components/LoginForm/LoginForm';
+import LoginForm, { UserFetch } from '../../components/LoginForm/LoginForm';
 
-const Login = () => (
+interface Props{
+  setUserData: (userFetch: UserFetch) => void;
+}
+
+const Login = (props: Props) => (
   <div className="login">
-    <LoginForm />
+    <LoginForm setUserData={props.setUserData} />
   </div>
 );
 

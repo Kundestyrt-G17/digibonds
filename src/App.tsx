@@ -1,29 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 import './App.css';
 import Header from './components/Header/Header';
 import About from './routes/About';
-import Overview from './routes/Overview';
-import Footer from './components/Footer/Footer';
+import WelcomePage from './routes/WelcomePage';
 import Login from './routes/Login';
+import { UserFetch } from './components/LoginForm/LoginForm';
 
 const App = () => {
+  const [userData, setUserData] = useState<UserFetch>();
+
   return (
     <BrowserRouter>
-      <Header />
+      <Header userData={userData}/>
       <Switch>
         <Route path="/about">
-          <About />
+          <About/>
         </Route>
         <Route path="/login">
-          <Login />
+          <Login setUserData={setUserData}/>
         </Route>
         <Route path="/">
-          <Overview />
+          {userData && <WelcomePage/>}
         </Route>
       </Switch>
-      <Footer />
     </BrowserRouter>
   );
 };
