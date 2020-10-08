@@ -1,6 +1,7 @@
 .header {
   background: midnightblue;
   color: white;
-  font-size: 3rem;
   padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
 }
