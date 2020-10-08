@@ -2,31 +2,45 @@ import React from 'react';
 import './index.css';
 import {Button} from "@material-ui/core";
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+import { useHistory } from 'react-router';
 
 
-const WelcomePage = () =>
-<div className="welcome-page">
-    <h1 className="welcome-page_title">NORWEGIAN BONDHOLDERS' MEETING</h1>
-    <div className="welcome-page_body">
-        <p className="welcome-page_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        rekgnrkelngkrelngrelng
-        gernglkenrglkrnge
-        gnelkrgnklernglernglkrenlgrlkengrelkngkregklrngleknglkr.
-        ergnlrkegnlkrgnerngklkegnreg.
-        kngrkelgnkrlglkrengkrlegnkrelngkre.rgløemgølremgløremglømreglømrgegre. jlenfjw enflwejfbew jkbejkfbwjk bfjkewbfjke wbfjkewbf</p>
+const WelcomePage = () => {
 
-        <Button startIcon={<PictureAsPdfIcon />} className="welcome-page_summons" href=".pdf">Download summons</Button>
-        <div className="welcome-page_buttons">
-                <Button variant="contained" color="primary" >Vote now</Button>
-                <Button variant="outlined" color="primary">Already voted</Button>
+    const history = useHistory();
+    function handleVoteNow(){
+        history.push("/vote");
+    }
+
+    return(
+        <div className="welcome-page">
+        <h1 className="welcome-page_title">NORWEGIAN BONDHOLDERS' MEETING</h1>
+        <div className="welcome-page_body">
+            <div className="welcome-page_paragraph">
+                <h2>SUMMONS TO BONDHOLDERS' MEETING</h2>
+                    <h3>1 INTRODUCTION</h3>
+                        Nordic Trustee AS acts as bond trustee (the "Bond Trustee") for the holders of bonds (the "Bonds")
+                        in the above-mentioned bond issues (each a "Bond Issue" and together the "Bond Issues") issued by
+                        Norwegian Air Shuttle ASA (the "Issuer" or the "Company").
+                        <br/>
+                        Unless otherwise stated herein, all capitalised terms used herein shall have the meaning ascribed to
+                        them in (i) the bond terms for NAS07 dated 9 December 2015 (as later amended and restated), (ii) the bond terms for 
+                        NAS09 dated 7 February 2017 (as later amended and restated), (iii) the bond terms for NAS09 dated 16 November 2017 and
+                        (iv) the bond terms for the CB dated 13 November 2019, each of which are entered into between the Bond Trustee and the Issuer (the "Bond Terms").
+                        References to clauses and paragraphs are references to clauses and paragraphs of the relevant Bond Terms...
+            </div>
+
+            <Button startIcon={<PictureAsPdfIcon />} className="welcome-page_summons" href=".pdf">Download summons</Button>
+            <div className="welcome-page_buttons">
+                    <Button variant="contained" color="primary" onClick={handleVoteNow}>Vote now</Button>
+                    <Button variant="outlined" color="primary" onClick={handleVoteNow}>Already voted</Button>
+            </div>
         </div>
     </div>
-</div>;
+    )
+}
+
+
 
 
 export default WelcomePage;
