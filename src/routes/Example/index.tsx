@@ -1,7 +1,6 @@
 import React from 'react';
 import './index.css';
 import {
-  usePostFetch,
   useGetOnMountFetch,
   usePutFetch,
   useDeleteFetch,
@@ -22,7 +21,6 @@ interface Meeting {
 }
 
 const Overview = () => {
-  const [postMeeting, , fetching] = usePostFetch<Data, Meeting>('/meetings');
   const [putMeeting, error, loading] = usePutFetch<Data>('/meetings/1');
   const [deleteMeeting, deleteError] = useDeleteFetch<Data>('/meetings/8');
   const [meeting, getMeeting, meetingError, fetchingMeeting] = useGetFetch<

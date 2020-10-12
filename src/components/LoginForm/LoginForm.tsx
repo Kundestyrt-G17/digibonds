@@ -3,7 +3,7 @@ import './LoginForm.css';
 
 import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@material-ui/core';
-import { usePostFetch } from '../../hooks/fetchHooks';
+import { doPostFetch } from '../../hooks/fetchHooks';
 import { useHistory } from 'react-router-dom';
 
 export interface UserPost {
@@ -28,25 +28,26 @@ export default function LoginForm(props: Props) {
   const { setUserData } = props;
   const { register, handleSubmit } = useForm();
   const history = useHistory();
-  const [
-    postAuthentication,
-    postAuthenticationError,
-    fetchingPostResponse,
-  ] = usePostFetch<UserPost, any>('/login/authenticate');
+  const [postAuthenticationError, setPostAuthenticationError] = useState<
+    string
+  >('');
 
   return (
     <div className="login-form">
       <h2 className="login-form_title">Sign in</h2>
       <form
         onSubmit={handleSubmit(async (data) => {
-          const res = await postAuthentication({
+          await doPostFetch<UserPost, UserFetch>('/login/authenticate', {
             username: data.username,
             password: data.password,
-          });
-          if (!res?.status) {
-            history.push('/');
-            setUserData(res);
-          }
+          })
+            .then((response) => {
+              setUserData(response);
+              history.push('/welcomepage');
+            })
+            .catch((error: Error) => {
+              setPostAuthenticationError(error.message);
+            });
         })}
       >
         <TextField
@@ -78,7 +79,7 @@ export default function LoginForm(props: Props) {
         </Button>
       </form>
       {postAuthenticationError && (
-        <p>Username and/or password may be wrong</p>
+        <p>{postAuthenticationError} Username and/or password may be wrong</p>
       )}
     </div>
   );
