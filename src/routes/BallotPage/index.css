@@ -1,12 +1,43 @@
 .ballot-page {
     height: 100%;
-}
-
-
-.vote-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-items: center;
     padding: 10px;
 }
+
+.ballot-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    width: 50%;
+}
+
+.ballot-form__textfield {
+    width: 90%;
+}
+
+.ballot-form__element {
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
+
+.ballot-form__element--tooltip {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 90% 10%;
+    grid-column-gap: 2%;
+    align-items: center;
+}
+
+.ballot-form__button {
+    align-self: center;
+}
+
+.ballot-form__custodian-radios {
+    align-self: center;
+}
+
