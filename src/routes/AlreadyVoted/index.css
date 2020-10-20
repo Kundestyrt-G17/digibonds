@@ -1,0 +1,32 @@
+.already-voted-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Work Sans";
+    width: 100%;
+}
+
+.already-voted-page_title{
+    font-size: 2rem;
+}
+
+.already-voted-page_body{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.already-voted-page_paragraph{
+    text-align: left;
+    align-self: center;
+}
+
+.already-voted-page_check{
+    margin-top: 60px;
+    align-self: center;
+}
+
+.already-voted-page_button{
+    margin-top: 20px;
+    align-self: center;
+}

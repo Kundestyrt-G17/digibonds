@@ -7,6 +7,7 @@ import About from './routes/About';
 import WelcomePage from './routes/WelcomePage';
 import VoteNowPage from './routes/VoteNowPage';
 import Login from './routes/Login';
+import AlreadyVoted from './routes/AlreadyVoted';
 import { UserFetch } from './components/LoginForm/LoginForm';
 
 const App = () => {
@@ -31,6 +32,9 @@ const App = () => {
         </Route>
         <Route path="/vote">
           <VoteNowPage />
+        </Route>
+        <Route path="/alreadyvoted">
+          <AlreadyVoted />
         </Route>
         <Route path="/">
           {pageToShow}
