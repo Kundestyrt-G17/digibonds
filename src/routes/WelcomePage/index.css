@@ -21,13 +21,25 @@
   margin-top: 20px;
 }
 
-.welcome-page_body{ 
-  width: 60%;
+.welcome-page_matter {
+  display: flex;
+  flex-direction: row;
+}
+
+.welcome-page_body { 
+  width: 50%;
+  padding-left: 5%;
   display: flex;
   flex-direction: column;
 }
+.welcome-page_image {
+  padding-right: 5%;
+  padding-bottom: 5%;
+  padding-left: 5%;
+  padding-top: 2%;
+}
 
-.welcome-page_summons{
+.welcome-page_summons {
   align-self: center;
   color: red;
 }
