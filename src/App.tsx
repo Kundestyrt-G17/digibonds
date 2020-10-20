@@ -5,7 +5,7 @@ import './App.css';
 import Header from './components/Header/Header';
 import About from './routes/About';
 import WelcomePage from './routes/WelcomePage';
-import VoteNowPage from './routes/VoteNowPage';
+import BallotPage from './routes/BallotPage';
 import Login from './routes/Login';
 import { UserFetch } from './components/LoginForm/LoginForm';
 
@@ -30,7 +30,7 @@ const App = () => {
           <Login setUserData={setUserData} />
         </Route>
         <Route path="/vote">
-          <VoteNowPage />
+          <BallotPage />
         </Route>
         <Route path="/">
           {pageToShow}

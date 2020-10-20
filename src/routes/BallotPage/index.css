@@ -1,0 +1,12 @@
+.ballot-page {
+    height: 100%;
+}
+
+
+.vote-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    padding: 10px;
+}
