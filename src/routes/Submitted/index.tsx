@@ -1,5 +1,6 @@
 import React from 'react';
 import { submittedPageType } from '../../utils/types';
+import './index.css';
 
 const Submitted = (props: { submitted: submittedPageType }) => {
   function renderCorrectPage() {
@@ -11,12 +12,12 @@ const Submitted = (props: { submitted: submittedPageType }) => {
       case 'told':
         return <p>Thanks for letting us know who you voted for.</p>;
       case '':
-        return <p>Hei og hopp. Her har det skjedd en feil UwU</p>;
+        return <div />;
     }
   }
 
   return (
-    <div>
+    <div className="submitted-page">
       <h1>Thank you!</h1>
       {renderCorrectPage()}
     </div>
