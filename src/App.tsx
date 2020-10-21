@@ -7,17 +7,21 @@ import About from './routes/About';
 import WelcomePage from './routes/WelcomePage';
 import VoteNowPage from './routes/VoteNowPage';
 import Login from './routes/Login';
+import NoLongerOwn from './routes/NoLongerOwn';
 import { UserFetch } from './components/LoginForm/LoginForm';
+import Submitted from './routes/Submitted';
+import { submittedPageType } from './utils/types';
 
 const App = () => {
   const [userData, setUserData] = useState<UserFetch | undefined>();
+  const [submitted, setSubmitted] = useState<submittedPageType>(''); // TODO - Dårlig navn
 
   const pageToShow = () => {
-    if (!userData?.user) {
-      return <Login setUserData={setUserData} />
-    }
-    return <WelcomePage/>
-  }
+    // if (!userData?.user) {
+    //   return <Login setUserData={setUserData} />
+    // }
+    return <WelcomePage />;
+  };
 
   return (
     <BrowserRouter>
@@ -30,11 +34,15 @@ const App = () => {
           <Login setUserData={setUserData} />
         </Route>
         <Route path="/vote">
-          <VoteNowPage />
+          <VoteNowPage setSubmitted={setSubmitted} />
         </Route>
-        <Route path="/">
-          {pageToShow}
+        <Route path="/noLongerOwn">
+          <NoLongerOwn setSubmitted={setSubmitted} />
         </Route>
+        <Route path="/submitted">
+          <Submitted submitted={submitted} />
+        </Route>
+        <Route path="/">{pageToShow}</Route>
       </Switch>
     </BrowserRouter>
   );

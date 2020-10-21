@@ -9,6 +9,9 @@ const WelcomePage = () => {
   function handleVoteNow() {
     history.push('/vote');
   }
+  function handleNoLongerOwn() {
+    history.push('/noLongerOwn');
+  }
 
   return (
     <div className="welcome-page">
@@ -47,6 +50,9 @@ const WelcomePage = () => {
           </Button>
           <Button variant="outlined" color="primary" onClick={handleVoteNow}>
             Already voted
+          </Button>
+          <Button variant="outlined" color="primary" onClick={handleNoLongerOwn}>
+            No longer own my bonds
           </Button>
         </div>
       </div>
