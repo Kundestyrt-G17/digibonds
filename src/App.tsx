@@ -7,6 +7,7 @@ import About from './routes/About';
 import WelcomePage from './routes/WelcomePage';
 import VoteNowPage from './routes/VoteNowPage';
 import Login from './routes/Login';
+import AlreadyVoted from './routes/AlreadyVoted';
 import NoLongerOwn from './routes/NoLongerOwn';
 import { UserFetch } from './components/LoginForm/LoginForm';
 import Submitted from './routes/Submitted';
@@ -40,6 +41,9 @@ const App = () => {
           </Route>
           <Route path="/noLongerOwn">
             <NoLongerOwn setSubmitted={setSubmitted} />
+          </Route>
+          <Route path="/alreadyvoted">
+            <AlreadyVoted setSubmitted={setSubmitted} />
           </Route>
           <Route path="/submitted">
             <Submitted submitted={submitted} />
