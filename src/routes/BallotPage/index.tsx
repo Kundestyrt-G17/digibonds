@@ -1,8 +1,7 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import {
   Button,
   Checkbox,
-  FormControl,
   FormControlLabel,
   FormLabel,
   Radio,
@@ -13,13 +12,12 @@ import {
 } from '@material-ui/core';
 import './index.css';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
+import { Controller, useForm } from 'react-hook-form';
 
 interface Vote {
   ISIN: string;
   company: string;
-  custodian?: string;
+  custodianName?: string;
   bondsOwned: number;
   accountNumber?: number;
   phoneNumber?: number;
@@ -28,63 +26,85 @@ interface Vote {
   hasCustodian: string;
 }
 
+type VotePageType = 'Ballot' | 'PoH' | 'Summary';
+
 const BallotPage = () => {
   const [filledOutVote, setFilledOutVote] = useState<Vote>();
+  const [votePage, setVotePage] = useState<VotePageType>('Ballot');
 
-  return (
-    <div className="ballot-page">
-      <h1>Fill out ballot </h1>
-      <BallotForm
-        setFilledOutVote={setFilledOutVote}
-        filledOutVote={{
-          ISIN: '203578',
-          company: 'Norwegian',
-          bondsOwned: 200,
-          favor: 'yes',
-          hasCustodian: 'no',
-          checked: true,
-        }}
-      />
-    </div>
-  );
+  const changePage = () => {
+    switch (votePage) {
+      case 'Ballot':
+        return (
+          <>
+            <h1>Fill out ballot </h1>
+            <BallotForm
+              ISIN={'203578'}
+              setFilledOutVote={setFilledOutVote}
+              setVotePage={setVotePage}
+              filledOutVote={{
+                ISIN: '203578',
+                company: 'Norwegian',
+                bondsOwned: 200,
+                favor: 'favor',
+                hasCustodian: 'yes',
+                checked: true,
+                phoneNumber: 4545454545,
+                custodianName: 'LALALALA',
+                accountNumber: 8989898989,
+              }}
+            />
+          </>
+        );
+      case 'PoH':
+        return (
+          <p>
+            PoH <span>{filledOutVote?.custodianName}</span>
+          </p>
+        );
+    }
+  };
+
+  return <div className="ballot-page">{changePage()}</div>;
 };
 
 export default BallotPage;
 
 interface BallotFormProps {
+  ISIN: string;
   filledOutVote?: Vote;
   setFilledOutVote: (vote: Vote) => void;
+  setVotePage: (page: VotePageType) => void;
 }
 
 function BallotForm(props: BallotFormProps) {
-  const { filledOutVote, setFilledOutVote } = props;
-  const { handleSubmit, register } = useForm({
+  const { filledOutVote, setFilledOutVote, ISIN, setVotePage } = props;
+  const { handleSubmit, register, control, errors } = useForm({
     defaultValues: {
-      ISIN: filledOutVote?.ISIN,
+      ISIN: ISIN,
       company: filledOutVote?.company,
-      custodian: filledOutVote?.custodian,
+      custodian: filledOutVote?.custodianName,
       bondsOwned: filledOutVote?.bondsOwned,
       accountNumber: filledOutVote?.accountNumber,
       phoneNumber: filledOutVote?.phoneNumber,
       favor: filledOutVote?.favor,
-      checked: filledOutVote?.checked,
       hasCustodian: filledOutVote?.hasCustodian,
     },
   });
 
   const [checked, setChecked] = useState<boolean>(false);
-  const [hasCustodian, setHasCustodian] = useState<string>('');
-  const history = useHistory();
+  const [hasCustodian, setHasCustodian] = useState<string>(
+    filledOutVote?.hasCustodian ? filledOutVote.hasCustodian : ''
+  );
 
   return (
     <form
       className="ballot-form"
       onSubmit={handleSubmit((data: any) => {
         setFilledOutVote(data);
-        history.push('/');
+        setVotePage('PoH');
       })}
     >
-      {console.log()}
       <TextField
         label="ISIN"
         variant="outlined"
@@ -108,9 +128,10 @@ function BallotForm(props: BallotFormProps) {
           name="bondsOwned"
           label="Amount of bonds owned"
           variant="outlined"
-          type="text"
+          type="number"
           required
-          inputRef={register}
+          inputRef={register({ pattern: /([0-9])/ })}
+          error={errors.bondsOwned ? true : false}
         />
         <QuestionMarkToolTip tooltipText="Dette er hjelpe text" />
       </div>
@@ -125,33 +146,31 @@ function BallotForm(props: BallotFormProps) {
         <QuestionMarkToolTip tooltipText="A number that you can be contacted on" />
       </div>
 
-      <FormControl
-        margin="normal"
-        component="fieldset"
-        className="ballot-form__custodian-radios"
-      >
+      <div className="ballot-form__custodian-radios">
         <FormLabel component="legend">Do you have a custodian?</FormLabel>
-        <RadioGroup
-          aria-label="do you have a custodian?"
-          name="hasCustodian"
-          onChange={handleChange}
-          innerRef={register}
-          row
-        >
-          <FormControlLabel
-            value="yes"
-            innerRef={register}
-            control={<Radio />}
-            label="Yes"
-          />
-          <FormControlLabel
-            value="no"
-            inputRef={register}
-            control={<Radio />}
-            label="No"
-          />
-        </RadioGroup>
-      </FormControl>
+        <Controller
+          rules={{ required: true }}
+          control={control}
+          name={'hasCustodian'}
+          render={({ value, onChange }) => {
+            return (
+              <RadioGroup
+                value={value}
+                aria-label="do you have a custodian?"
+                name="hasCustodian"
+                onChange={(e) => {
+                  onChange(e);
+                  setHasCustodian(e.target.value);
+                }}
+                row
+              >
+                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="no" control={<Radio />} label="No" />
+              </RadioGroup>
+            );
+          }}
+        />
+      </div>
 
       {hasCustodian !== '' ? (
         <>
@@ -181,22 +200,34 @@ function BallotForm(props: BallotFormProps) {
               </div>
             </>
           )}
-          <RadioGroup aria-label="vote" className="ballot-form__element">
-            <FormControlLabel
-              inputRef={register}
-              name="favor"
-              value="favor"
-              control={<Radio color="primary" />}
-              label="I am in favor of the proposed resolution"
+          <div className="ballot-form__element">
+            <Controller
+              rules={{ required: true }}
+              name={'favor'}
+              control={control}
+              render={({ value, onChange }) => {
+                return (
+                  <RadioGroup
+                    aria-label="vote"
+                    name={'favor'}
+                    value={value}
+                    onChange={(e) => onChange(e)}
+                  >
+                    <FormControlLabel
+                      value="favor"
+                      control={<Radio color="primary" />}
+                      label="I am in favor of the proposed resolution"
+                    />
+                    <FormControlLabel
+                      control={<Radio color="primary" />}
+                      value="disfavor"
+                      label="I am in disfavor of the proposed resolution"
+                    />
+                  </RadioGroup>
+                );
+              }}
             />
-            <FormControlLabel
-              inputRef={register}
-              control={<Radio color="primary" />}
-              name="favor"
-              value="disfavor"
-              label="I am in disfavor of the proposed resolution"
-            />
-          </RadioGroup>
+          </div>
           <FormControlLabel
             className="ballot-form__element"
             control={
@@ -225,10 +256,6 @@ function BallotForm(props: BallotFormProps) {
       )}
     </form>
   );
-
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setHasCustodian(e.target.value);
-  }
 
   function handleChecked(e: ChangeEvent<HTMLInputElement>) {
     setChecked(e.target.checked);
