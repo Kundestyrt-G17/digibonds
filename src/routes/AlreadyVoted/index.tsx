@@ -30,7 +30,6 @@ const AlreadyVoted = (props: Props) => {
   const { setSubmitted } = props;
   const [value, setValue] = useState('');
   const [isChecked, setIsChecked] = useState(false);
-  const disabled = (value==='');
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value);
@@ -83,7 +82,7 @@ const AlreadyVoted = (props: Props) => {
           label="The company allows their responsible broker to get insight in voting choice"
         />
         <div className="already-voted-page_button">
-          <Button variant="contained" color="primary" onClick={handleVoteNow} disabled={!isChecked || disabled}>
+          <Button variant="contained" color="primary" onClick={handleVoteNow} disabled={!isChecked || value===''}>
             Let us know
           </Button>
         </div>
