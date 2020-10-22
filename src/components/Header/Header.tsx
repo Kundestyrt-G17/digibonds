@@ -12,7 +12,7 @@ interface Props {
 const Header = (props: Props) => {
   return (
     <div className="header">
-      <h1>Meglo</h1>
+      <span className="title">Meglo</span>
       <div>
         {props.userData && (
           <span>

@@ -6,3 +6,9 @@
   justify-content: space-between;
   margin-bottom: 50px;
 }
+
+.title {
+  font-size: 4em;
+  width: 1000px;
+  margin: auto;
+}
