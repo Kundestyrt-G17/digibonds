@@ -12,11 +12,12 @@ import NoLongerOwn from './routes/NoLongerOwn';
 import { UserFetch } from './components/LoginForm/LoginForm';
 import Submitted from './routes/Submitted';
 import { SubmittedPageType } from './utils/types';
+import Meetings from './routes/Meetings';
 import './App.css';
 
 const App = () => {
   const [userData, setUserData] = useState<UserFetch | undefined>();
-  const [submitted, setSubmitted] = useState<SubmittedPageType>(''); // TODO - Dårlig navn
+  const [submitted, setSubmitted] = useState<SubmittedPageType>('');
 
   const pageToShow = () => {
    if (!userData?.user) {
@@ -47,6 +48,9 @@ const App = () => {
           </Route>
           <Route path="/submitted">
             <Submitted submitted={submitted} />
+          </Route>
+          <Route path="/meetings">
+            <Meetings />
           </Route>
           <Route path="/">{pageToShow}</Route>
         </Switch>
