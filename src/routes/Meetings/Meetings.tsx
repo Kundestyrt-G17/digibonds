@@ -71,59 +71,45 @@ const Meeting = () => {
   } = tableInstance;
 
   const history = useHistory();
-  const handleRowClick = (row:any) => {
+  const handleRowClick = (row: any) => {
     history.push(`/meetings/${row.id}`);
-  }
+  };
 
   return (
-    <table {...getTableProps()} style={{borderSpacing: 0, width: "100%"}}>
-      <thead >
-        {
-          headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {
-                headerGroup.headers.map((column) => (
-                  <th
-                    {...column.getHeaderProps()}
-                    style={{
-                      height: '50px',
-                      background: '#144781',
-                      color: 'white',
-                    }}
-                  >
-                    {
-                      column.render('Header')
-                    }
-                  </th>
-                ))
-              }
-            </tr>
-          ))
-        }
+    <table {...getTableProps()} style={{ borderSpacing: 0, width: '100%' }}>
+      <thead>
+        {headerGroups.map((headerGroup) => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column) => (
+              <th
+                {...column.getHeaderProps()}
+                style={{
+                  height: '50px',
+                  background: '#144781',
+                  color: 'white',
+                }}
+              >
+                {column.render('Header')}
+              </th>
+            ))}
+          </tr>
+        ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {
-          rows.map((row) => {
-            prepareRow(row);
-            return (
-                <tr {...row.getRowProps()} onClick={()=> handleRowClick(row)}
-                >
-                  {
-                    row.cells.map((cell) => {
-                      return (
-                        <td {...cell.getCellProps()}
-
-                  style={{padding: "20px"}}
-                        >
-                          { cell.render('Cell') }
-                        </td>
-                      );
-                    })
-                  }
-                </tr>
-            );
-          })
-        }
+        {rows.map((row) => {
+          prepareRow(row);
+          return (
+            <tr {...row.getRowProps()} onClick={() => handleRowClick(row)}>
+              {row.cells.map((cell) => {
+                return (
+                  <td {...cell.getCellProps()} style={{ padding: '20px' }}>
+                    {cell.render('Cell')}
+                  </td>
+                );
+              })}
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
