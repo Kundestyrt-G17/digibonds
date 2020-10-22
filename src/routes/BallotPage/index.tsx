@@ -33,7 +33,7 @@ const BallotPage = () => {
 
   return (
     <div className="ballot-page">
-      <h1>Fill out ballot</h1>
+      <h1>Fill out ballot </h1>
       <BallotForm
         setFilledOutVote={setFilledOutVote}
         filledOutVote={{
@@ -75,10 +75,6 @@ function BallotForm(props: BallotFormProps) {
   const [checked, setChecked] = useState<boolean>(false);
   const [hasCustodian, setHasCustodian] = useState<string>('');
   const history = useHistory();
-
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setHasCustodian(e.target.value);
-  }
 
   return (
     <form
@@ -229,6 +225,10 @@ function BallotForm(props: BallotFormProps) {
       )}
     </form>
   );
+
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    setHasCustodian(e.target.value);
+  }
 
   function handleChecked(e: ChangeEvent<HTMLInputElement>) {
     setChecked(e.target.checked);

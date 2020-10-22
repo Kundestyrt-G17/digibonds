@@ -14,10 +14,10 @@ const App = () => {
 
   const pageToShow = () => {
     if (!userData?.user) {
-      return <Login setUserData={setUserData} />
+      return <Login setUserData={setUserData} />;
     }
-    return <WelcomePage/>
-  }
+    return <WelcomePage />;
+  };
 
   return (
     <BrowserRouter>
@@ -32,9 +32,7 @@ const App = () => {
         <Route path="/vote">
           <BallotPage />
         </Route>
-        <Route path="/">
-          {pageToShow}
-        </Route>
+        <Route path="/">{pageToShow}</Route>
       </Switch>
     </BrowserRouter>
   );
