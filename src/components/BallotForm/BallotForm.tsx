@@ -13,6 +13,8 @@ import { VotePageType } from '../../utils/types';
 import { Vote } from '../../utils/interfaces';
 import { QuestionMarkToolTip } from './QuestionMarkToolTip';
 
+import './BallotForm.css';
+
 interface BallotFormProps {
   ISIN: string;
   filledOutVote?: Vote;
