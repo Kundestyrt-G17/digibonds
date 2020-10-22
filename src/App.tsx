@@ -11,6 +11,7 @@ import NoLongerOwn from './routes/NoLongerOwn';
 import { UserFetch } from './components/LoginForm/LoginForm';
 import Submitted from './routes/Submitted';
 import { submittedPageType } from './utils/types';
+import './App.css';
 
 const App = () => {
   const [userData, setUserData] = useState<UserFetch | undefined>();
@@ -26,24 +27,26 @@ const App = () => {
   return (
     <BrowserRouter>
       <Header userData={userData} setUserData={setUserData} />
-      <Switch>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/login">
-          <Login setUserData={setUserData} />
-        </Route>
-        <Route path="/vote">
-          <VoteNowPage setSubmitted={setSubmitted} />
-        </Route>
-        <Route path="/noLongerOwn">
-          <NoLongerOwn setSubmitted={setSubmitted} />
-        </Route>
-        <Route path="/submitted">
-          <Submitted submitted={submitted} />
-        </Route>
-        <Route path="/">{pageToShow}</Route>
-      </Switch>
+      <div className={'main-app'}>
+        <Switch>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/login">
+            <Login setUserData={setUserData} />
+          </Route>
+          <Route path="/vote">
+            <VoteNowPage setSubmitted={setSubmitted} />
+          </Route>
+          <Route path="/noLongerOwn">
+            <NoLongerOwn setSubmitted={setSubmitted} />
+          </Route>
+          <Route path="/submitted">
+            <Submitted submitted={submitted} />
+          </Route>
+          <Route path="/">{pageToShow}</Route>
+        </Switch>
+      </div>
     </BrowserRouter>
   );
 };

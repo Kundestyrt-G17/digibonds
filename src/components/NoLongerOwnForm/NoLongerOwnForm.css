@@ -1,0 +1,12 @@
+.no-longer-own-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+}
+
+.no-longer-own_button {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
