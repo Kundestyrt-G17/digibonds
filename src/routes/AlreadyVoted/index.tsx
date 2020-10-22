@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
-import { RadioGroup, FormControl, FormControlLabel, Radio, Checkbox, CheckboxProps, Button } from '@material-ui/core';
+import { RadioGroup, FormControl, FormControlLabel, Radio, Checkbox, CheckboxProps, Button, withStyles, WithStyles  } from '@material-ui/core';
 import './index.css';
 import { useHistory } from 'react-router';
 
+const GlobalCss = withStyles({
+    '@global': {
+        '.MuiFormControl-root': {
+            paddingLeft: '30px',
+        }
+    }
+})(() => null);
 
 const AlreadyVoted = () => {
     const [value, setValue] = useState("");
@@ -23,8 +30,9 @@ const AlreadyVoted = () => {
             <div className="already-voted-page_body">
                 <div className="already-voted-page_paragraph">
                     <h3>Would you like to let TenBond know what you voted?</h3>
+                    <GlobalCss />
                     <FormControl component='fieldset'>
-                        <RadioGroup aria-label="vote" name="vote1" value={value} onChange={handleChange} className="already-voted-page_radio">
+                        <RadioGroup aria-label="vote" name="vote1" value={value} onChange={handleChange}>
                             <FormControlLabel value="infavor" control={<Radio color="primary" />} label="I voted in favor of the proposed resolution" />
                             <FormControlLabel value="disfavor" control={<Radio color="primary" />} label="I voted in disfavor of the proposed resolution" />
                             <FormControlLabel value="disclose" control={<Radio color="primary" />} label="I do not want to disclose" />
