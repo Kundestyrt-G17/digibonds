@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { useTable } from 'react-table';
 import { useHistory } from 'react-router-dom';
-
 import './index.css';
 
 const Meeting = () => {
@@ -81,14 +80,7 @@ const Meeting = () => {
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th
-                {...column.getHeaderProps()}
-                style={{
-                  height: '50px',
-                  background: '#144781',
-                  color: 'white',
-                }}
-              >
+              <th {...column.getHeaderProps()} className="table-header">
                 {column.render('Header')}
               </th>
             ))}
@@ -99,10 +91,14 @@ const Meeting = () => {
         {rows.map((row) => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()} onClick={() => handleRowClick(row)}>
+            <tr
+              {...row.getRowProps()}
+              onClick={() => handleRowClick(row)}
+              className="table-row"
+            >
               {row.cells.map((cell) => {
                 return (
-                  <td {...cell.getCellProps()} style={{ padding: '20px' }}>
+                  <td {...cell.getCellProps()} className="table-cell">
                     {cell.render('Cell')}
                   </td>
                 );
