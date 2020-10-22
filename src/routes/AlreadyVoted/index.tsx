@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  RadioGroup,
+  Button,
+  Checkbox,
   FormControl,
   FormControlLabel,
   Radio,
-  Checkbox,
-  CheckboxProps,
-  Button,
+  RadioGroup,
   withStyles,
-  WithStyles,
 } from '@material-ui/core';
 import './index.css';
 import { useHistory } from 'react-router';
@@ -82,7 +80,12 @@ const AlreadyVoted = (props: Props) => {
           label="The company allows their responsible broker to get insight in voting choice"
         />
         <div className="already-voted-page_button">
-          <Button variant="contained" color="primary" onClick={handleVoteNow} disabled={!isChecked || value===''}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleVoteNow}
+            disabled={!isChecked || value === ''}
+          >
             Let us know
           </Button>
         </div>
