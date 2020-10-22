@@ -1,0 +1,12 @@
+.meetings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.meetings-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
