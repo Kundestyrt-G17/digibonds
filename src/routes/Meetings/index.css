@@ -7,8 +7,10 @@
 
 .meetings-header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
+  margin-bottom: 30px;
 }
 
 .table-header {
@@ -20,7 +22,9 @@
 
 .table-cell {
   padding: 40px;
-  border-bottom: 1px solid #eee
+  border-bottom: 1px solid #eee;
+  font-size: 1.4em;
+  text-align: center;
 }
 
 .table-row:hover {

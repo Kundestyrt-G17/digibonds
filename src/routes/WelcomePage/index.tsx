@@ -3,7 +3,6 @@ import './index.css';
 import { Button } from '@material-ui/core';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import { useHistory } from 'react-router';
-import voteImage from '/Voting.png';
 
 const WelcomePage = () => {
   const history = useHistory();
@@ -60,9 +59,37 @@ const WelcomePage = () => {
             >
               No longer own my bonds
             </Button>
+            <div className="welcome-page_buttons">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleVoteNow}
+              >
+                Vote now
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleVoteNow}
+              >
+                Already voted
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleNoLongerOwn}
+              >
+                No longer own my bonds
+              </Button>
+            </div>
           </div>
+          <img
+            className="welcome-page_image"
+            src="/Voting.png"
+            width="330px"
+            alt="vote_img"
+          />
         </div>
-        <img className="welcome-page_image" src="/Voting.png" width="330px" />
       </div>
     </div>
   );

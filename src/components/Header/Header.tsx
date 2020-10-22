@@ -2,7 +2,7 @@ import React from 'react';
 import './Header.css';
 import { UserFetch } from '../LoginForm/LoginForm';
 import { Button } from '@material-ui/core';
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom';
 
 interface Props {
   userData: UserFetch | undefined;
@@ -12,7 +12,7 @@ interface Props {
 const Header = (props: Props) => {
   return (
     <div className="header">
-      <h1>TenBond</h1>
+      <h1>Meglo</h1>
       <div>
         {props.userData && (
           <span>

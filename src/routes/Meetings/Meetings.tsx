@@ -59,6 +59,7 @@ const Meeting = () => {
     ],
     []
   );
+
   const tableInstance = useTable<any>({ columns, data });
 
   const {

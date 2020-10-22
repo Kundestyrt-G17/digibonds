@@ -2,9 +2,11 @@ import React from 'react';
 import { Button, TextField } from '@material-ui/core';
 import MeetingsTable from './Meetings';
 import Meeting from './Meeting';
+import AddIcon from '@material-ui/icons/Add';
+import { Link } from 'react-router-dom';
+import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import './index.css';
-import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 
 interface Meeting {
   name: string;
@@ -22,16 +24,28 @@ const MeetingsRoute = () => {
         <Meeting />
       </Route>
       <Route path={match.path}>
-        <div className="meetings">
-          <div className="meetings-header">
-            <h1> ACTIVE MEETINGS </h1>
-            <TextField
-              label="Search"
-              variant="outlined"
-              margin="normal"
-              name="search"
-            />
-          </div>
+        <div className="meetings-header">
+          <h1 style={{ width: '100%' }}>ACTIVE MEETINGS</h1>
+          <TextField
+            label="Search"
+            variant="outlined"
+            margin="normal"
+            name="search"
+            style={{ height: '50px', margin: '0' }}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ height: '50px' }}
+            startIcon={<AddIcon />}
+          >
+            <Link
+              to="/meetings/create"
+              style={{ textDecoration: 'none', color: 'white' }}
+            >
+              New Meeting
+            </Link>
+          </Button>
         </div>
         <MeetingsTable />
       </Route>
