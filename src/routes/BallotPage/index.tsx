@@ -28,17 +28,21 @@ const BallotPage = (props: {
               ISIN={'203578'}
               setFilledOutVote={setFilledOutVote}
               setVotePage={setVotePage}
-              filledOutVote={{
-                ISIN: '203578',
-                company: 'Norwegian',
-                bondsOwned: 200,
-                favor: 'favor',
-                hasCustodian: 'yes',
-                checked: true,
-                phoneNumber: 4545454545,
-                custodianName: 'LALALALA',
-                accountNumber: 8989898989,
-              }}
+              filledOutVote={
+                filledOutVote
+                  ? filledOutVote
+                  : {
+                      ISIN: '203578',
+                      company: 'Norwegian',
+                      bondsOwned: 200,
+                      favor: 'favor',
+                      hasCustodian: 'yes',
+                      checked: true,
+                      phoneNumber: 4545454545,
+                      custodianName: 'LALALALA',
+                      accountNumber: 8989898989,
+                    }
+              }
             />
           </>
         );
@@ -51,6 +55,7 @@ const BallotPage = (props: {
             <button onClick={() => history.push('/submitted')}>
               Trykk for å komme til submitted
             </button>
+            <button onClick={() => setVotePage('Ballot')}>back</button>
           </>
         );
     }

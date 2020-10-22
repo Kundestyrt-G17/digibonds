@@ -3,6 +3,7 @@ import React, { ChangeEvent, useState } from 'react';
 import {
   Button,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormLabel,
   Radio,
@@ -91,7 +92,7 @@ export default function BallotForm(props: BallotFormProps) {
         <QuestionMarkToolTip tooltipText="A number that you can be contacted on" />
       </div>
 
-      <div className="ballot-form__custodian-radios">
+      <FormControl margin="normal" className="ballot-form__custodian-radios">
         <FormLabel component="legend">Do you have a custodian?</FormLabel>
         <Controller
           rules={{ required: true }}
@@ -115,7 +116,7 @@ export default function BallotForm(props: BallotFormProps) {
             );
           }}
         />
-      </div>
+      </FormControl>
 
       {hasCustodian !== '' ? (
         <>
