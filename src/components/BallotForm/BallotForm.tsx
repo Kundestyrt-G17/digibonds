@@ -34,7 +34,7 @@ export default function BallotForm(props: BallotFormProps) {
       accountNumber: filledOutVote?.accountNumber,
       phoneNumber: filledOutVote?.phoneNumber,
       favor: filledOutVote?.favor || "favor",
-      hasCustodian: filledOutVote?.hasCustodian,
+      hasCustodian: filledOutVote?.hasCustodian || "",
     },
   });
 
