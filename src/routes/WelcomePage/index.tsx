@@ -62,9 +62,7 @@ const WelcomePage = () => {
             </Button>
           </div>
         </div>
-        <div className="welcome-page_image">
-          <img src="/Voting.png" width="330px" />
-        </div>
+        <img className="welcome-page_image" src="/Voting.png" width="330px" />
       </div>
     </div>
   );
