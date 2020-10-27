@@ -29,11 +29,11 @@ export default function BallotForm(props: BallotFormProps) {
     defaultValues: {
       ISIN: ISIN,
       company: filledOutVote?.company,
-      custodian: filledOutVote?.custodianName,
+      custodianName: filledOutVote?.custodianName,
       bondsOwned: filledOutVote?.bondsOwned,
       accountNumber: filledOutVote?.accountNumber,
       phoneNumber: filledOutVote?.phoneNumber,
-      favor: filledOutVote?.favor,
+      favor: filledOutVote?.favor || "favor",
       hasCustodian: filledOutVote?.hasCustodian,
     },
   });
@@ -111,7 +111,7 @@ export default function BallotForm(props: BallotFormProps) {
                 row
               >
                 <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="no" control={<Radio />} label="No" />
+                <FormControlLabel value="no" control={<Radio  />} label="No" />
               </RadioGroup>
             );
           }}
@@ -124,7 +124,7 @@ export default function BallotForm(props: BallotFormProps) {
             <>
               <div className="ballot-form__element ballot-form__element--tooltip">
                 <TextField
-                  name="custodian"
+                  name="custodianName"
                   label="Name of custodian"
                   variant="outlined"
                   type="text"
@@ -138,7 +138,7 @@ export default function BallotForm(props: BallotFormProps) {
                   label="Account number of custodian"
                   variant="outlined"
                   name="accountNumber"
-                  type="text"
+                  type="number"
                   required
                   inputRef={register}
                 />
