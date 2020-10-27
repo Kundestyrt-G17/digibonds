@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import './index.css';
 import { useHistory } from 'react-router';
-import { submittedPageType } from '../../utils/types';
+import { SubmittedPageType } from '../../utils/types';
 
 const GlobalCss = withStyles({
   '@global': {
@@ -21,7 +21,7 @@ const GlobalCss = withStyles({
 })(() => null);
 
 interface Props {
-  setSubmitted: (submitted: submittedPageType) => void;
+  setSubmitted: (submitted: SubmittedPageType) => void;
 }
 
 const AlreadyVoted = (props: Props) => {

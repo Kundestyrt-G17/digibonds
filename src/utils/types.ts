@@ -1,1 +1,2 @@
- export type submittedPageType = "voted" | "sold" | "told" | ""
+export type SubmittedPageType = 'voted' | 'sold' | 'told' | '';
+export type VotePageType = 'Ballot' | 'PoH' | 'Summary';

@@ -1,8 +1,8 @@
 import React from 'react';
-import { submittedPageType } from '../../utils/types';
+import { SubmittedPageType } from '../../utils/types';
 import './index.css';
 
-const Submitted = (props: { submitted: submittedPageType }) => {
+const Submitted = (props: { submitted: SubmittedPageType }) => {
   function renderCorrectPage() {
     switch (props.submitted) {
       case 'voted':

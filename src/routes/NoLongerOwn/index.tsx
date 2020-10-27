@@ -1,10 +1,10 @@
 import React from 'react';
 import NoLongerOwnForm from '../../components/NoLongerOwnForm/NoLongerOwnForm';
-import { submittedPageType } from '../../utils/types';
 import './index.css';
+import { SubmittedPageType } from '../../utils/types';
 
 interface Props {
-  setSubmitted: (submitted: submittedPageType) => void;
+  setSubmitted: (submitted: SubmittedPageType) => void;
 }
 
 const NoLongerOwn = (props: Props) => {

@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { submittedPageType } from '../../utils/types';
+import { SubmittedPageType } from '../../utils/types';
 import './NoLongerOwnForm.css';
 
 interface Props {
-  setSubmitted: (submitted: submittedPageType) => void;
+  setSubmitted: (submitted: SubmittedPageType) => void;
 }
 
 export default function NoLongerOwnForm(props: Props) {
