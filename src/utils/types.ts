@@ -1,0 +1,1 @@
+ export type submittedPageType = "voted" | "sold" | "told" | ""
