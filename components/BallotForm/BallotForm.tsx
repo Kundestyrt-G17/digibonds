@@ -20,11 +20,11 @@ interface BallotFormProps {
   ISIN: string;
   filledOutVote?: Vote;
   setFilledOutVote: (vote: Vote) => void;
-  setVotePage: (page: VotePageType) => void;
+  setActiveStep: (index: number) => void;
 }
 
 export default function BallotForm(props: BallotFormProps) {
-  const { filledOutVote, setFilledOutVote, ISIN, setVotePage } = props;
+  const { filledOutVote, setFilledOutVote, ISIN, setActiveStep } = props;
   const { handleSubmit, register, control, errors } = useForm({
     defaultValues: {
       ISIN: ISIN,
@@ -48,7 +48,7 @@ export default function BallotForm(props: BallotFormProps) {
       className={styles.ballotForm}
       onSubmit={handleSubmit((data: any) => {
         setFilledOutVote(data);
-        setVotePage("PoH");
+        setActiveStep(1);
       })}
     >
       <TextField
@@ -89,7 +89,8 @@ export default function BallotForm(props: BallotFormProps) {
       <div
         className={cx(
           styles.ballotFormElement,
-          styles.ballotFormElementTooltip
+          styles.ballotFormElementTooltip,
+          styles.ballotFormElementPadding
         )}
       >
         <TextField
@@ -120,8 +121,8 @@ export default function BallotForm(props: BallotFormProps) {
                 }}
                 row
               >
-                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="no" control={<Radio />} label="No" />
+                <FormControlLabel value="yes" control={<Radio color="primary"/>} label="Yes" />
+                <FormControlLabel value="no" control={<Radio color="primary"/>} label="No" />
               </RadioGroup>
             );
           }}
@@ -151,7 +152,8 @@ export default function BallotForm(props: BallotFormProps) {
               <div
                 className={cx(
                   styles.ballotFormElement,
-                  styles.ballotFormElementTooltip
+                  styles.ballotFormElementTooltip,
+                  styles.ballotFormElementPadding
                 )}
               >
                 <TextField
@@ -166,7 +168,11 @@ export default function BallotForm(props: BallotFormProps) {
               </div>
             </>
           )}
-          <div className={styles.ballotFormElement}>
+          <div className={cx(styles.ballotFormElement, styles.ballotFormElementRadios)}>
+          <FormLabel component="legend">
+              Are you in favor or disfavor of the proposed resolution?
+            </FormLabel>
+
             <Controller
               rules={{ required: true }}
               name={"favor"}
@@ -182,12 +188,12 @@ export default function BallotForm(props: BallotFormProps) {
                     <FormControlLabel
                       value="favor"
                       control={<Radio color="primary" />}
-                      label="I am in favor of the proposed resolution"
+                      label="I am in favor"
                     />
                     <FormControlLabel
                       control={<Radio color="primary" />}
                       value="disfavor"
-                      label="I am in disfavor of the proposed resolution"
+                      label="I am in disfavor"
                     />
                   </RadioGroup>
                 );
