@@ -29,20 +29,7 @@ const BallotPage = (props: {
               setFilledOutVote={setFilledOutVote}
               setVotePage={setVotePage}
               filledOutVote={
-                filledOutVote
-                  ? filledOutVote
-                  : {
-                      ISIN: '203578',
-                      company: 'Norwegian',
-                      bondsOwned: 200,
-                      favor: 'favor',
-                      hasCustodian: 'yes',
-                      checked: true,
-                      phoneNumber: 4545454545,
-                      custodianName: 'LALALALA',
-                      accountNumber: 8989898989,
-                    }
-              }
+                filledOutVote}
             />
           </>
         );

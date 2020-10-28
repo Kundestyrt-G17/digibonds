@@ -19,7 +19,7 @@ const App = () => {
   const [submitted, setSubmitted] = useState<SubmittedPageType>(''); // TODO - Dårlig navn
 
   const pageToShow = () => {
-    if (!userData?.user) {
+   if (!userData?.user) {
       return <Login setUserData={setUserData} />;
     }
     return <WelcomePage />;
