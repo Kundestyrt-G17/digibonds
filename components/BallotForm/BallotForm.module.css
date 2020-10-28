@@ -29,5 +29,14 @@
 }
 
 .ballotFormCustodianRadios {
-  align-self: center;
+  align-self: left;
+}
+
+.ballotFormElementPadding{
+  margin-bottom: 40px;
+}
+
+.ballotFornElementRadios{
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
