@@ -23,21 +23,7 @@ const BallotPage = () => {
               ISIN={"134572311622 233223"}
               setFilledOutVote={setFilledOutVote}
               setVotePage={setVotePage}
-              filledOutVote={
-                filledOutVote
-                  ? filledOutVote
-                  : {
-                      ISIN: "134572311622 233223",
-                      company: "YourCompany AS",
-                      bondsOwned: 200,
-                      favor: "favor",
-                      hasCustodian: "yes",
-                      checked: true,
-                      phoneNumber: 4545454545,
-                      custodianName: "LALALALA",
-                      accountNumber: 8989898989,
-                    }
-              }
+              filledOutVote={filledOutVote}
             />
           </>
         );

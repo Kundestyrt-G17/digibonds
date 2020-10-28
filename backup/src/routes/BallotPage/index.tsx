@@ -28,8 +28,7 @@ const BallotPage = (props: {
               ISIN={'203578'}
               setFilledOutVote={setFilledOutVote}
               setVotePage={setVotePage}
-              filledOutVote={
-                filledOutVote}
+              filledOutVote={filledOutVote}
             />
           </>
         );
