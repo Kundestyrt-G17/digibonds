@@ -124,7 +124,7 @@ const CreateMeeting = () => {
                   inputRef={register()}
                   control={control}
                   placeholder="Name"
-                  style={{ margin: 15 }}
+                  style={{ margin: 25 }}
                   defaultValue={item.name} // make sure to set up defaultValue
                 />
                 <Controller
@@ -134,7 +134,7 @@ const CreateMeeting = () => {
                   inputRef={register()}
                   control={control}
                   placeholder="E-mail"
-                  style={{ margin: 15 }}
+                  style={{ margin: 25 }}
                   defaultValue={item.email} // make sure to set up defaultValue
                 />
                 <Controller
@@ -144,7 +144,7 @@ const CreateMeeting = () => {
                   inputRef={register()}
                   type="number"
                   control={control}
-                  style={{ margin: 15 }}
+                  style={{ margin: 25 }}
                   defaultValue={item.amount} // make sure to set up defaultValue
                 />
                 <IconButton onClick={() => remove(index)}>
