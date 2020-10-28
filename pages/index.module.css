@@ -1,0 +1,19 @@
+.welcomePageButtons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+
+.welcomePageMatter {
+  display: flex;
+  flex-direction: row;
+}
+
+.welcomePageImage {
+  padding: 2% 5% 5% 5%;
+}
+
+.welcomePageSummons {
+  align-self: center;
+  color: red;
+}

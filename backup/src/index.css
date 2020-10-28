@@ -1,0 +1,16 @@
+body {
+    margin: 0;
+    font-family: 'Raleway', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 200;
+}
+
+h1,h2,h3 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 200;
+}
+
+code {
+    font-family: source-code-pro;
+}

@@ -1,0 +1,27 @@
+.alreadyVotedPage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.alreadyVotedPageBody{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.alreadyVotedPageParagraph{
+    text-align: left;
+    align-self: center;
+}
+
+.alreadyVotedPageCheck{
+    margin-top: 60px;
+    align-self: center;
+}
+
+.alreadyVotedPageButton{
+    margin-top: 20px;
+    align-self: center;
+}
