@@ -1,12 +1,11 @@
 import React, { useMemo, useState, useEffect } from "react";
-import "react-hook-form";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { useHistory } from "react-router-dom";
 import { Button, TextField, IconButton } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import { DropzoneDialog } from "material-ui-dropzone";
 import styles from "./CreateMeeting.module.css";
 import AddIcon from "@material-ui/icons/Add";
+import { useRouter } from "next/router";
 
 interface BondholderInterface {
   name: string;
@@ -38,13 +37,14 @@ const CreateMeeting = () => {
       name: "investor",
     }
   );
-  const history = useHistory();
 
   useEffect(() => {
     if (fields.length < 1) {
       prepend({ name: "", email: "", amount: 0 });
     }
   });
+
+  const router = useRouter();
 
   return (
     <div className={styles.createMeeting}>
@@ -54,7 +54,6 @@ const CreateMeeting = () => {
       <form
         className={styles.createMeetingForm}
         onSubmit={handleSubmit((data: FormInterface) => {
-          console.log("files2:", fileObjects);
           data.files = fileObjects;
           console.log(data);
         })}
@@ -96,9 +95,7 @@ const CreateMeeting = () => {
           maxFileSize={5000000}
           onClose={() => setFileUploadOpen(false)}
           onSave={(files) => {
-            console.log(files);
             setFileObjects(files);
-            console.log("files1:", fileObjects);
             setFileUploadOpen(false);
           }}
         />
@@ -161,7 +158,7 @@ const CreateMeeting = () => {
           <Button
             variant="outlined"
             color="secondary"
-            onClick={() => history.push("/meetings")} //TODO: Add route to appropriate page
+            onClick={() => router.push("/meetings")} //TODO: Add route to appropriate page
           >
             Cancel
           </Button>
