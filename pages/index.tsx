@@ -5,7 +5,13 @@ import Link from "next/link";
 import styles from "./index.module.css";
 
 const WelcomePage = () => {
-  return (
+
+    function signicatRedirect() {
+        window.location.href = 'https://login-test.signicat.io/connect/authorize?response_type=code&scope=openid+profile&client_id=ta3c5289814a3422b961cd596e4980e4c&redirect_uri=http://localhost:5000/redirect&state=123';
+    }
+
+
+    return (
     <div className={styles.welcomePage}>
       <h1>NORWEGIAN BONDHOLDERS' MEETING</h1>
       <h3>ISIN: 134572311622 233223</h3>
@@ -51,11 +57,9 @@ const WelcomePage = () => {
             No longer own my bonds
           </Button>
         </Link>
-        <Link href="/vote">
-          <Button variant="contained" color="primary">
-            Vote now
+          <Button variant="contained" color="primary" onClick={signicatRedirect}>
+              Vote now
           </Button>
-        </Link>
       </div>
     </div>
   );
