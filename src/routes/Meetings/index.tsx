@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button, TextField } from '@material-ui/core';
+import { Button, InputAdornment, TextField } from '@material-ui/core';
 import MeetingsTable from './Meetings';
 import Meeting from './Meeting';
 import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
+import SearchIcon from '@material-ui/icons/Search';
 
 import './index.css';
 
@@ -14,6 +15,7 @@ interface Meeting {
   votes: number;
   deadline: string;
 }
+
 
 const MeetingsRoute = () => {
   const match = useRouteMatch();
@@ -30,8 +32,16 @@ const MeetingsRoute = () => {
             label="Search"
             variant="outlined"
             margin="normal"
+            type="search"
             name="search"
             style={{ height: '50px', margin: '0' }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
           />
           <Button
             variant="contained"
