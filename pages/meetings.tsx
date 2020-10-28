@@ -1,9 +1,10 @@
 import React from "react";
-import { Button, TextField } from "@material-ui/core";
+import { Button, InputAdornment, TextField } from '@material-ui/core';
 import Meetings from "../components/Meeting/Meetings";
 import AddIcon from "@material-ui/icons/Add";
 import Link from "next/link";
 import styles from "./meetings.module.css";
+import SearchIcon from '@material-ui/icons/Search';
 
 const MeetingsRoute = () => {
   return (
@@ -14,8 +15,16 @@ const MeetingsRoute = () => {
           label="Search"
           variant="outlined"
           margin="normal"
+          type="search"
           name="search"
-          style={{ height: "50px", margin: "0" }}
+          style={{ height: '50px', margin: '0' }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
         />
         <Link href="/meetings/create">
           <Button
