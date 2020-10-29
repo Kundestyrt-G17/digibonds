@@ -1,0 +1,62 @@
+.createMeeting {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.createMeetingForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.createMeetingHeader {
+  display: flex;
+  justify-content: center;
+}
+
+.createMeetingButtons {
+  display: flex;
+  width: 50%;
+  margin: 45px;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.createMeetingTextfield {
+  width: 45%;
+}
+
+.createMeetingUploadbutton {
+  width: 45%;
+  margin: 15px !important;
+  margin-bottom: 35px !important;
+  padding: 25px;
+}
+
+.createMeetingAddButton {
+  margin-bottom: 15px;
+  width: 85%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.createMeetingScroll {
+  height: 300px;
+  min-width: 750px;
+  overflow-y: auto;
+}
+
+.createMeetingFixedHeader {
+  background-color: #21487d;
+  color: white;
+  padding: 10px;
+
+  display: grid;
+  grid-template-columns: 32% 31% 32%;
+  width: 77%;
+}

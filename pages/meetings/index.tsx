@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, InputAdornment, TextField } from "@material-ui/core";
-import Meetings from "../components/Meeting/Meetings";
+import Meetings from "../../components/Meeting/Meetings";
 import AddIcon from "@material-ui/icons/Add";
 import Link from "next/link";
 import styles from "./meetings.module.css";
