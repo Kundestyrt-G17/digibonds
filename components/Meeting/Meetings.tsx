@@ -9,8 +9,8 @@ interface MeetingsProps {
 }
 
 const Meetings = (props: MeetingsProps) => {
-  const { meetings } = props;
-  const data = useMemo(() => meetings, [props.meetings]);
+  console.log(props.meetings);
+  const data = useMemo(() => props.meetings, [props.meetings]);
   const columns = useMemo(
     () => [
       {

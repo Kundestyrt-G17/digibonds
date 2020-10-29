@@ -86,7 +86,7 @@ const CreateMeeting = () => {
             }),
           });
           if (response.ok) {
-            return router.push("/meetings");
+            return router.push("/");
           }
         })}
       >
@@ -158,24 +158,14 @@ const CreateMeeting = () => {
             setFileUploadOpen(false);
           }}
         />
-        <div className={styles.createMeetingAddButton}>
-          <Button
-            color="primary"
-            startIcon={<AddIcon />}
-            onClick={() => prepend({ id: "" })}
-          >
-            Add new bondholder
-          </Button>
-        </div>
-        <div className={styles.createMeetingFixedHeader}>
-          <h3>Bondholder's name</h3>
-          <h3>E-mail</h3>
-          <h3 className={styles.amountHeader}>Amount of bonds</h3>
-        </div>
-        <div className={styles.createMeetingScroll}>
+        <div className={styles.createMeetingAddBondholder}>
           <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
             {fields.map((item, index) => (
-              <li key={item.id} className="createMeetingEmail">
+              <li
+                key={item.id}
+                className={styles.bondholderRow}
+                style={{ margin: "20px 0" }}
+              >
                 <Controller
                   render={({ value, onChange }) => {
                     return (
@@ -205,19 +195,30 @@ const CreateMeeting = () => {
                   onChange={([, data]) => data._id}
                   name={`investors[${index}].investor`}
                 />
-
-                <IconButton onClick={() => remove(index)}>
+                <IconButton
+                  onClick={() => remove(index)}
+                  style={{ marginLeft: "45px" }}
+                >
                   <Delete />
                 </IconButton>
               </li>
             ))}
           </ul>
         </div>
+        <div className={styles.addBondholderButton}>
+          <Button
+            color="primary"
+            startIcon={<AddIcon />}
+            onClick={() => prepend({ id: "" })}
+          >
+            Add new bondholder
+          </Button>
+        </div>
         <div className={styles.createMeetingButtons}>
           <Button
             variant="outlined"
             color="secondary"
-            onClick={() => router.push("/meetings")} //TODO: Add route to appropriate page
+            onClick={() => router.push("/")}
           >
             Cancel
           </Button>
