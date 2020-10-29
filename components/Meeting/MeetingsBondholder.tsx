@@ -1,16 +1,22 @@
 import React, { useMemo } from "react";
-import { useRouter } from "next/router";
+import { Meeting, User } from "@/utils/interfaces";
 import { useTable } from "react-table";
+import { useRouter } from "next/router";
 import styles from "./Meetings.module.css";
-import { Meeting } from "utils/interfaces";
 
-interface MeetingsProps {
+interface MeetingsBondholderProps {
   meetings: Meeting[];
+  user: User;
 }
+export default function MeetingsBondholder(props: MeetingsBondholderProps) {
+  const { meetings, user } = props;
 
-const Meetings = (props: MeetingsProps) => {
-  const { meetings } = props;
-  const data = useMemo(() => meetings, []);
+  console.log(meetings, user);
+  const bondholderMeetingData = meetings.filter((meeting: Meeting) =>
+    meeting.investors.includes(user._id)
+  );
+
+  const data = useMemo(() => bondholderMeetingData, []);
   const columns = useMemo(
     () => [
       {
@@ -22,19 +28,13 @@ const Meetings = (props: MeetingsProps) => {
         accessor: "isin",
       },
       {
-        Header: "Votes",
-        accessor: "votes",
-      },
-      {
         Header: "Date",
         accessor: "date",
       },
     ],
     []
   );
-
   const tableInstance = useTable<any>({ columns, data });
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -42,12 +42,10 @@ const Meetings = (props: MeetingsProps) => {
     rows,
     prepareRow,
   } = tableInstance;
-
   const router = useRouter();
   const handleRowClick = (row: any) => {
-    router.push(`/meetings/${row.original._id}`);
+    router.push(`/vote/?meeting=${row.original._id}`);
   };
-
   return (
     <table {...getTableProps()} style={{ borderSpacing: 0, width: "100%" }}>
       <thead>
@@ -64,7 +62,6 @@ const Meetings = (props: MeetingsProps) => {
       <tbody {...getTableBodyProps()}>
         {rows.map((row) => {
           prepareRow(row);
-          console.log(row);
           return (
             <tr
               {...row.getRowProps()}
@@ -84,6 +81,4 @@ const Meetings = (props: MeetingsProps) => {
       </tbody>
     </table>
   );
-};
-
-export default Meetings;
+}

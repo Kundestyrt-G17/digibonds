@@ -1,79 +1,77 @@
 import React, { useEffect } from "react";
-import { Button } from "@material-ui/core";
-import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
-import Link from "next/link";
 import styles from "./index.module.css";
 import { withIronSession } from "next-iron-session";
 import { useRouter } from "next/router";
+import Meetings from "../components/Meeting/Meetings";
+import MeetingsBondholder from "../components/Meeting/MeetingsBondholder";
+import { Button, InputAdornment, TextField } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
+import SearchIcon from "@material-ui/icons/Search";
+import Link from "next/link";
+import useSWR from "swr";
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const WelcomePage = ({ user }) => {
+const Index = ({ user }) => {
   const router = useRouter();
   useEffect(() => {
     if (!user) {
       router.push("/login");
     }
   });
+  if (!user) return <div>Loading</div>;
+  console.log(user);
 
-  function signicatRedirect() {
-    window.location.href =
-      "https://login-test.signicat.io/connect/authorize?response_type=code&scope=openid+profile&client_id=ta3c5289814a3422b961cd596e4980e4c&redirect_uri=http://localhost:5000/redirect&state=123";
-  }
+  const { data, error } = useSWR("/api/meetings", fetcher);
+
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
 
   return (
-    <div className={styles.welcomePage}>
-      <h1>NORWEGIAN BONDHOLDERS' MEETING</h1>
-      <h3>ISIN: 134572311622 233223</h3>
-      <hr />
-      <div style={{ textAlign: "justify" }}>
-        <h3>SUMMONS TO BONDHOLDERS' MEETING</h3>
-        Nordic Trustee AS acts as bond trustee (the "Bond Trustee") for the
-        holders of bonds (the "Bonds") in the above-mentioned bond issues (each
-        a "Bond Issue" and together the "Bond Issues") issued by Norwegian Air
-        Shuttle ASA (the "Issuer" or the "Company").
-        <br />
-        Unless otherwise stated herein, all capitalised terms used herein shall
-        have the meaning ascribed to them in (i) the bond terms for NAS07 dated
-        9 December 2015 (as later amended and restated), (ii) the bond terms for
-        NAS09 dated 7 February 2017 (as later amended and restated), (iii) the
-        bond terms for NAS09 dated 16 November 2017 and (iv) the bond terms for
-        the CB dated 13 November 2019, each of which are entered into between
-        the Bond Trustee and the Issuer (the "Bond Terms"). References to
-        clauses and paragraphs are references to clauses and paragraphs of the
-        relevant Bond Terms.
+    <>
+      <div className={styles.meetingsHeader}>
+        <h1 style={{ width: "100%" }}>ACTIVE MEETINGS</h1>
+        {user?.broker && (
+          <TextField
+            label="Search"
+            variant="outlined"
+            margin="normal"
+            type="search"
+            name="search"
+            style={{ height: "50px", margin: "0" }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        )}
+        {user?.broker && (
+          <Link href="/meetings/create">
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ height: "50px" }}
+              startIcon={<AddIcon />}
+            >
+              New Meeting
+            </Button>
+          </Link>
+        )}
       </div>
-      <Button
-        startIcon={<PictureAsPdfIcon />}
-        style={{ display: "flex", alignSelf: "center", margin: "20px" }}
-        href=".pdf"
-      >
-        Download summons
-      </Button>
-      <img
-        style={{ display: "flex", alignSelf: "center", margin: "50px auto" }}
-        src="/voting.png"
-        width="330px"
-        alt="vote_img"
-      />
-      <div className={styles.welcomePageButtons}>
-        <Link href="/alreadyVoted">
-          <Button variant="outlined" color="primary">
-            Already voted
-          </Button>
-        </Link>
-        <Link href="/noLongerOwn">
-          <Button variant="outlined" color="primary">
-            No longer own my bonds
-          </Button>
-        </Link>
-        <Button variant="contained" color="primary" onClick={signicatRedirect}>
-          Vote now
-        </Button>
+      <div className={styles.welcomePage}>
+        {user?.broker ? (
+          <Meetings meetings={data} />
+        ) : (
+          <MeetingsBondholder meetings={data} user={user} />
+        )}
       </div>
-    </div>
+    </>
   );
 };
 
-export default WelcomePage;
+export default Index;
 
 export const getServerSideProps = withIronSession(
   async ({ req, res }) => {
