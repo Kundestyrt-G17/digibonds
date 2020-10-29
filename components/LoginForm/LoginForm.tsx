@@ -4,7 +4,7 @@ import Router from "next/router";
 
 import { useForm } from "react-hook-form";
 import { Button, TextField } from "@material-ui/core";
-import { doPostFetch } from "../../hooks/fetchHooks";
+import { useRouter } from "next/router";
 
 export interface UserPost {
   username: string;
@@ -25,40 +25,36 @@ interface Props {
 }
 
 export default function LoginForm(props: Props) {
-  const { setUserData } = props;
+  const router = useRouter();
   const { register, handleSubmit } = useForm();
-  const [postAuthenticationError, setPostAuthenticationError] = useState<
-    string
-  >("");
 
   return (
     <div className={style.loginForm}>
       <h2 className={style.loginFormTitle}>Sign in</h2>
       <form
         onSubmit={handleSubmit(async (data) => {
-          await doPostFetch<UserPost, UserFetch>("/login/authenticate", {
-            username: data.username,
-            password: data.password,
-          })
-            .then((response: any) => {
-              setUserData(response);
-              Router.push({
-                pathname: "/",
-              });
-            })
-            .catch((error: Error) => {
-              setPostAuthenticationError(error.message);
-            });
+          const email = data.email;
+          const password = data.password;
+
+          const response = await fetch("/api/authenticate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (response.ok) {
+            return router.push("/");
+          }
         })}
       >
         <TextField
-          label="Username"
+          label="Email"
           variant="outlined"
           inputRef={register}
           fullWidth
           autoFocus
           margin="normal"
-          name="username"
+          name="email"
         />
         <TextField
           label="Password"
@@ -79,9 +75,6 @@ export default function LoginForm(props: Props) {
           Sign In
         </Button>
       </form>
-      {postAuthenticationError && (
-        <p>{postAuthenticationError} Username and/or password may be wrong</p>
-      )}
     </div>
   );
 }
