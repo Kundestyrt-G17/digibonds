@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { useRouter } from "next/router";
+import UploadPoH from './uploadPoH';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -65,6 +66,7 @@ const BallotPage = () => {
             <p>
               <span>{filledOutVote?.custodianName}</span>
             </p>
+            <UploadPoH />
             <Button
               onClick={() =>
                 router.push({
