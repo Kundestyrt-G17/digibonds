@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 delete mongoose.connection.models["Vote"];
 export const VoteSchema = new mongoose.Schema(
   {
-    meeting: { type: mongoose.Schema.Types.ObjectId, ref: "Meeting" },
     company: { type: String, default: "" },
     custodian: { type: String, default: "" },
     bondsOwned: { type: Number, default: 0 },

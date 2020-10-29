@@ -18,8 +18,9 @@ export default withIronSession(
       const { email, password } = req.body;
       const foundUser = await User.findOne({ email, password });
 
+      console.log(foundUser);
       if (foundUser) {
-        req.session.set("user", { email });
+        req.session.set("user", foundUser);
         await req.session.save();
         return res.status(201).send("");
       }

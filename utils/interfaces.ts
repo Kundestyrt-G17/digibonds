@@ -1,6 +1,5 @@
 export interface Vote {
   _id: string;
-  ISIN: string;
   company: string;
   custodianName?: string;
   bondsOwned: number;
@@ -16,13 +15,15 @@ export interface Meeting {
   meetingName: string;
   isin: string;
   date: Date;
-  votes: number;
+  totalBonds: number;
   investors: User[];
+  votes: Vote[];
 }
 
 export interface User {
   _id: string;
   email: string;
+  name: string;
   password: string;
   broker: boolean;
 }
