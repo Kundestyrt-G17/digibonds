@@ -1,11 +1,14 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { Button, TextField, IconButton } from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Delete } from "@material-ui/icons";
 import { DropzoneDialog } from "material-ui-dropzone";
 import styles from "./CreateMeeting.module.css";
 import AddIcon from "@material-ui/icons/Add";
 import { useRouter } from "next/router";
+import useSWR from "swr";
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 interface BondholderInterface {
   name: string;
@@ -14,14 +17,17 @@ interface BondholderInterface {
 }
 
 interface FormInterface {
+  meetingName: string;
   isin: string;
-  deadline: string;
-  totalAmoung: number;
-  bondholders: BondholderInterface[];
-  files: Files[];
+  deadline: Date;
+  totalBonds: number;
+  investors: BondholderInterface[];
+  //files: Files[];
 }
 
 const CreateMeeting = () => {
+  const { data, error } = useSWR("/api/users", fetcher);
+
   const [fileUploadOpen, setFileUploadOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState<File[]>([]);
   const {
@@ -35,17 +41,20 @@ const CreateMeeting = () => {
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       control,
-      name: "investor",
+      name: "investors",
     }
   );
-
-  useEffect(() => {
-    if (fields.length < 1) {
-      prepend({ name: "", email: "", amount: 0 });
-    }
-  });
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
 
   const router = useRouter();
+  const users = data.filter((user) => !user.broker);
+  console.log(users);
+
+  const getOpObj = (option) => {
+    if (!option._id) option = users.find((op) => op._id === option);
+    return option;
+  };
 
   return (
     <div className={styles.createMeeting}>
@@ -54,16 +63,48 @@ const CreateMeeting = () => {
       </div>
       <form
         className={styles.createMeetingForm}
-        onSubmit={handleSubmit((data: FormInterface) => {
-          data.files = fileObjects;
+        onSubmit={handleSubmit(async (data: FormInterface) => {
+          console.log(data);
+          //data.files = fileObjects;
+          const meetingName = data.meetingName;
+          const isin = data.isin;
+          const date = data.deadline;
+          const totalBonds = data.totalBonds;
+          const investors = data.investors.map((elem) => {
+            return elem.investor._id;
+          });
+
+          const response = await fetch("/api/meetings", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              meetingName,
+              isin,
+              date,
+              totalBonds,
+              investors,
+            }),
+          });
+          if (response.ok) {
+            return router.push("/meetings");
+          }
         })}
       >
+        <TextField
+          className={styles.createMeetingTextfield}
+          label="Company name"
+          variant="outlined"
+          inputRef={register}
+          autoFocus
+          required
+          margin="normal"
+          name="meetingName"
+        />
         <TextField
           className={styles.createMeetingTextfield}
           label="ISIN"
           variant="outlined"
           inputRef={register}
-          autoFocus
           required
           margin="normal"
           name="isin"
@@ -87,7 +128,7 @@ const CreateMeeting = () => {
           required
           margin="normal"
           type="number"
-          name="totalAmount"
+          name="totalBonds"
         />
 
         <Button
@@ -121,7 +162,7 @@ const CreateMeeting = () => {
           <Button
             color="primary"
             startIcon={<AddIcon />}
-            onClick={() => prepend({ name: "", email: "", amount: 0 })}
+            onClick={() => prepend({ id: "" })}
           >
             Add new bondholder
           </Button>
@@ -134,37 +175,37 @@ const CreateMeeting = () => {
         <div className={styles.createMeetingScroll}>
           <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
             {fields.map((item, index) => (
-              <li key={item.id}>
+              <li key={item.id} className="createMeetingEmail">
                 <Controller
-                  as={<TextField />}
-                  required
-                  name={`investor[${index}].name`}
-                  inputRef={register()}
+                  render={({ value, onChange }) => {
+                    return (
+                      <Autocomplete
+                        options={users}
+                        autoselect
+                        autocomplete
+                        value={value}
+                        onChange={(e, data) => onChange(data)}
+                        getOptionLabel={(user) => user.email}
+                        getOptionSelected={(user, value) =>
+                          user.id === value.id
+                        }
+                        style={{ width: 300 }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="E-mail"
+                            variant="outlined"
+                          />
+                        )}
+                      />
+                    );
+                  }}
                   control={control}
-                  placeholder="Name"
-                  style={{ margin: 25 }}
-                  defaultValue={item.name} // make sure to set up defaultValue
+                  defaultValue={item.id}
+                  onChange={([, data]) => data._id}
+                  name={`investors[${index}].investor`}
                 />
-                <Controller
-                  as={<TextField />}
-                  required
-                  name={`investor[${index}].email`}
-                  inputRef={register()}
-                  control={control}
-                  placeholder="E-mail"
-                  style={{ margin: 25 }}
-                  defaultValue={item.email} // make sure to set up defaultValue
-                />
-                <Controller
-                  as={<TextField />}
-                  required
-                  name={`investor[${index}].amount`}
-                  inputRef={register()}
-                  type="number"
-                  control={control}
-                  style={{ margin: 25 }}
-                  defaultValue={item.amount} // make sure to set up defaultValue
-                />
+
                 <IconButton onClick={() => remove(index)}>
                   <Delete />
                 </IconButton>
