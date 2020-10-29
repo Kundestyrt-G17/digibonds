@@ -18,14 +18,18 @@ export default withIronSession(
       const { email, password } = req.body;
       const foundUser = await User.findOne({ email, password });
 
-      console.log(foundUser);
       if (foundUser) {
         req.session.set("user", foundUser);
         await req.session.save();
         return res.status(201).send("");
       }
-
       return res.status(403).send("");
+    }
+
+    if (method === "DELETE") {
+      req.session.unset("user");
+      await req.session.save();
+      return res.status(201).send("");
     }
 
     return res.status(404).send("");

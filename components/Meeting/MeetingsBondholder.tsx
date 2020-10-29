@@ -11,7 +11,6 @@ interface MeetingsBondholderProps {
 export default function MeetingsBondholder(props: MeetingsBondholderProps) {
   const { meetings, user } = props;
 
-  console.log(meetings, user);
   const bondholderMeetingData = meetings.filter((meeting: Meeting) =>
     meeting.investors.includes(user._id)
   );

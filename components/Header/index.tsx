@@ -1,31 +1,37 @@
 import React from "react";
-import { UserFetch } from "../LoginForm/LoginForm";
+import { User } from "../../utils/interfaces";
 import { Button } from "@material-ui/core";
 import Link from "next/link";
 import styles from "./Header.module.css";
+import { useRouter } from "next/router";
 
 interface Props {
-  userData: UserFetch | undefined;
-  setUserData: (userFetch: UserFetch | undefined) => void;
+  user: User;
 }
 
 const Header = (props: Props) => {
+  const router = useRouter();
+
+  const logOut = async () =>
+    await fetch("/api/authenticate", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    }).then(() => router.push("/login"));
+
   return (
     <div className={styles.header}>
       <Link href="/">
         <span className={styles.title}>Meglo</span>
       </Link>
-      <div>
-        {props.userData && (
-          <span>
-            <h3>{props.userData?.user.username}</h3>
-            <h5>{props.userData?.user.isBroker ? "megler" : ""}</h5>
-            <Button onClick={() => props.setUserData(undefined)}>
-              <Link href="/">LogOut</Link>
-            </Button>
-          </span>
-        )}
-      </div>
+      {props.user && (
+        <div className={styles.settings}>
+          {props.user?.broker ? "Megler: " : ""}
+          {props.user?.name}
+          <Button variant="contained" color="primary" onClick={() => logOut()}>
+            Logout
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

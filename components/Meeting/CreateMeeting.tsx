@@ -56,7 +56,6 @@ const CreateMeeting = () => {
         className={styles.createMeetingForm}
         onSubmit={handleSubmit((data: FormInterface) => {
           data.files = fileObjects;
-          console.log(data);
         })}
       >
         <TextField

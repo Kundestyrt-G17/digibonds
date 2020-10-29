@@ -19,7 +19,6 @@ const Index = ({ user }) => {
     }
   });
   if (!user) return <div>Loading</div>;
-  console.log(user);
 
   const { data, error } = useSWR("/api/meetings", fetcher);
 

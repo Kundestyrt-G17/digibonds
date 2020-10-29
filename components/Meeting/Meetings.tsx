@@ -64,7 +64,6 @@ const Meetings = (props: MeetingsProps) => {
       <tbody {...getTableBodyProps()}>
         {rows.map((row) => {
           prepareRow(row);
-          console.log(row);
           return (
             <tr
               {...row.getRowProps()}
