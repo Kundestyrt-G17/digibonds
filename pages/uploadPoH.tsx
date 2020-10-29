@@ -11,12 +11,15 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import styles from "./uploadPoH.module.css";
 import { useRouter } from "next/router";
 import { DropzoneDialog } from "material-ui-dropzone";
+import CheckIcon from "@material-ui/icons/Check";
 
-const UploadPoH = () => {
+const UploadPoH = (props: { hasCustodian: string }) => {
   const [dense, setDense] = React.useState(false);
   const [fileUploadOpen, setFileUploadOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState<File[]>([]);
+  const [completed, setCompleted] = useState(false);
   const router = useRouter();
+  const { hasCustodian } = props;
 
   return (
     <div className={styles.uploadPoHPage}>
@@ -44,24 +47,28 @@ const UploadPoH = () => {
                 <ListItemText primary="Signature Date" />
               </ListItem>
             </List>
-            <ListItem>
-              <ListItemIcon>
-                <CheckCircleIcon color="primary" />
-              </ListItemIcon>
-              <ListItemText primary="Custodian Name" />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckCircleIcon color="primary" />
-              </ListItemIcon>
-              <ListItemText primary="Custodian Account Number" />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckCircleIcon color="primary" />
-              </ListItemIcon>
-              <ListItemText primary="Custodian Contact Number" />
-            </ListItem>
+            {hasCustodian === "yes" && (
+              <List>
+                <ListItem>
+                  <ListItemIcon>
+                    <CheckCircleIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="Custodian Name" />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <CheckCircleIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="Custodian Account Number" />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <CheckCircleIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="Custodian Contact Number" />
+                </ListItem>
+              </List>
+            )}
           </div>
         </div>
         <div className={styles.uploadPoHHeader}>
@@ -76,9 +83,9 @@ const UploadPoH = () => {
           variant="outlined"
           color="primary"
           onClick={() => setFileUploadOpen(!fileUploadOpen)}
-          startIcon={<PublishIcon />}
+          startIcon={!completed ? <PublishIcon /> : <CheckIcon />}
         >
-          Upload Proof of Holding
+          {!completed ? "Upload Proof of Holding" : "Upload successfull"}
         </Button>
       </span>
       <div>
@@ -97,6 +104,7 @@ const UploadPoH = () => {
         onSave={files => {
           setFileObjects(files);
           setFileUploadOpen(false);
+          setCompleted(true);
         }}
       />
       <div className={styles.uploadPoHButton}>

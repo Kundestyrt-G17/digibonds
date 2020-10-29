@@ -12,19 +12,18 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { useRouter } from "next/router";
 import UploadPoH from "./uploadPoH";
 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%",
+      width: "100%"
     },
     backButton: {
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacing(1)
     },
     instructions: {
       marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-    },
+      marginBottom: theme.spacing(1)
+    }
   })
 );
 
@@ -40,7 +39,7 @@ const BallotPage = () => {
   const handleBack = (step: number) => {
     step === 0
       ? router.back()
-      : setActiveStep((prevActiveStep) => prevActiveStep - 1);
+      : setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
   const classes = useStyles();
@@ -63,11 +62,8 @@ const BallotPage = () => {
       case 1:
         return (
           <>
-            <h1 style={{textAlign: "center"}}>{getSteps()[1]}</h1>
-            <p>
-              <span>{filledOutVote?.custodianName}</span>
-            </p>
-            <UploadPoH />
+            <h1 style={{ textAlign: "center" }}>{getSteps()[1]}</h1>
+            <UploadPoH hasCustodian={filledOutVote.hasCustodian} />
           </>
         );
       case 2:
@@ -80,7 +76,7 @@ const BallotPage = () => {
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label) => (
+        {steps.map(label => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
