@@ -12,6 +12,7 @@ export default function MeetingsBondholder(props: MeetingsBondholderProps) {
   const { meetings, user } = props;
 
   const bondholderMeetingData = meetings.filter((meeting: Meeting) =>
+    //@ts-ignore
     meeting.investors.includes(user._id)
   );
 

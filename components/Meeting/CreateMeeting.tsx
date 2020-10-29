@@ -71,6 +71,7 @@ const CreateMeeting = () => {
           const date = data.deadline;
           const totalBonds = data.totalBonds;
           const investors = data.investors.map((elem) => {
+            //@ts-ignore
             return elem.investor._id;
           });
 
@@ -171,8 +172,8 @@ const CreateMeeting = () => {
                     return (
                       <Autocomplete
                         options={users}
-                        autoselect
-                        autocomplete
+                        autoSelect
+                        autoComplete
                         value={value}
                         onChange={(e, data) => onChange(data)}
                         getOptionLabel={(user) => user.email}

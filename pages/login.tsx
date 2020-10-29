@@ -1,15 +1,11 @@
 import React from "react";
 import styles from "./index.module.css";
 
-import LoginForm, { UserFetch } from "../components/LoginForm/LoginForm";
+import LoginForm from "../components/LoginForm/LoginForm";
 
-interface Props {
-  setUserData: (userFetch: UserFetch) => void;
-}
-
-const Login = (props: Props) => (
+const Login = () => (
   <div className={styles.login}>
-    <LoginForm setUserData={props.setUserData} />
+    <LoginForm />
   </div>
 );
 
