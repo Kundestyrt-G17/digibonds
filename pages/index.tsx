@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import { withIronSession } from "next-iron-session";
 import { useRouter } from "next/router";
@@ -12,6 +12,8 @@ import useSWR from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Index = ({ user }) => {
+  const [search, setSearch] = useState("");
+
   const router = useRouter();
   useEffect(() => {
     if (!user) {
@@ -25,6 +27,8 @@ const Index = ({ user }) => {
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
+  const filteredData = data.filter((d) => d.meetingName.includes(search));
+
   return (
     <>
       <div className={styles.meetingsHeader}>
@@ -36,6 +40,8 @@ const Index = ({ user }) => {
             margin="normal"
             type="search"
             name="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             style={{ height: "50px", margin: "0" }}
             InputProps={{
               endAdornment: (
@@ -61,9 +67,9 @@ const Index = ({ user }) => {
       </div>
       <div className={styles.welcomePage}>
         {user?.broker ? (
-          <Meetings meetings={data} />
+          <Meetings meetings={filteredData} />
         ) : (
-          <MeetingsBondholder meetings={data} user={user} />
+          <MeetingsBondholder meetings={filteredData} user={user} />
         )}
       </div>
     </>

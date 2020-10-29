@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import style from "./LoginForm.module.css";
-import Router from "next/router";
 
 import { useForm } from "react-hook-form";
 import { Button, TextField } from "@material-ui/core";
@@ -20,19 +19,17 @@ export interface UserFetch {
   };
 }
 
-interface Props {
-  setUserData: (userFetch: UserFetch) => void;
-}
-
-export default function LoginForm(props: Props) {
+export default function LoginForm() {
   const router = useRouter();
   const { register, handleSubmit } = useForm();
+  const [error, setError] = useState("");
 
   return (
     <div className={style.loginForm}>
       <h2 className={style.loginFormTitle}>Sign in</h2>
       <form
         onSubmit={handleSubmit(async (data) => {
+          setError("");
           const email = data.email;
           const password = data.password;
 
@@ -44,6 +41,8 @@ export default function LoginForm(props: Props) {
 
           if (response.ok) {
             return router.push("/");
+          } else {
+            setError("Wrong username or password");
           }
         })}
       >
@@ -75,6 +74,7 @@ export default function LoginForm(props: Props) {
           Sign In
         </Button>
       </form>
+      <h4 style={{ color: "red" }}>{error}</h4>
     </div>
   );
 }
