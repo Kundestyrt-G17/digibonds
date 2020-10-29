@@ -121,8 +121,16 @@ export default function BallotForm(props: BallotFormProps) {
                 }}
                 row
               >
-                <FormControlLabel value="yes" control={<Radio color="primary"/>} label="Yes" />
-                <FormControlLabel value="no" control={<Radio color="primary"/>} label="No" />
+                <FormControlLabel
+                  value="yes"
+                  control={<Radio color="primary" />}
+                  label="Yes"
+                />
+                <FormControlLabel
+                  value="no"
+                  control={<Radio color="primary" />}
+                  label="No"
+                />
               </RadioGroup>
             );
           }}
@@ -168,8 +176,13 @@ export default function BallotForm(props: BallotFormProps) {
               </div>
             </>
           )}
-          <div className={cx(styles.ballotFormElement, styles.ballotFormElementRadios)}>
-          <FormLabel component="legend">
+          <div
+            className={cx(
+              styles.ballotFormElement,
+              styles.ballotFormElementRadios
+            )}
+          >
+            <FormLabel component="legend">
               Are you in favor or disfavor of the proposed resolution?
             </FormLabel>
 

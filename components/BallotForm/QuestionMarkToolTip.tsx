@@ -1,6 +1,6 @@
-import { SvgIcon, Tooltip } from '@material-ui/core';
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import React from 'react';
+import { SvgIcon, Tooltip } from "@material-ui/core";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import React from "react";
 
 interface QuestionMarkToolTipProps {
   tooltipText: string;

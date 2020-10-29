@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { useRouter } from "next/router";
-import UploadPoH from './uploadPoH';
+import UploadPoH from "./uploadPoH";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,7 +50,7 @@ const BallotPage = () => {
       case 0:
         return (
           <div className={styles.ballotPage}>
-            <h1>{getSteps()[0]} </h1>
+            <h1>{getSteps()[0]}</h1>
             <BallotForm
               ISIN={"203578"}
               setFilledOutVote={setFilledOutVote}
