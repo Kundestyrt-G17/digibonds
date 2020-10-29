@@ -1,21 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
+  ListItemText
 } from "@material-ui/core";
 import PublishIcon from "@material-ui/icons/Publish";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import styles from "./uploadPoH.module.css";
+import { useRouter } from "next/router";
+import { DropzoneDialog } from "material-ui-dropzone";
 
 const UploadPoH = () => {
   const [dense, setDense] = React.useState(false);
-  const [secondary, setSecondary] = React.useState(false);
+  const [fileUploadOpen, setFileUploadOpen] = useState(false);
+  const [fileObjects, setFileObjects] = useState<File[]>([]);
+  const router = useRouter();
+
   return (
     <div className={styles.uploadPoHPage}>
-      <h1 className={styles.uploadPoHTitle}>Upload Proof of Holding</h1>
       <div className={styles.uploadPoHRow}>
         <div className={styles.uploadPoHList}>
           <h3>A valid proof of holding must include:</h3>
@@ -68,13 +72,45 @@ const UploadPoH = () => {
         </div>
       </div>
       <span>
-        <Button variant="outlined" color="primary">
-          <PublishIcon />
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => setFileUploadOpen(!fileUploadOpen)}
+          startIcon={<PublishIcon />}
+        >
           Upload Proof of Holding
         </Button>
       </span>
+      <div>
+        {fileObjects.length > 0 &&
+          fileObjects.map(file => {
+            return <div>{file.name}</div>;
+          })}
+      </div>
+
+      <DropzoneDialog
+        open={fileUploadOpen}
+        acceptedFiles={[".pdf"]}
+        showPreviews={true}
+        maxFileSize={5000000}
+        onClose={() => setFileUploadOpen(false)}
+        onSave={files => {
+          setFileObjects(files);
+          setFileUploadOpen(false);
+        }}
+      />
       <div className={styles.uploadPoHButton}>
-        <Button variant="contained" color="primary" type="submit">
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={() =>
+            router.push({
+              pathname: "/submitted",
+              query: { from: "vote" }
+            })
+          }
+        >
           Continue
         </Button>
       </div>

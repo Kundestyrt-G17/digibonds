@@ -12,6 +12,7 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { useRouter } from "next/router";
 import UploadPoH from "./uploadPoH";
 
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -62,21 +63,11 @@ const BallotPage = () => {
       case 1:
         return (
           <>
-            <h1>{getSteps()[1]}</h1>
+            <h1 style={{textAlign: "center"}}>{getSteps()[1]}</h1>
             <p>
               <span>{filledOutVote?.custodianName}</span>
             </p>
             <UploadPoH />
-            <Button
-              onClick={() =>
-                router.push({
-                  pathname: "/submitted",
-                  query: { from: "vote" },
-                })
-              }
-            >
-              Trykk for å komme til submitted
-            </Button>
           </>
         );
       case 2:
