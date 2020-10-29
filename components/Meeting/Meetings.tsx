@@ -2,47 +2,20 @@ import React, { useMemo } from "react";
 import { useRouter } from "next/router";
 import { useTable } from "react-table";
 import styles from "./Meetings.module.css";
+import { Meeting } from "utils/interfaces";
 
-const Meeting = () => {
-  const data = useMemo(
-    () => [
-      {
-        id: 0,
-        name: "Norwegian Air Meeting",
-        isin: "1237hfjh33hf32j",
-        votes: "71%",
-        date: "20.02.20",
-      },
-      {
-        id: 1,
-        name: "Norwegian Air Meeting",
-        isin: "1237hfjh33hf32j",
-        votes: "65%",
-        date: "20.02.20",
-      },
-      {
-        id: 2,
-        name: "Norwegian Air Meeting",
-        isin: "1237hfjh33hf32j",
-        votes: "40%",
-        date: "20.02.20",
-      },
-      {
-        id: 3,
-        name: "Norwegian Air Meeting",
-        isin: "1237hfjh33hf32j",
-        votes: "13%",
-        date: "20.02.20",
-      },
-    ],
-    []
-  );
+interface MeetingsProps {
+  meetings: Meeting[];
+}
 
+const Meetings = (props: MeetingsProps) => {
+  const { meetings } = props;
+  const data = useMemo(() => meetings, []);
   const columns = useMemo(
     () => [
       {
         Header: "Meeting Name",
-        accessor: "name",
+        accessor: "meetingName",
       },
       {
         Header: "ISIN",
@@ -112,4 +85,4 @@ const Meeting = () => {
   );
 };
 
-export default Meeting;
+export default Meetings;

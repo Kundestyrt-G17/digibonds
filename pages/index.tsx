@@ -1,17 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@material-ui/core";
 import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
 import Link from "next/link";
 import styles from "./index.module.css";
+import { withIronSession } from "next-iron-session";
+import { useRouter } from "next/router";
 
-const WelcomePage = () => {
-
-    function signicatRedirect() {
-        window.location.href = 'https://login-test.signicat.io/connect/authorize?response_type=code&scope=openid+profile&client_id=ta3c5289814a3422b961cd596e4980e4c&redirect_uri=http://localhost:5000/redirect&state=123';
+const WelcomePage = ({ user }) => {
+  const router = useRouter();
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
     }
+  });
 
+  function signicatRedirect() {
+    window.location.href =
+      "https://login-test.signicat.io/connect/authorize?response_type=code&scope=openid+profile&client_id=ta3c5289814a3422b961cd596e4980e4c&redirect_uri=http://localhost:5000/redirect&state=123";
+  }
 
-    return (
+  return (
     <div className={styles.welcomePage}>
       <h1>NORWEGIAN BONDHOLDERS' MEETING</h1>
       <h3>ISIN: 134572311622 233223</h3>
@@ -57,12 +65,33 @@ const WelcomePage = () => {
             No longer own my bonds
           </Button>
         </Link>
-          <Button variant="contained" color="primary" onClick={signicatRedirect}>
-              Vote now
-          </Button>
+        <Button variant="contained" color="primary" onClick={signicatRedirect}>
+          Vote now
+        </Button>
       </div>
     </div>
   );
 };
 
 export default WelcomePage;
+
+export const getServerSideProps = withIronSession(
+  async ({ req, res }) => {
+    const user = req.session.get("user");
+
+    if (!user) {
+      return { props: {} };
+    }
+
+    return {
+      props: { user },
+    };
+  },
+  {
+    cookieName: "AUTH_COOKIE",
+    cookieOptions: {
+      secure: process.env.NODE_ENV === "production" ? true : false,
+    },
+    password: process.env.APPLICATION_SECRET,
+  }
+);

@@ -1,12 +1,19 @@
 import React from "react";
-import { Button, InputAdornment, TextField } from '@material-ui/core';
+import { Button, InputAdornment, TextField } from "@material-ui/core";
 import Meetings from "../components/Meeting/Meetings";
 import AddIcon from "@material-ui/icons/Add";
 import Link from "next/link";
 import styles from "./meetings.module.css";
-import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from "@material-ui/icons/Search";
+import useSWR from "swr";
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const MeetingsRoute = () => {
+  const { data, error } = useSWR("/api/meetings", fetcher);
+
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
+
   return (
     <>
       <div className={styles.meetingsHeader}>
@@ -17,7 +24,7 @@ const MeetingsRoute = () => {
           margin="normal"
           type="search"
           name="search"
-          style={{ height: '50px', margin: '0' }}
+          style={{ height: "50px", margin: "0" }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -37,7 +44,7 @@ const MeetingsRoute = () => {
           </Button>
         </Link>
       </div>
-      <Meetings />
+      <Meetings meetings={data} />
     </>
   );
 };

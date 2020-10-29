@@ -11,13 +11,17 @@
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@types/classnames": "^2.2.10",
+    "@types/mongoose": "^5.7.36",
     "@types/react-table": "^7.0.24",
     "classnames": "^2.2.6",
+    "mongoose": "^5.10.11",
     "next": "10.0.0",
+    "next-iron-session": "^4.1.9",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-hook-form": "^6.9.6",
-    "react-table": "^7.6.1"
+    "react-table": "^7.6.1",
+    "swr": "^0.3.6"
   },
   "devDependencies": {
     "@types/node": "^14.14.5",
