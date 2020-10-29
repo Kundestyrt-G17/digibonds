@@ -16,6 +16,7 @@ interface BondholderInterface {
 interface FormInterface {
   isin: string;
   deadline: string;
+  totalAmoung: number;
   bondholders: BondholderInterface[];
   files: Files[];
 }
@@ -79,6 +80,16 @@ const CreateMeeting = () => {
           defaultValue="2020-12-24" //TODO: Possible value is today + 7 days? Need 3rd party date-library
           name="deadline"
         />
+        <TextField
+          className={styles.createMeetingTextfield}
+          label="Total bonds outstanding"
+          variant="outlined"
+          inputRef={register}
+          required
+          margin="normal"
+          type="number"
+          name="totalAmount"
+        />
 
         <Button
           className={styles.createMeetingUploadbutton}
@@ -88,6 +99,14 @@ const CreateMeeting = () => {
         >
           Upload Summons
         </Button>
+
+        <div>
+          {fileObjects.length > 0 &&
+            fileObjects.map((file) => {
+              return <div>{file.name}</div>;
+            })}
+        </div>
+
         <DropzoneDialog
           open={fileUploadOpen}
           acceptedFiles={[".pdf"]}
