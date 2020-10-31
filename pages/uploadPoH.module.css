@@ -1,0 +1,37 @@
+.uploadPoHPage {
+  display: flex;
+  flex-direction: column;
+}
+.uploadPoHTitle {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.uploadPoHHeader{
+    text-align: center;
+}
+
+.uploadPoHRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.uploadPoHCol {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #363e44;
+  box-sizing: border-box;
+  box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.49);
+  border-radius: 2px;
+  margin-top: 20px;
+}
+
+.uploadPoHList {
+  margin-bottom: 20px;
+}
+
+.uploadPoHButton {
+  margin-top: 50px;
+  align-self: center;
+}

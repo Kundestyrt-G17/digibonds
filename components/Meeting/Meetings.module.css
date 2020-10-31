@@ -1,0 +1,18 @@
+.tableHeader {
+  height: 70px;
+  background: #144781;
+  color: white;
+  font-size: 1.2em;
+}
+
+.tableCell {
+  padding: 40px;
+  border-bottom: 1px solid #eee;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+.tableRow:hover {
+  background: #eee;
+  cursor: pointer;
+}

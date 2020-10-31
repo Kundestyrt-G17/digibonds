@@ -1,0 +1,42 @@
+.ballotForm {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  width: 50%;
+}
+
+.ballotFormTextfield {
+  width: 90%;
+}
+
+.ballotFormElement {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.ballotFormElementTooltip {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 90% 10%;
+  grid-column-gap: 2%;
+  align-items: center;
+}
+
+.ballotFormButton {
+  align-self: center;
+}
+
+.ballotFormCustodianRadios {
+  align-self: left;
+}
+
+.ballotFormElementPadding{
+  margin-bottom: 40px;
+}
+
+.ballotFornElementRadios{
+  margin-top: 40px;
+  margin-bottom: 40px;
+}

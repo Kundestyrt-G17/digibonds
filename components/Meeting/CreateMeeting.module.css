@@ -1,0 +1,55 @@
+.createMeeting {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.createMeetingForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.createMeetingHeader {
+  display: flex;
+  justify-content: center;
+}
+
+.createMeetingButtons {
+  display: flex;
+  width: 50%;
+  margin: 45px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.createMeetingTextfield {
+  width: 45%;
+}
+
+.createMeetingUploadbutton {
+  width: 45%;
+  margin: 15px !important;
+  margin-bottom: 35px !important;
+  padding: 25px;
+}
+
+.createMeetingAddBondholder {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.bondholderRow {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.addBondholderButton {
+  margin-top: 50px;
+}
