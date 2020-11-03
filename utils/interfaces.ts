@@ -15,6 +15,7 @@ export interface Meeting {
   meetingName: string;
   isin: string;
   date: Date;
+  summons: string;
   totalBonds: number;
   investors: User[];
   votes: Vote[];
@@ -26,4 +27,10 @@ export interface User {
   name: string;
   password: string;
   broker: boolean;
+}
+
+export interface Company {
+  _id: string;
+  name: string;
+  bondholders: User[];
 }

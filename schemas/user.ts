@@ -4,8 +4,9 @@ export const UserSchema = new mongoose.Schema(
   {
     email: { type: String, default: "" },
     name: { type: String, default: "" },
+    phone: { type: Number, default: "" },
     password: { type: String, default: "" },
-    broker: { type: Boolean, default: false },
+    broker: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { autoCreate: true }
 );
