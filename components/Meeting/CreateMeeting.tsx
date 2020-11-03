@@ -50,7 +50,7 @@ const CreateMeeting = () => {
   if (!data) return <div>Loading...</div>;
 
   const router = useRouter();
-  const users = data.filter((user) => !user.broker);
+  const users = data.filter((user) => !user.isBroker);
 
   return (
     <div className={styles.createMeeting}>

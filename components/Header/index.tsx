@@ -25,7 +25,7 @@ const Header = (props: Props) => {
       </Link>
       {props.user && (
         <div className={styles.settings}>
-          {props.user?.broker ? "Megler: " : ""}
+          {props.user?.isBroker ? "Megler: " : ""}
           {props.user?.name}
           <Button variant="contained" color="primary" onClick={() => logOut()}>
             Logout

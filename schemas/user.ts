@@ -6,6 +6,7 @@ export interface IUser extends mongoose.Document {
   name: string;
   phone: number;
   password: string;
+  isBroker: boolean;
   broker: IUser;
 }
 
@@ -13,9 +14,14 @@ export const UserSchema = new mongoose.Schema(
   {
     email: { type: String, default: "" },
     name: { type: String, default: "" },
-    phone: { type: Number, default: "" },
+    phone: { type: String, default: "" },
     password: { type: String, default: "" },
-    broker: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    isBroker: { type: Boolean, default: false },
+    broker: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
   },
   { autoCreate: true }
 );

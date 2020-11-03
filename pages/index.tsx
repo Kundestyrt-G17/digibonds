@@ -36,7 +36,7 @@ const Index = ({ user }) => {
     <>
       <div className={styles.meetingsHeader}>
         <h1 style={{ width: "100%" }}>ACTIVE MEETINGS</h1>
-        {user?.broker && (
+        {user?.isBroker && (
           <TextField
             label="Search"
             variant="outlined"
@@ -55,7 +55,7 @@ const Index = ({ user }) => {
             }}
           />
         )}
-        {user?.broker && (
+        {user?.isBroker && (
           <Link href="/meetings/create">
             <Button
               variant="contained"
@@ -69,7 +69,7 @@ const Index = ({ user }) => {
         )}
       </div>
       <div className={styles.welcomePage}>
-        {user?.broker ? (
+        {user?.isBroker ? (
           <Meetings meetings={filteredData} />
         ) : (
           <MeetingsBondholder meetings={filteredData} user={user} />
