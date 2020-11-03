@@ -2,10 +2,10 @@ import React, { useMemo } from "react";
 import { useRouter } from "next/router";
 import { useTable } from "react-table";
 import styles from "./Meetings.module.css";
-import { Meeting } from "utils/interfaces";
+import { IMeeting } from "schemas/meeting";
 
 interface MeetingsProps {
-  meetings: Meeting[];
+  meetings: IMeeting[];
 }
 
 const Meetings = (props: MeetingsProps) => {

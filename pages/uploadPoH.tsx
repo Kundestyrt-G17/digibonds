@@ -4,7 +4,7 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from "@material-ui/core";
 import PublishIcon from "@material-ui/icons/Publish";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
@@ -13,13 +13,12 @@ import { useRouter } from "next/router";
 import { DropzoneDialog } from "material-ui-dropzone";
 import CheckIcon from "@material-ui/icons/Check";
 
-const UploadPoH = (props: { hasCustodian: string }) => {
+const UploadPoH = () => {
   const [dense, setDense] = React.useState(false);
   const [fileUploadOpen, setFileUploadOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState<File[]>([]);
   const [completed, setCompleted] = useState(false);
   const router = useRouter();
-  const { hasCustodian } = props;
 
   return (
     <div className={styles.uploadPoHPage}>
@@ -47,28 +46,6 @@ const UploadPoH = (props: { hasCustodian: string }) => {
                 <ListItemText primary="Signature Date" />
               </ListItem>
             </List>
-            {hasCustodian === "yes" && (
-              <List>
-                <ListItem>
-                  <ListItemIcon>
-                    <CheckCircleIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary="Custodian Name" />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <CheckCircleIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary="Custodian Account Number" />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <CheckCircleIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary="Custodian Contact Number" />
-                </ListItem>
-              </List>
-            )}
           </div>
         </div>
         <div className={styles.uploadPoHHeader}>
@@ -90,7 +67,7 @@ const UploadPoH = (props: { hasCustodian: string }) => {
       </span>
       <div>
         {fileObjects.length > 0 &&
-          fileObjects.map(file => {
+          fileObjects.map((file) => {
             return <div>{file.name}</div>;
           })}
       </div>
@@ -101,7 +78,7 @@ const UploadPoH = (props: { hasCustodian: string }) => {
         showPreviews={true}
         maxFileSize={5000000}
         onClose={() => setFileUploadOpen(false)}
-        onSave={files => {
+        onSave={(files) => {
           setFileObjects(files);
           setFileUploadOpen(false);
           setCompleted(true);
@@ -115,7 +92,7 @@ const UploadPoH = (props: { hasCustodian: string }) => {
           onClick={() =>
             router.push({
               pathname: "/submitted",
-              query: { from: "vote" }
+              query: { from: "vote" },
             })
           }
         >

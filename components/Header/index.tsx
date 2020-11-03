@@ -1,12 +1,12 @@
 import React from "react";
-import { User } from "../../utils/interfaces";
+import { IUser } from "../../schemas/user";
 import { Button } from "@material-ui/core";
 import Link from "next/link";
 import styles from "./Header.module.css";
 import { useRouter } from "next/router";
 
 interface Props {
-  user: User;
+  user: IUser;
 }
 
 const Header = (props: Props) => {
