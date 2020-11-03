@@ -70,7 +70,7 @@ const VotesRoute = () => {
               No longer own my bonds
             </Button>
           </Link>
-          <Link href="/redirect">
+          <Link href={{ pathname: "/redirect", query: { isin: data.isin } }}>
             <Button variant="contained" color="primary">
               Vote now
             </Button>

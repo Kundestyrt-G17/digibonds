@@ -10,7 +10,6 @@ import {
   RadioGroup,
   TextField,
 } from "@material-ui/core";
-import { VotePageType } from "../../utils/types";
 import { Vote } from "../../utils/interfaces";
 import { QuestionMarkToolTip } from "./QuestionMarkToolTip";
 import styles from "./BallotForm.module.css";

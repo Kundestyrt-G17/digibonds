@@ -15,15 +15,15 @@ import UploadPoH from "./uploadPoH";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%"
+      width: "100%",
     },
     backButton: {
-      marginRight: theme.spacing(1)
+      marginRight: theme.spacing(1),
     },
     instructions: {
       marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1)
-    }
+      marginBottom: theme.spacing(1),
+    },
   })
 );
 
@@ -35,13 +35,15 @@ const BallotPage = () => {
   const [filledOutVote, setFilledOutVote] = useState<Vote>();
   const [activeStep, setActiveStep] = React.useState(0);
   const router = useRouter();
+  const isin = router.query.isin;
 
   const handleBack = (step: number) => {
     step === 0
       ? router.back()
-      : setActiveStep(prevActiveStep => prevActiveStep - 1);
+      : setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  console.log(router.query);
   const classes = useStyles();
   const steps = getSteps();
 
@@ -52,7 +54,8 @@ const BallotPage = () => {
           <div className={styles.ballotPage}>
             <h1>{getSteps()[0]}</h1>
             <BallotForm
-              ISIN={"203578"}
+              //@ts-ignore
+              ISIN={isin}
               setFilledOutVote={setFilledOutVote}
               setActiveStep={setActiveStep}
               filledOutVote={filledOutVote}
@@ -76,7 +79,7 @@ const BallotPage = () => {
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map(label => (
+        {steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
