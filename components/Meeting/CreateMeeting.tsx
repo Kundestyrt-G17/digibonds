@@ -21,6 +21,7 @@ interface FormInterface {
   isin: string;
   deadline: Date;
   totalBonds: number;
+  summons?: string;
   investors: BondholderInterface[];
   //files: Files[];
 }
@@ -29,7 +30,8 @@ const CreateMeeting = () => {
   const { data, error } = useSWR("/api/users", fetcher);
 
   const [fileUploadOpen, setFileUploadOpen] = useState(false);
-  const [fileObjects, setFileObjects] = useState<File[]>([]);
+  const [encodedSummons, setEncodedSummons] = useState("");
+  const [summonsName, setSummonsName] = useState("");
   const {
     register,
     control,
@@ -49,12 +51,6 @@ const CreateMeeting = () => {
 
   const router = useRouter();
   const users = data.filter((user) => !user.broker);
-  console.log(users);
-
-  const getOpObj = (option) => {
-    if (!option._id) option = users.find((op) => op._id === option);
-    return option;
-  };
 
   return (
     <div className={styles.createMeeting}>
@@ -64,12 +60,12 @@ const CreateMeeting = () => {
       <form
         className={styles.createMeetingForm}
         onSubmit={handleSubmit(async (data: FormInterface) => {
-          console.log(data);
-          //data.files = fileObjects;
+          data.summons = encodedSummons;
           const meetingName = data.meetingName;
           const isin = data.isin;
           const date = data.deadline;
           const totalBonds = data.totalBonds;
+          const summons = data.summons;
           const investors = data.investors.map((elem) => {
             //@ts-ignore
             return elem.investor._id;
@@ -83,6 +79,7 @@ const CreateMeeting = () => {
               isin,
               date,
               totalBonds,
+              summons,
               investors,
             }),
           });
@@ -141,22 +138,27 @@ const CreateMeeting = () => {
           Upload Summons
         </Button>
 
-        <div>
-          {fileObjects.length > 0 &&
-            fileObjects.map((file) => {
-              return <div>{file.name}</div>;
-            })}
-        </div>
+        <div>{encodedSummons.length > 0 && summonsName}</div>
 
         <DropzoneDialog
           open={fileUploadOpen}
           acceptedFiles={[".pdf"]}
           showPreviews={true}
+          filesLimit={1}
           maxFileSize={5000000}
           onClose={() => setFileUploadOpen(false)}
           onSave={(files) => {
-            setFileObjects(files);
-            setFileUploadOpen(false);
+            setSummonsName(files[0].name);
+            const reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            reader.addEventListener(
+              "load",
+              () => {
+                setEncodedSummons(reader.result as string);
+                setFileUploadOpen(false);
+              },
+              false
+            );
           }}
         />
         <div className={styles.createMeetingAddBondholder}>

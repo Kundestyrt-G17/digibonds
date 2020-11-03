@@ -51,7 +51,9 @@ const VotesRoute = () => {
           style={{ display: "flex", alignSelf: "center", margin: "20px" }}
           href=".pdf"
         >
-          Download summons
+          <a download={`${data.isin}.pdf`} href={data.summons}>
+            Download summons
+          </a>
         </Button>
         <img
           style={{ display: "flex", alignSelf: "center", margin: "50px auto" }}

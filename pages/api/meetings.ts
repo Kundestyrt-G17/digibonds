@@ -15,6 +15,7 @@ export default async function handler(
     useFindAndModify: false,
     useCreateIndex: true,
   });
+  console.log(req.body);
   switch (method) {
     case "POST":
       const createdMeeting = new Meeting(req.body);
