@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./redirect.module.css";
 import BallotForm from "../components/BallotForm/BallotForm";
-import { Vote } from "../utils/interfaces";
+import { IVote } from "../schemas/vote";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -32,7 +32,7 @@ function getSteps() {
 }
 
 const BallotPage = () => {
-  const [filledOutVote, setFilledOutVote] = useState<Vote>();
+  const [filledOutVote, setFilledOutVote] = useState<IVote>();
   const [activeStep, setActiveStep] = React.useState(0);
   const router = useRouter();
   const isin = router.query.isin;
@@ -66,7 +66,7 @@ const BallotPage = () => {
         return (
           <>
             <h1 style={{ textAlign: "center" }}>{getSteps()[1]}</h1>
-            <UploadPoH hasCustodian={filledOutVote.hasCustodian} />
+            <UploadPoH />
           </>
         );
       case 2:

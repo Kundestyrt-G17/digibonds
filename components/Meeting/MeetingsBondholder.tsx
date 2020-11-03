@@ -1,17 +1,20 @@
 import React, { useMemo } from "react";
-import { Meeting, User } from "@/utils/interfaces";
+
+import { IMeeting } from "../../schemas/meeting";
+import { IUser } from "../../schemas/user";
+
 import { useTable } from "react-table";
 import { useRouter } from "next/router";
 import styles from "./Meetings.module.css";
 
 interface MeetingsBondholderProps {
-  meetings: Meeting[];
-  user: User;
+  meetings: IMeeting[];
+  user: IUser;
 }
 export default function MeetingsBondholder(props: MeetingsBondholderProps) {
   const { meetings, user } = props;
 
-  const bondholderMeetingData = meetings.filter((meeting: Meeting) =>
+  const bondholderMeetingData = meetings.filter((meeting: IMeeting) =>
     //@ts-ignore
     meeting.investors.includes(user._id)
   );

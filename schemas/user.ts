@@ -1,5 +1,14 @@
 import mongoose from "mongoose";
 delete mongoose.connection.models["User"];
+
+export interface IUser extends mongoose.Document {
+  email: string;
+  name: string;
+  phone: number;
+  password: string;
+  broker: IUser;
+}
+
 export const UserSchema = new mongoose.Schema(
   {
     email: { type: String, default: "" },
@@ -10,4 +19,4 @@ export const UserSchema = new mongoose.Schema(
   },
   { autoCreate: true }
 );
-export const User = mongoose.model("User", UserSchema);
+export const User = mongoose.model<IUser>("User", UserSchema);
