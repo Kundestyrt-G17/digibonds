@@ -66,7 +66,6 @@ const Meeting = () => {
         margin="normal"
         type="search"
         name="search"
-        onChange={(e) => setSearch(e.target.value)}
         style={{ height: "50px", margin: "0" }}
         InputProps={{
           endAdornment: (
