@@ -2,10 +2,10 @@ import React, { useMemo } from 'react';
 import { useTable } from 'react-table';
 import { useRouter } from 'next/router';
 import styles from '@/components/Meeting/Meetings.module.css';
-import { GetVote, User } from '@/utils/interfaces';
+import { IVote } from '@/schemas/vote';
 
 interface InvestorTableProps {
-  votes: GetVote[];
+  votes: IVote[];
   totalAmount: number;
 }
 

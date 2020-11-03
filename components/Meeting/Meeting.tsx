@@ -5,6 +5,8 @@ import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import styles from './Meetings.module.css';
 import { TextFields } from '@material-ui/icons';
+import { InputAdornment, TextField } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -58,9 +60,21 @@ const Meeting = () => {
       {error && <p className={styles.errorMessage}>An error has occurred. Please contact the IT department. {error.message} </p>}
       <h4>Bondholder meeting for </h4>
       <h1>{data?.meetingName}</h1>
-      <TextFields
+      <TextField
+        label="Search"
+        variant="outlined"
+        margin="normal"
         type="search"
-
+        name="search"
+        onChange={(e) => setSearch(e.target.value)}
+        style={{ height: "50px", margin: "0" }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
       />
       <InvestorTable votes={votes} totalAmount={60000}/>
     </div>
