@@ -16,7 +16,7 @@ export default function MeetingsBondholder(props: MeetingsBondholderProps) {
 
   const bondholderMeetingData = meetings.filter((meeting: IMeeting) =>
     //@ts-ignore
-    meeting.investors.includes(user._id)
+    meeting.votes.includes(user._id)
   );
 
   const data = useMemo(() => bondholderMeetingData, []);

@@ -27,9 +27,9 @@ const Index = ({ user }) => {
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
-  const filteredData = data.filter((d) =>
-    d.meetingName.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredData = data //.filter((d) =>
+    //d.meetingName.toLowerCase().includes(search.toLowerCase())
+  //);
 
   console.log(search);
   return (
