@@ -1,59 +1,22 @@
 import React from 'react';
-import { GetVote, IMeeting } from '@/utils/interfaces';
 import InvestorTable from '@/components/InvestorTable/InvestorTable';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import styles from './Meetings.module.css';
-import { TextFields } from '@material-ui/icons';
 import { InputAdornment, TextField } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import { IMeeting } from '@/schemas/meeting';
 
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
-
-
-const votes: GetVote[] = [
-  {
-    amount: 10000,
-    approved: false,
-    company: {
-      name: 'Test 1',
-      bondholders: [{ name: 'hei', broker: false, email: 'sndjkjkj@jnknjn.no', password: undefined, _id: undefined }],
-    },
-    inFavor: null,
-    voted: false,
-    pohStatus: 'Pending',
-  },
-  {
-    amount: 10000,
-    approved: false,
-    company: {
-      name: 'Test 2',
-      bondholders: [{ name: 'hei', broker: false, email: 'sndjkjkj@jnknjn.no', password: undefined, _id: undefined }],
-    },
-    inFavor: true,
-    voted: true,
-    pohStatus: 'Disapproved',
-
-  },
-  {
-    amount: 7000,
-    approved: false,
-    company: {
-      name: 'Test 3',
-      bondholders: [{ name: 'hei', broker: false, email: 'sndjkjkj@jnknjn.no', password: undefined, _id: undefined }],
-    },
-    inFavor: true,
-    voted: null,
-    pohStatus: 'Approved',
-
-  },
-];
 
 const Meeting = () => {
 
   const router = useRouter();
   const { data, error } = useSWR<IMeeting>(`/api${router.asPath}`, fetcher);
+
+  if (error) return <div>Failed to Load</div>
+  if (!data) return <div>Loading...</div>
 
   return (
     <div>
@@ -75,7 +38,7 @@ const Meeting = () => {
           ),
         }}
       />
-      <InvestorTable votes={votes} totalAmount={60000}/>
+      <InvestorTable votes={data.votes} totalBonds={data.totalBonds}/>
     </div>
   );
 };

@@ -22,8 +22,8 @@ const Meetings = (props: MeetingsProps) => {
         accessor: "isin",
       },
       {
-        Header: "Votes",
-        accessor: "votes",
+        Header: "Total Bonds",
+        accessor: "totalBonds",
       },
       {
         Header: "Date",

@@ -21,7 +21,7 @@ export default async function handler(
 
   switch (method) {
     case "GET":
-      const foundMeeting = await Meeting.findById(id);
+      const foundMeeting = await Meeting.findById(id).populate("votes");
       res.status(200).json(foundMeeting);
       break;
     default:

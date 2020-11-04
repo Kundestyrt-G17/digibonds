@@ -6,7 +6,7 @@ import { IVote } from '@/schemas/vote';
 
 interface InvestorTableProps {
   votes: IVote[];
-  totalAmount: number;
+  totalBonds: number;
 }
 
 
@@ -15,31 +15,23 @@ export default function InvestorTable(props: InvestorTableProps) {
   const columns = useMemo(
     () => [
       {
-        Header: 'Comapny',
-        accessor: 'company.name',
+        Header: 'Company',
+        accessor: 'company',
       },
       {
         Header: 'Amount (NOK)',
-        accessor: 'amount',
+        accessor: 'bondsOwned',
       },
       {
         id: 'percentage',
         Header: 'Amount (%)',
         accessor: (vote) => {
-          console.log(vote.amount, props.totalAmount);
-          return (vote.amount / props.totalAmount * 100).toPrecision(2) + "%";
+          return (vote.bondsOwned / props.totalBonds * 100).toPrecision(3) + "%";
         },
       },
       {
-        id: 'voted',
         Header: 'Voted',
-        accessor: vote => {
-          if (vote.voted === null) {
-            return 'Unknown';
-          } else {
-            return vote.voted ? 'Favor' : 'Disfavor';
-          }
-        },
+        accessor: 'favor'
       },
       {
         Header: 'Proof of Holding',
