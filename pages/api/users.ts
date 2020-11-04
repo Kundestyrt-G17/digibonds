@@ -32,12 +32,15 @@ export default async function handler(
       res.status(200).json(users);
       break;
     case "PUT":
-      console.log(req.body);
       const user = await User.findByIdAndUpdate({_id: req.body.id}, req.body);
-      console.log(user);
       res.status(200).json(user);
+      break;
+    case "DELETE":
+      const deleteUser = await User.findByIdAndDelete({_id: req.body.id});
+      res.status(200).json(deleteUser);
+      break;
     default:
-      res.setHeader("Allow", ["GET", "PUT", "POST"]);
+      res.setHeader("Allow", ["GET", "PUT", "POST", "DELETE"]);
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 }

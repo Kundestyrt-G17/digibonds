@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { IUser } from '@/schemas/user';
 import { useTable } from 'react-table';
-import { useRouter } from 'next/router';
 import styles from '@/components/Meeting/Meetings.module.css';
 import { IconButton } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
@@ -11,6 +10,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 interface BrokerTableProps {
   brokers: IUser[];
   edit: (data) => void;
+  handleDelete: (data) => void;
 }
 
 export default function BrokerTable(props: BrokerTableProps) {
@@ -34,7 +34,8 @@ export default function BrokerTable(props: BrokerTableProps) {
         Header: '',
         accessor: (d) => {
           return (
-            <div><IconButton onClick={() => props.edit(d)}><EditIcon/></IconButton><IconButton><DeleteIcon/></IconButton></div>);
+            <div><IconButton onClick={() => props.edit(d)}><EditIcon/></IconButton><IconButton
+              onClick={() => props.handleDelete(d)}><DeleteIcon/></IconButton></div>);
         },
       },
     ],
