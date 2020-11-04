@@ -31,8 +31,13 @@ export default async function handler(
       const users = await User.find().populate("broker");
       res.status(200).json(users);
       break;
+    case "PUT":
+      console.log(req.body);
+      const user = await User.findByIdAndUpdate({_id: req.body.id}, req.body);
+      console.log(user);
+      res.status(200).json(user);
     default:
-      res.setHeader("Allow", ["GET", "POST"]);
+      res.setHeader("Allow", ["GET", "PUT", "POST"]);
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 }
