@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import { User } from "../../schemas/user";
+import { Company } from "../../schemas/company";
 import { url } from "../../utils/connection";
 
 export default async function handler(
@@ -19,6 +20,11 @@ export default async function handler(
     case "POST":
       const createdUser = new User(req.body);
       await createdUser.save();
+
+      await Company.findByIdAndUpdate(
+        { _id: req.body.company },
+        { $push: { bondHolders: createdUser } }
+      );
       res.status(200).json(createdUser);
       break;
     case "GET":
