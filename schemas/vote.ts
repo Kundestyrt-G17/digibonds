@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 delete mongoose.connection.models["Vote"];
+import { ICompany } from "./company";
 
 export interface IVote extends mongoose.Document {
-  company: string;
+  company: ICompany;
   bondsOwned: number;
   accountNumber: number;
   phoneNumber: number;
@@ -12,13 +13,12 @@ export interface IVote extends mongoose.Document {
 
 export const VoteSchema = new mongoose.Schema(
   {
-    company: { type: String, default: "" },
+    company: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
     bondsOwned: { type: Number, default: 0 },
     accountNumber: { type: Number, default: 0 },
     phoneNumber: { type: Number, default: 0 },
     proofOfHolding: { type: String, default: "" },
     favor: { type: Boolean, default: false },
-    investor: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { autoCreate: true }
 );

@@ -22,7 +22,7 @@ export default async function handler(
       res.status(200).json(createdUser);
       break;
     case "GET":
-      const users = await User.find();
+      const users = await User.find().populate("broker");
       res.status(200).json(users);
       break;
     default:

@@ -16,6 +16,11 @@ export const UserSchema = new mongoose.Schema(
     name: { type: String, default: "" },
     phone: { type: String, default: "" },
     password: { type: String, default: "" },
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Company",
+      default: null,
+    },
     isBroker: { type: Boolean, default: false },
     broker: {
       type: mongoose.Schema.Types.ObjectId,

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Meeting } from "../../schemas/meeting";
+import { Vote } from "../../schemas/vote";
 import { url } from "../../utils/connection";
 
 export default async function handler(
@@ -18,12 +19,20 @@ export default async function handler(
   console.log(req.body);
   switch (method) {
     case "POST":
-      const createdMeeting = new Meeting(req.body);
+      const createdVotes = req.body.votes.map((vote) => {
+        const createdVote = new Vote(vote).save();
+        return createdVote;
+      });
+
+      const resolvedVotes = await Promise.all(createdVotes);
+      console.log(resolvedVotes);
+
+      const createdMeeting = new Meeting({ ...req.body, votes: resolvedVotes });
       await createdMeeting.save();
       res.status(200).json(createdMeeting);
       break;
     case "GET":
-      const meetings = await Meeting.find();
+      const meetings = await Meeting.find({}).populate("votes");
       res.status(200).json(meetings);
       break;
     default:
