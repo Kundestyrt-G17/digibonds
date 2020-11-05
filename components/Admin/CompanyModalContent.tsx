@@ -1,7 +1,13 @@
-import React from 'react';
-import { Button, DialogActions, DialogContent, DialogTitle, TextField } from '@material-ui/core';
-import { useForm } from 'react-hook-form';
-import { ICompany } from '@/schemas/company';
+import React from "react";
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from "@material-ui/core";
+import { useForm } from "react-hook-form";
+import { ICompany } from "@/schemas/company";
 
 interface CompanyModalContentProps {
   title: string;
@@ -20,26 +26,30 @@ export default function CompanyModalContent(props: CompanyModalContentProps) {
   });
 
   return (
-    <><DialogTitle>{title}</DialogTitle>
+    <>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <TextField inputRef={register} name="companyName" label="Company name"/>
+        <TextField
+          inputRef={register}
+          name="companyName"
+          label="Company name"
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleSubmit(onSubmit)}>Add</Button>
         <Button onClick={() => setShowing(false)}>Cancel</Button>
-      </DialogActions>)
+      </DialogActions>
+      )
     </>
   );
 
-  async function onSubmit(data){
-
+  async function onSubmit(data) {
     const name = data.companyName;
-    if(company){
-      console.log("hei");
+    if (company) {
       const id = company._id;
-      const response = await fetch('/api/companies', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/companies", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id,
           name,
@@ -49,9 +59,9 @@ export default function CompanyModalContent(props: CompanyModalContentProps) {
         close();
       }
     } else {
-      const response = await fetch('/api/companies', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/companies", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
         }),
@@ -61,5 +71,4 @@ export default function CompanyModalContent(props: CompanyModalContentProps) {
       }
     }
   }
-
 }
