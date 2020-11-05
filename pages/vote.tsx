@@ -13,10 +13,14 @@ const VotesRoute = () => {
 
   const { meetingId, voteId } = router.query;
 
-  const { data: meeting, error: meetingError } =
-    meetingId && useSWR(`/api/meetings/${meetingId}`, fetcher);
-  const { data: vote, error: voteError } =
-    voteId && useSWR(`/api/votes/${voteId}`, fetcher);
+  const { data: meeting = false, error: meetingError } = useSWR(
+    `/api/meetings/${meetingId}`,
+    fetcher
+  );
+  const { data: vote = false, error: voteError } = useSWR(
+    `/api/votes/${voteId}`,
+    fetcher
+  );
 
   if (meetingError || voteError) return <div>failed to load</div>;
   if (!meeting || !vote) return <div>loading...</div>;

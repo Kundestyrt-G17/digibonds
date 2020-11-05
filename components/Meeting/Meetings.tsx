@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 
 import { IMeeting } from "schemas/meeting";
 import { IUser } from "@/schemas/user";
-import { IVote } from "@/schemas/user";
+import { IVote } from "@/schemas/vote";
 
 import { useTable } from "react-table";
 import { useRouter } from "next/router";

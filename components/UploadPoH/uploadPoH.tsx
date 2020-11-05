@@ -90,6 +90,7 @@ const UploadPoH = (props: UploadPoHProps) => {
             () => {
               setCompleted(true);
               setFileUploadOpen(false);
+              //@ts-ignore
               props.setBallot({
                 ...props.ballot,
                 proofOfHolding: reader.result as string,

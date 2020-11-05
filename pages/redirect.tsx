@@ -39,8 +39,6 @@ const BallotPage = () => {
   const { meetingId, voteId } = router.query;
   const [activeStep, setActiveStep] = useState(0);
 
-  if (!meetingId || !voteId) return <div>loading...</div>;
-
   const { data: meeting, error: meetingError } = useSWR(
     `/api/meetings/${meetingId}`,
     fetcher
@@ -50,20 +48,22 @@ const BallotPage = () => {
     fetcher
   );
 
+  const [ballot, setBallot] = useState<IVote>(vote);
+  const classes = useStyles();
+  const steps = getSteps();
+
+  useEffect(() => {
+    setBallot(vote);
+  }, [vote]);
+
   if (meetingError || voteError) return <div>failed to load</div>;
   if (!meeting || !vote) return <div>loading...</div>;
-
-  const [ballot, setBallot] = useState<IVote>(vote);
-  console.log(ballot);
 
   const handleBack = (step: number) => {
     step === 0
       ? router.back()
       : setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
-  const classes = useStyles();
-  const steps = getSteps();
 
   const submitVote = async (ballot: IVote) => {
     const response = await fetch(`/api/votes/${ballot._id}`, {
@@ -82,12 +82,14 @@ const BallotPage = () => {
         return (
           <div className={styles.ballotPage}>
             <h1>{getSteps()[0]}</h1>
-            <BallotForm
-              ISIN={meeting.isin}
-              ballot={ballot}
-              setBallot={setBallot}
-              setActiveStep={setActiveStep}
-            />
+            {ballot && (
+              <BallotForm
+                ISIN={meeting.isin}
+                ballot={ballot}
+                setBallot={setBallot}
+                setActiveStep={setActiveStep}
+              />
+            )}
           </div>
         );
       case 1:
