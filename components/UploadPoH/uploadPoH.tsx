@@ -4,22 +4,20 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
+  ListItemText
 } from "@material-ui/core";
 import PublishIcon from "@material-ui/icons/Publish";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import styles from "./uploadPoH.module.css";
-import { useRouter } from "next/router";
 import { DropzoneDialog } from "material-ui-dropzone";
 import CheckIcon from "@material-ui/icons/Check";
 
-const UploadPoH = () => {
+const UploadPoH = (props: { setActiveStep: (index: number) => void }) => {
   const [dense, setDense] = React.useState(false);
   const [fileUploadOpen, setFileUploadOpen] = useState(false);
-  const [pohName, setPohName] = useState("");
-  const [poh, setPoh] = useState("");
+  const [fileObjects, setFileObjects] = useState<File[]>([]);
   const [completed, setCompleted] = useState(false);
-  const router = useRouter();
+  const { setActiveStep } = props;
 
   return (
     <div className={styles.uploadPoHPage}>
@@ -63,10 +61,15 @@ const UploadPoH = () => {
           onClick={() => setFileUploadOpen(!fileUploadOpen)}
           startIcon={!completed ? <PublishIcon /> : <CheckIcon />}
         >
-          {!completed ? "Upload Proof of Holding" : "Upload successful"}
+          {!completed ? "Upload Proof of Holding" : "Upload successfull"}
         </Button>
       </span>
-      <div>{poh.length > 0 && pohName}</div>
+      <div>
+        {fileObjects.length > 0 &&
+          fileObjects.map(file => {
+            return <div>{file.name}</div>;
+          })}
+      </div>
 
       <DropzoneDialog
         open={fileUploadOpen}
@@ -74,19 +77,10 @@ const UploadPoH = () => {
         showPreviews={true}
         maxFileSize={5000000}
         onClose={() => setFileUploadOpen(false)}
-        onSave={(files) => {
-          setPohName(files[0].name);
-          const reader = new FileReader();
-          reader.readAsDataURL(files[0]);
-          reader.addEventListener(
-            "load",
-            () => {
-              setPoh(reader.result as string);
-              setCompleted(true);
-              setFileUploadOpen(false);
-            },
-            false
-          );
+        onSave={files => {
+          setFileObjects(files);
+          setFileUploadOpen(false);
+          setCompleted(true);
         }}
       />
       <div className={styles.uploadPoHButton}>
@@ -94,12 +88,10 @@ const UploadPoH = () => {
           variant="contained"
           color="primary"
           type="submit"
-          onClick={() =>
-            router.push({
-              pathname: "/submitted",
-              query: { from: "vote" },
-            })
-          }
+          disabled={!completed}
+          onClick={() => {
+            setActiveStep(2);
+          }}
         >
           Continue
         </Button>
