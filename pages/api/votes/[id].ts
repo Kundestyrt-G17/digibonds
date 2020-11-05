@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Meeting } from "schemas/meeting";
+import { Vote } from "schemas/vote";
 import { url } from "utils/connection";
 
 export default async function handler(
@@ -21,14 +21,22 @@ export default async function handler(
 
   switch (method) {
     case "GET":
-      const foundMeeting = await Meeting.findById(id).populate({
-        path: "votes",
-        populate: { path: "company" },
-      });
-      res.status(200).json(foundMeeting);
+      const foundVote = await Vote.findById(id);
+      res.status(200).json(foundVote);
+      break;
+    case "PUT":
+      await Vote.findByIdAndUpdate(
+        { _id: id },
+        {
+          favor: req.body.favor,
+          proofOfHolding: req.body.proofOfHolding,
+          bondsOwned: req.body.bondsOwned,
+        }
+      );
+      res.status(200).end();
       break;
     default:
-      res.setHeader("Allow", ["GET", "POST"]);
+      res.setHeader("Allow", ["GET", "PUT"]);
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 }

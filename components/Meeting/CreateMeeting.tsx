@@ -23,7 +23,6 @@ interface FormInterface {
   totalBonds: number;
   summons?: string;
   investors: BondholderInterface[];
-  //files: Files[];
 }
 
 const CreateMeeting = () => {

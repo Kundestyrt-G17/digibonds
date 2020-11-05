@@ -151,6 +151,7 @@ export default function Company(props: { brokers: IUser[] }) {
                       startIcon={<AddIcon />}
                       variant="contained"
                       onClick={() => {
+                        setCompany(companyElement);
                         setShowingBondholder(true);
                       }}
                     >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./redirect.module.css";
 import BallotForm from "../components/BallotForm/BallotForm";
 import { IVote } from "../schemas/vote";
@@ -10,7 +10,10 @@ import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { useRouter } from "next/router";
-import UploadPoH from "./uploadPoH";
+import UploadPoH from "../components/UploadPoH/uploadPoH";
+import Summary from "../components/Summary/summary";
+import useSWR from "swr";
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,10 +35,29 @@ function getSteps() {
 }
 
 const BallotPage = () => {
-  const [filledOutVote, setFilledOutVote] = useState<IVote>();
-  const [activeStep, setActiveStep] = React.useState(0);
   const router = useRouter();
-  const isin = router.query.isin;
+  const { meetingId, voteId } = router.query;
+  const [activeStep, setActiveStep] = useState(0);
+
+  const { data: meeting, error: meetingError } = useSWR(
+    `/api/meetings/${meetingId}`,
+    fetcher
+  );
+  const { data: vote, error: voteError } = useSWR(
+    `/api/votes/${voteId}`,
+    fetcher
+  );
+
+  const [ballot, setBallot] = useState<IVote>(vote);
+  const classes = useStyles();
+  const steps = getSteps();
+
+  useEffect(() => {
+    setBallot(vote);
+  }, [vote]);
+
+  if (meetingError || voteError) return <div>failed to load</div>;
+  if (!meeting || !vote) return <div>loading...</div>;
 
   const handleBack = (step: number) => {
     step === 0
@@ -43,9 +65,16 @@ const BallotPage = () => {
       : setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  console.log(router.query);
-  const classes = useStyles();
-  const steps = getSteps();
+  const submitVote = async (ballot: IVote) => {
+    const response = await fetch(`/api/votes/${ballot._id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(ballot),
+    });
+    if (response.ok) {
+      router.push({ pathname: "/submitted", query: { from: "vote" } });
+    }
+  };
 
   function getStepContent(stepIndex: number) {
     switch (stepIndex) {
@@ -53,24 +82,39 @@ const BallotPage = () => {
         return (
           <div className={styles.ballotPage}>
             <h1>{getSteps()[0]}</h1>
-            <BallotForm
-              //@ts-ignore
-              ISIN={isin}
-              setFilledOutVote={setFilledOutVote}
-              setActiveStep={setActiveStep}
-              filledOutVote={filledOutVote}
-            />
+            {ballot && (
+              <BallotForm
+                ISIN={meeting.isin}
+                ballot={ballot}
+                setBallot={setBallot}
+                setActiveStep={setActiveStep}
+              />
+            )}
           </div>
         );
       case 1:
         return (
           <>
             <h1 style={{ textAlign: "center" }}>{getSteps()[1]}</h1>
-            <UploadPoH />
+            <UploadPoH
+              setActiveStep={setActiveStep}
+              setBallot={setBallot}
+              ballot={ballot}
+            />
           </>
         );
       case 2:
-        return "Summary";
+        return (
+          <>
+            <h1 style={{ textAlign: "center" }}>{getSteps()[2]}</h1>
+            <Summary
+              isin={meeting.isin}
+              ballot={ballot}
+              submitVote={submitVote}
+            />
+          </>
+        );
+
       default:
         return "Unknown stepIndex";
     }

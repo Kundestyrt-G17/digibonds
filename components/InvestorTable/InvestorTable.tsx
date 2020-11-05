@@ -1,43 +1,50 @@
 import React, { useMemo } from "react";
-
-import { IMeeting } from "../../schemas/meeting";
-import { IUser } from "../../schemas/user";
-
 import { useTable } from "react-table";
 import { useRouter } from "next/router";
-import styles from "./Meetings.module.css";
+import styles from "@/components/Meeting/Meetings.module.css";
+import { IVote } from "@/schemas/vote";
 
-interface MeetingsBondholderProps {
-  meetings: IMeeting[];
-  user: IUser;
+interface InvestorTableProps {
+  votes: IVote[];
+  totalBonds: number;
 }
-export default function MeetingsBondholder(props: MeetingsBondholderProps) {
-  const { meetings, user } = props;
 
-  const bondholderMeetingData = meetings //.filter((meeting: IMeeting) =>
-    //@ts-ignore
-    //meeting.votes.includes(user._id)
-  //);
-
-  const data = useMemo(() => bondholderMeetingData, []);
+export default function InvestorTable(props: InvestorTableProps) {
+  const data = useMemo(() => props.votes, [props.votes]);
+  console.log(data);
   const columns = useMemo(
     () => [
       {
-        Header: "Meeting Name",
-        accessor: "meetingName",
+        Header: "Company",
+        accessor: "company.name",
       },
       {
-        Header: "ISIN",
-        accessor: "isin",
+        Header: "Amount (NOK)",
+        accessor: "bondsOwned",
       },
       {
-        Header: "Date",
-        accessor: "date",
+        id: "percentage",
+        Header: "Amount (%)",
+        accessor: (vote) => {
+          return (
+            ((vote.bondsOwned / props.totalBonds) * 100).toPrecision(3) + "%"
+          );
+        },
+      },
+      {
+        Header: "Voted",
+        accessor: "favor",
+      },
+      {
+        Header: "Proof of Holding",
+        accessor: "pohStatus",
       },
     ],
     []
   );
+
   const tableInstance = useTable<any>({ columns, data });
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -45,10 +52,10 @@ export default function MeetingsBondholder(props: MeetingsBondholderProps) {
     rows,
     prepareRow,
   } = tableInstance;
+
   const router = useRouter();
-  const handleRowClick = (row: any) => {
-    router.push(`/vote/?meeting=${row.original._id}`);
-  };
+  const handleRowClick = (row: any) => {};
+
   return (
     <table {...getTableProps()} style={{ borderSpacing: 0, width: "100%" }}>
       <thead>

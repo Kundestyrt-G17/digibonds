@@ -9,16 +9,21 @@ import {
 import PublishIcon from "@material-ui/icons/Publish";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import styles from "./uploadPoH.module.css";
-import { useRouter } from "next/router";
 import { DropzoneDialog } from "material-ui-dropzone";
 import CheckIcon from "@material-ui/icons/Check";
+import { IVote } from "@/schemas/vote";
 
-const UploadPoH = () => {
-  const [dense, setDense] = React.useState(false);
+interface UploadPoHProps {
+  setActiveStep: (index: number) => void;
+  setBallot: (vote: IVote) => void;
+  ballot: IVote;
+}
+
+const UploadPoH = (props: UploadPoHProps) => {
+  const [pohName, setPohName] = useState("");
   const [fileUploadOpen, setFileUploadOpen] = useState(false);
-  const [fileObjects, setFileObjects] = useState<File[]>([]);
   const [completed, setCompleted] = useState(false);
-  const router = useRouter();
+  const { setActiveStep } = props;
 
   return (
     <div className={styles.uploadPoHPage}>
@@ -26,7 +31,7 @@ const UploadPoH = () => {
         <div className={styles.uploadPoHList}>
           <h3>A valid proof of holding must include:</h3>
           <div>
-            <List dense={dense}>
+            <List dense={false}>
               <ListItem>
                 <ListItemIcon>
                   <CheckCircleIcon color="primary" />
@@ -62,15 +67,11 @@ const UploadPoH = () => {
           onClick={() => setFileUploadOpen(!fileUploadOpen)}
           startIcon={!completed ? <PublishIcon /> : <CheckIcon />}
         >
-          {!completed ? "Upload Proof of Holding" : "Upload successfull"}
+          {!completed ? "Upload Proof of Holding" : "Upload successful"}
         </Button>
       </span>
-      <div>
-        {fileObjects.length > 0 &&
-          fileObjects.map((file) => {
-            return <div>{file.name}</div>;
-          })}
-      </div>
+
+      <div>{props.ballot.proofOfHolding && pohName}</div>
 
       <DropzoneDialog
         open={fileUploadOpen}
@@ -79,9 +80,24 @@ const UploadPoH = () => {
         maxFileSize={5000000}
         onClose={() => setFileUploadOpen(false)}
         onSave={(files) => {
-          setFileObjects(files);
+          setPohName(files[0].name);
           setFileUploadOpen(false);
+          const reader = new FileReader();
           setCompleted(true);
+          reader.readAsDataURL(files[0]);
+          reader.addEventListener(
+            "load",
+            () => {
+              setCompleted(true);
+              setFileUploadOpen(false);
+              //@ts-ignore
+              props.setBallot({
+                ...props.ballot,
+                proofOfHolding: reader.result as string,
+              });
+            },
+            false
+          );
         }}
       />
       <div className={styles.uploadPoHButton}>
@@ -89,12 +105,10 @@ const UploadPoH = () => {
           variant="contained"
           color="primary"
           type="submit"
-          onClick={() =>
-            router.push({
-              pathname: "/submitted",
-              query: { from: "vote" },
-            })
-          }
+          disabled={!completed}
+          onClick={() => {
+            setActiveStep(2);
+          }}
         >
           Continue
         </Button>

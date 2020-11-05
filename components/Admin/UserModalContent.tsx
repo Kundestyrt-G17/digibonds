@@ -39,7 +39,13 @@ export default function UserModalContent(props: ModalProps) {
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <TextField inputRef={register} name="name" label="Full name" required />
-        <TextField inputRef={register} name="email" label="Email" required />
+        <TextField
+          inputRef={register}
+          type="email"
+          name="email"
+          label="Email"
+          required
+        />
         <TextField
           inputRef={register}
           name="phone"
@@ -113,7 +119,7 @@ export default function UserModalContent(props: ModalProps) {
           email,
           phone,
           isBroker,
-          company: user.company._id,
+          company: company._id,
           broker,
         }),
       });

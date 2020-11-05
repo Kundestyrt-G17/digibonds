@@ -3,7 +3,6 @@ import styles from "./index.module.css";
 import { withIronSession } from "next-iron-session";
 import { useRouter } from "next/router";
 import Meetings from "../components/Meeting/Meetings";
-import MeetingsBondholder from "../components/Meeting/MeetingsBondholder";
 import { Button, InputAdornment, TextField } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import SearchIcon from "@material-ui/icons/Search";
@@ -68,11 +67,7 @@ const Index = ({ user }) => {
         )}
       </div>
       <div className={styles.welcomePage}>
-        {user?.isBroker ? (
-          <Meetings meetings={filteredData} />
-        ) : (
-          <MeetingsBondholder meetings={filteredData} user={user} />
-        )}
+        <Meetings meetings={filteredData} user={user} />
       </div>
     </>
   );
