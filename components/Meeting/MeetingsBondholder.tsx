@@ -14,12 +14,11 @@ interface MeetingsBondholderProps {
 export default function MeetingsBondholder(props: MeetingsBondholderProps) {
   const { meetings, user } = props;
 
-  const bondholderMeetingData = meetings.filter((meeting: IMeeting) =>
-    //@ts-ignore
-    meeting.investors.includes(user._id)
-  );
+  const matchedMeetings = meetings.filter((m) => {
+    return m.votes.some((vote) => vote.company === user.company);
+  });
 
-  const data = useMemo(() => bondholderMeetingData, []);
+  const data = useMemo(() => matchedMeetings, []);
   const columns = useMemo(
     () => [
       {
