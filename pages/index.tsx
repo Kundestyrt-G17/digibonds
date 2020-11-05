@@ -8,6 +8,7 @@ import AddIcon from "@material-ui/icons/Add";
 import SearchIcon from "@material-ui/icons/Search";
 import Link from "next/link";
 import useSWR from "swr";
+
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Index = ({ user }) => {

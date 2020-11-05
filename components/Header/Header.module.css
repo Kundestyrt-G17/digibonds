@@ -9,7 +9,7 @@
 
 .title {
   font-size: 4em;
-  width: 1000px;
+  width: 800px;
   margin: auto;
 }
 
@@ -17,5 +17,5 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 300px;
+  width: 500px;
 }

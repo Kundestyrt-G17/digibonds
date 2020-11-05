@@ -1,6 +1,6 @@
 import React from "react";
 import { IUser } from "../../schemas/user";
-import { Button } from "@material-ui/core";
+import { Button, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import Link from "next/link";
 import styles from "./Header.module.css";
 import { useRouter } from "next/router";
@@ -25,6 +25,7 @@ const Header = (props: Props) => {
       </Link>
       {props.user && (
         <div className={styles.settings}>
+          {props.user?.isBroker ? <Link href="/admin">Admin </Link> : ""}
           {props.user?.isBroker ? "Megler: " : ""}
           {props.user?.name}
           <Button variant="contained" color="primary" onClick={() => logOut()}>
