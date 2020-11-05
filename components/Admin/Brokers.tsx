@@ -51,7 +51,7 @@ export default function Brokers(props: {
   }
 
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <h2>Broker List</h2>
       <Button
         onClick={() => {
@@ -61,6 +61,7 @@ export default function Brokers(props: {
         variant="contained"
         color="primary"
         startIcon={<AddIcon />}
+        style={{ width: "20%", alignSelf: "flex-end", marginBottom: "8px" }}
       >
         New broker
       </Button>

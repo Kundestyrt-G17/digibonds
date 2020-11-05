@@ -32,7 +32,9 @@ export default function DeleteModalContent(props: ModalProps) {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onDelete}>Delete</Button>
+        <Button color="secondary" onClick={onDelete}>
+          Delete
+        </Button>
         <Button onClick={close}>Cancel</Button>
       </DialogActions>
       )

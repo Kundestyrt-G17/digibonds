@@ -103,16 +103,7 @@ export default function Company(props: { brokers: IUser[] }) {
       >
         New Company
       </Button>
-      <Button
-        color="primary"
-        startIcon={<AddIcon />}
-        variant="contained"
-        onClick={() => {
-          setShowingBondholder(true);
-        }}
-      >
-        New bondholder
-      </Button>
+
       {data.map((companyElement) => {
         return (
           <div key={companyElement._id} style={{ marginBottom: "2px" }}>
@@ -121,10 +112,17 @@ export default function Company(props: { brokers: IUser[] }) {
                 <Typography>{companyElement.name}</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%",
+                  }}
+                >
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <div>
                       <Button
+                        color="secondary"
                         onClick={() => {
                           setShowingCompanyModal(true);
                           setCompany(companyElement);
@@ -143,6 +141,21 @@ export default function Company(props: { brokers: IUser[] }) {
                         Edit
                       </Button>
                     </div>
+                    <Button
+                      color="primary"
+                      style={{
+                        width: "25%",
+                        alignSelf: "flex-end",
+                        marginBottom: "8px",
+                      }}
+                      startIcon={<AddIcon />}
+                      variant="contained"
+                      onClick={() => {
+                        setShowingBondholder(true);
+                      }}
+                    >
+                      New bondholder
+                    </Button>
                   </div>
                   <UserTable
                     isBondholderTable={true}
