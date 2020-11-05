@@ -2,22 +2,18 @@ import React, { useState } from "react";
 import styles from "./summary.module.css";
 import { Button, Checkbox, FormControlLabel } from "@material-ui/core";
 import { useRouter } from "next/router";
+import { IVote } from "@/schemas/vote";
 import clsx from "clsx";
 
-
 interface SummaryProps {
-  isin: string | string[];
-  company: string;
-  bondsOwned: number;
-  dayTime?: number | string;
-  vote: string;
-  uploadPoH: string;
+  isin: string;
+  ballot: IVote;
+  submitVote: (ballot: IVote) => void;
 }
 
 const Summary = (props: SummaryProps) => {
-  const { isin, company, bondsOwned, dayTime, vote, uploadPoH } = props;
+  const { isin, ballot, submitVote } = props;
   const [isChecked, setIsChecked] = useState(false);
-  const router = useRouter();
 
   let id = 0;
   const createData = (field, value) => {
@@ -27,13 +23,11 @@ const Summary = (props: SummaryProps) => {
 
   let rows = [
     createData("ISIN", isin),
-    createData("Company", company),
-    createData("Amount of bonds owned", bondsOwned),
-    createData("Day time (phone number)", dayTime),
-    createData("You voted", vote)
+    createData("Company", ballot.company),
+    createData("Amount of bonds owned", ballot.bondsOwned),
+    createData("You voted", ballot.favor),
   ];
   return (
-
     <div className={styles.summaryContainer}>
       <table className={styles.summaryTable}>
         <thead className={styles.summaryColumn}>
@@ -54,7 +48,7 @@ const Summary = (props: SummaryProps) => {
             Value
           </th>
         </thead>
-        {rows.map(row => (
+        {rows.map((row) => (
           <tr className={styles.summaryRow} key={row.id}>
             <td className={styles.summaryPaddingCol1}>{row.field}</td>
             <td className={styles.summaryPaddingCol2}>{row.value}</td>
@@ -64,16 +58,14 @@ const Summary = (props: SummaryProps) => {
         <tr className={styles.summaryRow}>
           <td className={styles.summaryPaddingCol1}>Upload proof of holding</td>
           <td>
-              
-              <Button
-                variant="outlined"
-                color="primary"
-                component="span"
-                size="small"
-                
-              >
-                Preview
-              </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              component="span"
+              size="small"
+            >
+              {ballot.proofOfHolding.slice(0, 5)}
+            </Button>
           </td>
         </tr>
       </table>
@@ -94,14 +86,9 @@ const Summary = (props: SummaryProps) => {
           variant="contained"
           color="primary"
           disabled={!isChecked}
-          onClick={() =>
-            router.push({
-              pathname: "/submitted",
-              query: { from: "vote" }
-            })
-          }
+          onClick={() => submitVote(ballot)}
         >
-          Go to signing
+          Vote!
         </Button>
       </div>
     </div>

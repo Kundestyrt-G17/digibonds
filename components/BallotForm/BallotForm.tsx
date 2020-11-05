@@ -3,7 +3,6 @@ import React, { ChangeEvent, useState } from "react";
 import {
   Button,
   Checkbox,
-  FormControl,
   FormControlLabel,
   FormLabel,
   Radio,
@@ -17,50 +16,47 @@ import cx from "classnames";
 
 interface BallotFormProps {
   ISIN: string;
-  filledOutVote?: IVote;
-  setFilledOutVote: (vote: IVote) => void;
+  ballot: IVote;
+  setBallot: (vote: IVote) => void;
   setActiveStep: (index: number) => void;
 }
 
 export default function BallotForm(props: BallotFormProps) {
-  const { filledOutVote, setFilledOutVote, ISIN, setActiveStep } = props;
+  const { ballot, setBallot, ISIN, setActiveStep } = props;
+  const [checked, setChecked] = useState<boolean>(false);
   const { handleSubmit, register, control, errors } = useForm({
     defaultValues: {
       ISIN: ISIN,
-      company: filledOutVote?.company,
-      bondsOwned: filledOutVote?.bondsOwned,
-      accountNumber: filledOutVote?.accountNumber,
-      phoneNumber: filledOutVote?.phoneNumber,
-      favor: filledOutVote?.favor || "favor",
+      company: ballot?.company,
+      bondsOwned: ballot?.bondsOwned,
+      favor: ballot?.favor,
     },
   });
-
-  const [checked, setChecked] = useState<boolean>(false);
 
   return (
     <form
       className={styles.ballotForm}
       onSubmit={handleSubmit((data: any) => {
-        setFilledOutVote(data);
+        setBallot({ ...ballot, ...data });
         setActiveStep(1);
       })}
     >
       <TextField
         label="ISIN"
         variant="outlined"
+        name="ISIN"
         disabled
         margin="normal"
-        name="ISIN"
-        inputRef={register}
+        value={ISIN}
         className={styles.ballotFormTextfield}
       />
       <TextField
         label="Company"
-        name="company"
         variant="outlined"
+        name="company"
+        disabled
         margin="normal"
-        required
-        inputRef={register}
+        value={ballot.company}
         className={styles.ballotFormTextfield}
       />
       <div
@@ -75,26 +71,11 @@ export default function BallotForm(props: BallotFormProps) {
           variant="outlined"
           type="number"
           required
+          value={ballot.bondsOwned}
           inputRef={register({ pattern: /([0-9])/ })}
           error={errors.bondsOwned ? true : false}
         />
-        <QuestionMarkToolTip tooltipText="Dette er hjelpe text" />
-      </div>
-      <div
-        className={cx(
-          styles.ballotFormElement,
-          styles.ballotFormElementTooltip,
-          styles.ballotFormElementPadding
-        )}
-      >
-        <TextField
-          label="Day time phone number"
-          variant="outlined"
-          name="phonenumber"
-          type="text"
-          inputRef={register}
-        />
-        <QuestionMarkToolTip tooltipText="A number that you can be contacted on" />
+        <QuestionMarkToolTip tooltipText="This value is autofilled with the amount of bonds we have registred that you own. You can change it if you own a different amount." />
       </div>
       <div
         className={cx(styles.ballotFormElement, styles.ballotFormElementRadios)}
@@ -134,10 +115,9 @@ export default function BallotForm(props: BallotFormProps) {
         className={styles.ballotFormElement}
         control={
           <Checkbox
-            name="give-vote"
+            name="approve"
             color="primary"
-            inputRef={register}
-            onChange={handleChecked}
+            onChange={(e) => setChecked(e.target.checked)}
           />
         }
         label="The company allows their responsible broker to get insight in their vote."
@@ -154,8 +134,4 @@ export default function BallotForm(props: BallotFormProps) {
       </span>
     </form>
   );
-
-  function handleChecked(e: ChangeEvent<HTMLInputElement>) {
-    setChecked(e.target.checked);
-  }
 }
