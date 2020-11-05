@@ -1,0 +1,49 @@
+.summaryContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.summaryTable {
+  border-collapse: collapse;
+  width: 649px;
+  height: 160px;
+  display: table;
+  align-self: center;
+}
+
+.summaryRow {
+  border-top: 1px solid #d6dce0;
+  border-bottom: 1px solid #d6dce0;
+}
+
+.summaryColumn {
+  border-top: 1px solid #d6dce0;
+  border-bottom: 1px solid #d6dce0;
+  text-align-last: justify;
+}
+
+.summaryPaddingCol1 {
+  padding: 7px 0px 7px 9px;
+}
+
+.summrayPaddingCol2 {
+  padding: 7px 0px 7px 19px;
+}
+
+.summaryTableHeader {
+  height: 10px;
+  background: #144781;
+  color: white;
+  font-size: 18px;
+}
+
+.summaryCheckbox {
+  margin-top: 170px;
+  align-self: center;
+}
+
+.summaryButton {
+  margin-top: 10px;
+  align-self: center;
+}
+

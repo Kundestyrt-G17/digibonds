@@ -10,7 +10,9 @@ import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { useRouter } from "next/router";
-import UploadPoH from "./uploadPoH";
+import UploadPoH from "../components/UploadPoH/uploadPoH";
+import Summary from "../components/Summary/summary";
+import { isValidObjectId } from "mongoose";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,9 +45,9 @@ const BallotPage = () => {
       : setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  console.log(router.query);
   const classes = useStyles();
   const steps = getSteps();
+  
 
   function getStepContent(stepIndex: number) {
     switch (stepIndex) {
@@ -66,11 +68,29 @@ const BallotPage = () => {
         return (
           <>
             <h1 style={{ textAlign: "center" }}>{getSteps()[1]}</h1>
-            <UploadPoH />
+            <UploadPoH setActiveStep={setActiveStep} />
           </>
         );
       case 2:
-        return "Summary";
+        return (
+          <>
+            <h1 style={{ textAlign: "center" }}>{getSteps()[2]}</h1>
+            <Summary
+              isin={isin}
+              company={filledOutVote.company.name}
+              bondsOwned={filledOutVote.bondsOwned}
+              dayTime={
+                filledOutVote.phoneNumber === null
+                  ? "Not given"
+                  : filledOutVote.phoneNumber
+              }
+              vote={filledOutVote.favor}
+              uploadPoH={filledOutVote.proofOfHolding}
+            />
+          </>
+          
+        );
+        
       default:
         return "Unknown stepIndex";
     }
