@@ -45,7 +45,6 @@ const BallotPage = () => {
       : setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  //console.log(router.query);
   const classes = useStyles();
   const steps = getSteps();
   
