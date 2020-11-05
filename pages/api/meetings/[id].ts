@@ -25,7 +25,6 @@ export default async function handler(
         path: "votes",
         populate: { path: "company" },
       });
-      console.log(foundMeeting);
       res.status(200).json(foundMeeting);
       break;
     default:

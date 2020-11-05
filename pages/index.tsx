@@ -29,8 +29,6 @@ const Index = ({ user }) => {
   const filteredData = data.filter((d) =>
     d.meetingName.toLowerCase().includes(search.toLowerCase())
   );
-
-  console.log(search);
   return (
     <>
       <div className={styles.meetingsHeader}>
