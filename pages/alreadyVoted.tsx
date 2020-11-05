@@ -32,7 +32,7 @@ const AlreadyVoted = () => {
       <h2 className={styles.alreadyVotedPageTitle}>THANK YOU FOR VOTING</h2>
       <div className={styles.alreadyVotedPageBody}>
         <div className={styles.alreadyVotedPageParagraph}>
-          <h3>Would you like to let TenBond know what you voted?</h3>
+          <h3>Would you like to let DigiVote know what you voted?</h3>
           <GlobalCss />
           <FormControl component="fieldset">
             <RadioGroup
