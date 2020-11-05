@@ -6,7 +6,7 @@ import { PoHStatusType, VoteFavorType } from "@/utils/types";
 require("./company");
 
 export interface IVote extends mongoose.Document {
-  company: ICompany;
+  company: string;
   bondsOwned: number;
   proofOfHolding: string;
   pohStatus: PoHStatusType;
