@@ -61,6 +61,14 @@ const Meetings = (props: MeetingsProps) => {
           accessor: "isin",
         },
         {
+          id: "status",
+          Header: "Status",
+          accessor: (meeting: IMeeting) => {
+            return meeting.votes.find((v) => v.company === props.user.company)
+              .favor;
+          },
+        },
+        {
           Header: "Date",
           accessor: "date",
         },
@@ -68,7 +76,16 @@ const Meetings = (props: MeetingsProps) => {
       []
     );
     handleRowClick = (row: any) => {
-      router.push(`/vote/?meeting=${row.original._id}`);
+      const favor = row.original.votes.find(
+        (v) => v.company === props.user.company
+      ).favor;
+      switch (favor) {
+        case "Favor" || "Disfavor":
+          console.log("TODO");
+          break;
+        case "Not voted":
+          router.push(`/vote/?meeting=${row.original._id}`);
+      }
     };
   }
 
