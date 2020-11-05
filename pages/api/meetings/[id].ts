@@ -21,7 +21,11 @@ export default async function handler(
 
   switch (method) {
     case "GET":
-      const foundMeeting = await Meeting.findById(id).populate("votes");
+      const foundMeeting = await Meeting.findById(id).populate({
+        path: "votes",
+        populate: { path: "company" },
+      });
+      console.log(foundMeeting);
       res.status(200).json(foundMeeting);
       break;
     default:
