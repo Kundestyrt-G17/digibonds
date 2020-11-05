@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 
 import { IMeeting } from "schemas/meeting";
 import { IUser } from "@/schemas/user";
+import { IVote } from "@/schemas/user";
 
 import { useTable } from "react-table";
 import { useRouter } from "next/router";
@@ -76,15 +77,19 @@ const Meetings = (props: MeetingsProps) => {
       []
     );
     handleRowClick = (row: any) => {
-      const favor = row.original.votes.find(
-        (v) => v.company === props.user.company
-      ).favor;
-      switch (favor) {
+      const meeting = row.original;
+      const vote = meeting.votes.find(
+        (v: IVote) => v.company === props.user.company
+      );
+      switch (vote.favor) {
         case "Favor" || "Disfavor":
-          console.log("TODO");
+          //TODO
           break;
         case "Not voted":
-          router.push(`/vote/?meeting=${row.original._id}`);
+          router.push(`/vote/?meetingId=${meeting._id}&voteId=${vote._id}`);
+          break;
+        default:
+          break;
       }
     };
   }

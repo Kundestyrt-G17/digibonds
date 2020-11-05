@@ -11,23 +11,27 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 const VotesRoute = () => {
   const router = useRouter();
 
-  const meetingId = router.query.meeting;
+  const { meetingId, voteId } = router.query;
 
-  const { data, error } = useSWR(`/api/meetings/${meetingId}`, fetcher);
+  const { data: meeting, error: meetingError } =
+    meetingId && useSWR(`/api/meetings/${meetingId}`, fetcher);
+  const { data: vote, error: voteError } =
+    voteId && useSWR(`/api/votes/${voteId}`, fetcher);
 
-  if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
+  if (meetingError || voteError) return <div>failed to load</div>;
+  if (!meeting || !vote) return <div>loading...</div>;
 
-  const signicatRedirect = () => {
-    window.location.href =
-      "https://login-test.signicat.io/connect/authorize?response_type=code&scope=openid+profile&client_id=ta3c5289814a3422b961cd596e4980e4c&redirect_uri=http://localhost:5000/redirect&state=123";
-  };
+  //   const signicatRedirect = () => {
+  //     window.location.href =
+  //       "https://login-test.signicat.io/connect/authorize?response_type=code&scope=openid+profile&client_id=ta3c5289814a3422b961cd596e4980e4c&redirect_uri=http://localhost:5000/redirect&state=123";
+  //   };
+  //
 
   return (
     <>
       <div className={styles.welcomePage}>
-        <h1>{data.meetingName}</h1>
-        <h3>{data.isin}</h3>
+        <h1>{meeting.meetingName}</h1>
+        <h3>{meeting.isin}</h3>
         <hr />
         <div style={{ textAlign: "justify" }}>
           <h3>SUMMONS TO BONDHOLDERS' MEETING</h3>
@@ -51,7 +55,7 @@ const VotesRoute = () => {
           style={{ display: "flex", alignSelf: "center", margin: "20px" }}
           href=".pdf"
         >
-          <a download={`${data.isin}.pdf`} href={data.summons}>
+          <a download={`${meeting.isin}.pdf`} href={meeting.summons}>
             Download summons
           </a>
         </Button>
@@ -72,7 +76,12 @@ const VotesRoute = () => {
               No longer own my bonds
             </Button>
           </Link>
-          <Link href={{ pathname: "/redirect", query: { isin: data.isin } }}>
+          <Link
+            href={{
+              pathname: "/redirect",
+              query: { meetingId, voteId },
+            }}
+          >
             <Button variant="contained" color="primary">
               Vote now
             </Button>
