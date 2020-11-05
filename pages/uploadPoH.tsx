@@ -16,7 +16,8 @@ import CheckIcon from "@material-ui/icons/Check";
 const UploadPoH = () => {
   const [dense, setDense] = React.useState(false);
   const [fileUploadOpen, setFileUploadOpen] = useState(false);
-  const [fileObjects, setFileObjects] = useState<File[]>([]);
+  const [pohName, setPohName] = useState("");
+  const [poh, setPoh] = useState("");
   const [completed, setCompleted] = useState(false);
   const router = useRouter();
 
@@ -62,15 +63,10 @@ const UploadPoH = () => {
           onClick={() => setFileUploadOpen(!fileUploadOpen)}
           startIcon={!completed ? <PublishIcon /> : <CheckIcon />}
         >
-          {!completed ? "Upload Proof of Holding" : "Upload successfull"}
+          {!completed ? "Upload Proof of Holding" : "Upload successful"}
         </Button>
       </span>
-      <div>
-        {fileObjects.length > 0 &&
-          fileObjects.map((file) => {
-            return <div>{file.name}</div>;
-          })}
-      </div>
+      <div>{poh.length > 0 && pohName}</div>
 
       <DropzoneDialog
         open={fileUploadOpen}
@@ -79,9 +75,18 @@ const UploadPoH = () => {
         maxFileSize={5000000}
         onClose={() => setFileUploadOpen(false)}
         onSave={(files) => {
-          setFileObjects(files);
-          setFileUploadOpen(false);
-          setCompleted(true);
+          setPohName(files[0].name);
+          const reader = new FileReader();
+          reader.readAsDataURL(files[0]);
+          reader.addEventListener(
+            "load",
+            () => {
+              setPoh(reader.result as string);
+              setCompleted(true);
+              setFileUploadOpen(false);
+            },
+            false
+          );
         }}
       />
       <div className={styles.uploadPoHButton}>
