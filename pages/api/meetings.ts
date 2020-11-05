@@ -16,7 +16,6 @@ export default async function handler(
     useFindAndModify: false,
     useCreateIndex: true,
   });
-  console.log(req.body);
   switch (method) {
     case "POST":
       const createdVotes = req.body.votes.map((vote) => {

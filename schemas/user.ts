@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 delete mongoose.connection.models["User"];
 import { ICompany } from "./company";
 
+require("./company");
+
 export interface IUser extends mongoose.Document {
   email: string;
   name: string;

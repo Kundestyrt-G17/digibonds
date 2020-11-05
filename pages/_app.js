@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import Header from "../components/Header";
+
 import { withIronSession } from "next-iron-session";
 
 function MyApp({ Component, pageProps }) {

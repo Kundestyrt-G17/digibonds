@@ -11,7 +11,6 @@ interface InvestorTableProps {
 
 export default function InvestorTable(props: InvestorTableProps) {
   const data = useMemo(() => props.votes, [props.votes]);
-  console.log(data);
   const columns = useMemo(
     () => [
       {

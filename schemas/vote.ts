@@ -3,6 +3,8 @@ delete mongoose.connection.models["Vote"];
 import { ICompany } from "./company";
 import { PoHStatusType, VoteFavorType } from "@/utils/types";
 
+require("./company");
+
 export interface IVote extends mongoose.Document {
   company: ICompany;
   bondsOwned: number;
