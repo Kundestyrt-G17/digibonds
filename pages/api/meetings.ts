@@ -25,7 +25,6 @@ export default async function handler(
       });
 
       const resolvedVotes = await Promise.all(createdVotes);
-      console.log(resolvedVotes);
 
       const createdMeeting = new Meeting({ ...req.body, votes: resolvedVotes });
       await createdMeeting.save();

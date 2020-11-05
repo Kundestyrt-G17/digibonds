@@ -21,10 +21,12 @@ export default async function handler(
       const createdUser = new User(req.body);
       await createdUser.save();
 
-      await Company.findByIdAndUpdate(
-        { _id: req.body.company },
-        { $push: { bondHolders: createdUser } }
-      );
+      if(req.body.company){
+        await Company.findByIdAndUpdate(
+          { _id: req.body.company },
+          { $push: { bondHolders: createdUser } }
+        );
+      }
       res.status(200).json(createdUser);
       break;
     case "GET":

@@ -19,6 +19,7 @@
     "mongoose": "^5.10.11",
     "next": "10.0.0",
     "next-iron-session": "^4.1.9",
+    "prettier": "^2.1.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-hook-form": "^6.9.6",

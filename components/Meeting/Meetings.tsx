@@ -9,7 +9,6 @@ interface MeetingsProps {
 }
 
 const Meetings = (props: MeetingsProps) => {
-  console.log(props.meetings);
   const data = useMemo(() => props.meetings, [props.meetings]);
   const columns = useMemo(
     () => [

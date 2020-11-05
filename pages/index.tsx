@@ -31,7 +31,6 @@ const Index = ({ user }) => {
     //d.meetingName.toLowerCase().includes(search.toLowerCase())
   //);
 
-  console.log(search);
   return (
     <>
       <div className={styles.meetingsHeader}>
