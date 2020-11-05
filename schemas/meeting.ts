@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 delete mongoose.connection.models["Meeting"];
 import { IVote } from "./vote";
 
+require("./vote");
+
 export interface IMeeting extends mongoose.Document {
   meetingName: string;
   isin: string;

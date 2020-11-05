@@ -16,7 +16,6 @@ export default async function handler(
     useFindAndModify: false,
     useCreateIndex: true,
   });
-  console.log(req.body);
   switch (method) {
     case "POST":
       const createdVotes = req.body.votes.map((vote) => {
@@ -25,7 +24,6 @@ export default async function handler(
       });
 
       const resolvedVotes = await Promise.all(createdVotes);
-      console.log(resolvedVotes);
 
       const createdMeeting = new Meeting({ ...req.body, votes: resolvedVotes });
       await createdMeeting.save();
