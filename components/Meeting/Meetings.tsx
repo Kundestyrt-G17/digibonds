@@ -38,8 +38,12 @@ const Meetings = (props: MeetingsProps) => {
           accessor: "totalBonds",
         },
         {
+          id: "date",
           Header: "Date",
-          accessor: "date",
+          accessor: (data) => {
+            const date = new Date(data.date);
+            return `${date.getDay()}.${date.getDate()}.${date.getFullYear()}`;
+          },
         },
       ],
       []
@@ -70,8 +74,12 @@ const Meetings = (props: MeetingsProps) => {
           },
         },
         {
+          id: "date",
           Header: "Date",
-          accessor: "date",
+          accessor: (data) => {
+            const date = new Date(data.date);
+            return `${date.getDay()}.${date.getDate()}.${date.getFullYear()}`;
+          },
         },
       ],
       []
