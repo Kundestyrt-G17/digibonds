@@ -16,6 +16,15 @@ import { useRouter } from "next/router";
 import { IVote } from "@/schemas/vote";
 import clsx from "clsx";
 import { Document, Page, pdfjs } from "react-pdf";
+import {
+  Page as RenderPage,
+  Text,
+  View,
+  Document as RenderDocument,
+  StyleSheet,
+  PDFViewer,
+} from "@react-pdf/renderer";
+import { Ballot } from "@material-ui/icons";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 interface SummaryProps {
@@ -33,6 +42,31 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
+const pdfStyles = StyleSheet.create({
+  section: {
+    margin: 10,
+    padding: 10,
+    flexGrow: 1,
+  },
+});
+
+const MyDocument = (props: { ballot: IVote; isin: string }) => {
+  const { isin, ballot } = props;
+  return (
+    <RenderDocument>
+      <RenderPage size="A4" >
+        <View style={pdfStyles.section}>
+          <Text break>ISIN: {isin} </Text>
+          <Text break>Company: {ballot.company}</Text>
+          <Text break>Amount of bonds owned: {ballot.bondsOwned}</Text>
+          <Text>You voted: {ballot.favor}
+          </Text>
+        </View>
+      </RenderPage>
+    </RenderDocument>
+  );
+};
 
 const Summary = (props: SummaryProps) => {
   const { isin, ballot, submitVote } = props;
@@ -60,6 +94,9 @@ const Summary = (props: SummaryProps) => {
   }
   return (
     <div className={styles.summaryContainer}>
+      <PDFViewer width="100%">
+        <MyDocument ballot={ballot} isin={isin} />
+      </PDFViewer>
       <table className={styles.summaryTable}>
         <thead className={styles.summaryColumn}>
           <th
