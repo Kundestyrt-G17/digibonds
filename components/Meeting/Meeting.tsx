@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import InvestorTable from "@/components/Meeting/InvestorTable/InvestorTable";
+import InvestorTable from "@/components/Meeting/InvestorTable";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import styles from "./Meetings.module.css";
 import { Button } from "@material-ui/core";
 import { IMeeting } from "@/schemas/meeting";
 import SearchFilter from "@/components/Meeting/SearchFilter";
+import Statistics from "@/components/Meeting/Statistics";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -68,12 +69,14 @@ const Meeting = () => {
           </h3>
         </div>
       </div>
-      <div>
-        <SearchFilter
-          setSearch={setSearch}
-          checked={checkboxStates}
-          setCheckedStates={setCheckboxStates}
-        />
+      <SearchFilter
+        setSearch={setSearch}
+        checked={checkboxStates}
+        setCheckedStates={setCheckboxStates}
+      />
+      <div style={{ display: "flex" }}>
+        <InvestorTable votes={searchVotes} totalBonds={data.totalBonds} />
+        <Statistics votes={data.votes} />
       </div>
       <InvestorTable
         votes={searchVotes}
