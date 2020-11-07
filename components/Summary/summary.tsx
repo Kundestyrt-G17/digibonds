@@ -23,8 +23,9 @@ import {
   Document as RenderDocument,
   StyleSheet,
   PDFViewer,
+  pdf,
+  BlobProvider,
 } from "@react-pdf/renderer";
-import { Ballot } from "@material-ui/icons";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 interface SummaryProps {
@@ -53,25 +54,14 @@ const pdfStyles = StyleSheet.create({
 
 const MyDocument = (props: { ballot: IVote; isin: string }) => {
   const { isin, ballot } = props;
-  return (
-    <RenderDocument>
-      <RenderPage size="A4" >
-        <View style={pdfStyles.section}>
-          <Text break>ISIN: {isin} </Text>
-          <Text break>Company: {ballot.company}</Text>
-          <Text break>Amount of bonds owned: {ballot.bondsOwned}</Text>
-          <Text>You voted: {ballot.favor}
-          </Text>
-        </View>
-      </RenderPage>
-    </RenderDocument>
-  );
+  return;
 };
 
 const Summary = (props: SummaryProps) => {
   const { isin, ballot, submitVote } = props;
   const [isChecked, setIsChecked] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [summaryPDF, setSummaryPDF] = useState("");
   const classes = useStyles();
 
   let id = 0;
@@ -89,14 +79,42 @@ const Summary = (props: SummaryProps) => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
+  const MyDocument = (
+    <RenderDocument>
+      <RenderPage size="A4">
+        <View style={pdfStyles.section}>
+          <Text break>ISIN: {isin} </Text>
+          <Text break>Company: {ballot.company}</Text>
+          <Text break>Amount of bonds owned: {ballot.bondsOwned}</Text>
+          <Text>You voted: {ballot.favor}</Text>
+        </View>
+      </RenderPage>
+    </RenderDocument>
+  );
+
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
   return (
     <div className={styles.summaryContainer}>
-      <PDFViewer width="100%">
-        <MyDocument ballot={ballot} isin={isin} />
-      </PDFViewer>
+      <BlobProvider document={MyDocument}>
+        {({ blob, url, loading, error }) => {
+          //Do whatever you need with blob here
+          if (loading) {
+            return <div>Loading</div>;
+          }
+          const reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.addEventListener(
+            "load",
+            () => {
+              setSummaryPDF(reader.result as string);
+            },
+            false
+          );
+          return <div>There's something going on on the fly</div>;
+        }}
+      </BlobProvider>
       <table className={styles.summaryTable}>
         <thead className={styles.summaryColumn}>
           <th
