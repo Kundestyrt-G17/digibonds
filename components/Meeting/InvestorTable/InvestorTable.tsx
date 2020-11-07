@@ -55,7 +55,10 @@ export default function InvestorTable(props: InvestorTableProps) {
   } = tableInstance;
 
   const router = useRouter();
-  const handleRowClick = (row: any) => {};
+  const handleRowClick = (row: any) => {
+    console.log(row);
+    router.push("/votes/" + row.original._id);
+  };
 
   return (
     <>

@@ -37,8 +37,6 @@ const Meeting = () => {
     return vote;
   });
 
-  console.log(filterVotes);
-
   const searchVotes = filterVotes.filter((d) =>
     d.company.name.toLowerCase().includes(search.toLowerCase())
   );

@@ -21,7 +21,10 @@ export default async function handler(
 
   switch (method) {
     case "GET":
-      const foundVote = await Vote.findById(id);
+      const foundVote = await Vote.findById(id).populate({
+        path: "company",
+        populate: { path: "bondHolders", populate: { path: "broker" } },
+      });
       res.status(200).json(foundVote);
       break;
     case "PUT":
