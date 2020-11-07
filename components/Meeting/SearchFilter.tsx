@@ -21,7 +21,7 @@ import { makeStyles } from "@material-ui/styles";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      margin: "10px 0px",
+      margin: "24px 0px",
       padding: "2px 4px",
       display: "flex",
       alignItems: "center",
@@ -102,7 +102,7 @@ export default function SearchFilter(props: SearchFilterProps) {
               backgroundColor: "#F1F4FF",
               zIndex: "10",
               position: "absolute",
-              top: "-108px",
+              top: "-102px",
               left: "270px",
               padding: "10px",
             }}
