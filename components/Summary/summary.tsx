@@ -1,9 +1,22 @@
 import React, { useState } from "react";
 import styles from "./summary.module.css";
-import { Button, Checkbox, FormControlLabel } from "@material-ui/core";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Dialog,
+  makeStyles,
+  createStyles,
+  Theme,
+  DialogActions,
+  DialogContent,
+  Tooltip,
+} from "@material-ui/core";
 import { useRouter } from "next/router";
 import { IVote } from "@/schemas/vote";
 import clsx from "clsx";
+import { Document, Page, pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 interface SummaryProps {
   isin: string;
@@ -11,9 +24,21 @@ interface SummaryProps {
   submitVote: (ballot: IVote) => void;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    modal: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  })
+);
+
 const Summary = (props: SummaryProps) => {
   const { isin, ballot, submitVote } = props;
   const [isChecked, setIsChecked] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const classes = useStyles();
 
   let id = 0;
   const createData = (field, value) => {
@@ -27,6 +52,12 @@ const Summary = (props: SummaryProps) => {
     createData("Amount of bonds owned", ballot.bondsOwned),
     createData("You voted", ballot.favor),
   ];
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+  }
   return (
     <div className={styles.summaryContainer}>
       <table className={styles.summaryTable}>
@@ -58,14 +89,42 @@ const Summary = (props: SummaryProps) => {
         <tr className={styles.summaryRow}>
           <td className={styles.summaryPaddingCol1}>Upload proof of holding</td>
           <td>
-            <Button
-              variant="outlined"
-              color="primary"
-              component="span"
-              size="small"
+            <Tooltip title="Preview" arrow>
+              <Button
+                variant="outlined"
+                color="primary"
+                component="span"
+                size="small"
+                onClick={() => setOpen(true)}
+              >
+                Preview
+              </Button>
+            </Tooltip>
+            <Dialog
+              open={open}
+              onClose={() => setOpen(false)}
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+              className={classes.modal}
+              onBackdropClick={() => setOpen(false)}
+              fullWidth={true}
+              maxWidth={"md"}
             >
-              {ballot.proofOfHolding.slice(0, 5)}
-            </Button>
+              <DialogContent>
+                <div>
+                  <Document
+                    file={ballot.proofOfHolding}
+                    onLoadSuccess={onDocumentLoadSuccess}
+                    style={{ marginLeft: "0", overflow: "auto" }}
+                  >
+                    <Page pageNumber={pageNumber} />
+                  </Document>
+                </div>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setOpen(false)}>Close</Button>
+              </DialogActions>
+            </Dialog>
           </td>
         </tr>
       </table>
@@ -88,7 +147,7 @@ const Summary = (props: SummaryProps) => {
           disabled={!isChecked}
           onClick={() => submitVote(ballot)}
         >
-          Vote!
+          Go to signing
         </Button>
       </div>
     </div>
