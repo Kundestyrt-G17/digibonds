@@ -10,10 +10,8 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-interface BondholderInterface {
+interface CompanyInterface {
   name: string;
-  email: string;
-  amount: number;
 }
 
 interface FormInterface {
@@ -22,11 +20,11 @@ interface FormInterface {
   deadline: Date;
   totalBonds: number;
   summons?: string;
-  investors: BondholderInterface[];
+  companies: CompanyInterface[];
 }
 
 const CreateMeeting = () => {
-  const { data, error } = useSWR("/api/users", fetcher);
+  const { data, error } = useSWR("/api/companies", fetcher);
 
   const [fileUploadOpen, setFileUploadOpen] = useState(false);
   const [encodedSummons, setEncodedSummons] = useState("");
@@ -42,14 +40,14 @@ const CreateMeeting = () => {
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       control,
-      name: "investors",
+      name: "companies",
     }
   );
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
+  const companies = data;
   const router = useRouter();
-  const users = data.filter((user) => !user.isBroker);
 
   return (
     <div className={styles.createMeeting}>
@@ -65,9 +63,9 @@ const CreateMeeting = () => {
           const date = data.deadline;
           const totalBonds = data.totalBonds;
           const summons = data.summons;
-          const investors = data.investors.map((elem) => {
+          const votes = data?.companies.map((elem) => {
             //@ts-ignore
-            return elem.investor._id;
+            return { company: elem.company._id, bondsOwned: elem.bondsOwned };
           });
 
           const response = await fetch("/api/meetings", {
@@ -77,9 +75,9 @@ const CreateMeeting = () => {
               meetingName,
               isin,
               date,
-              totalBonds,
               summons,
-              investors,
+              totalBonds,
+              votes,
             }),
           });
           if (response.ok) {
@@ -160,33 +158,39 @@ const CreateMeeting = () => {
             );
           }}
         />
-        <div className={styles.createMeetingAddBondholder}>
+        <div
+          className={styles.createMeetingAddBondholder} //Add overflow here?
+        >
           <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
             {fields.map((item, index) => (
               <li
-                key={item.id}
+                key={index}
                 className={styles.bondholderRow}
-                style={{ margin: "20px 0" }}
+                style={{ margin: "20px 0px" }}
               >
                 <Controller
                   render={({ value, onChange }) => {
                     return (
                       <Autocomplete
-                        options={users}
+                        options={companies}
                         autoSelect
                         autoComplete
                         value={value}
                         onChange={(e, data) => onChange(data)}
-                        getOptionLabel={(user) => user.email}
+                        getOptionLabel={(company) => {
+                          return company !== "" ? company.name : "";
+                        }}
                         getOptionSelected={(user, value) =>
                           user.id === value.id
                         }
-                        style={{ width: 300 }}
+                        style={{ width: "250px", marginRight: "15px" }}
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label="E-mail"
+                            label="Company name"
                             variant="outlined"
+                            required
+                            margin="normal"
                           />
                         )}
                       />
@@ -195,11 +199,26 @@ const CreateMeeting = () => {
                   control={control}
                   defaultValue={item.id}
                   onChange={([, data]) => data._id}
-                  name={`investors[${index}].investor`}
+                  name={`companies[${index}].company`}
+                />
+                <Controller
+                  as={
+                    <TextField
+                      style={{ width: "250px" }}
+                      label="Bonds owned"
+                      variant="outlined"
+                      required
+                      margin="normal"
+                      type="number"
+                    />
+                  }
+                  control={control}
+                  defaultValue={0}
+                  name={`companies[${index}].bondsOwned`}
                 />
                 <IconButton
                   onClick={() => remove(index)}
-                  style={{ marginLeft: "45px" }}
+                  style={{ marginLeft: "20px" }}
                 >
                   <Delete />
                 </IconButton>
@@ -211,7 +230,7 @@ const CreateMeeting = () => {
           <Button
             color="primary"
             startIcon={<AddIcon />}
-            onClick={() => prepend({ id: "" })}
+            onClick={() => append({ id: "" })}
           >
             Add new bondholder
           </Button>
