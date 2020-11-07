@@ -38,8 +38,6 @@ const Meeting = () => {
     return vote;
   });
 
-  console.log(filterVotes);
-
   const searchVotes = filterVotes.filter((d) =>
     d.company.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -65,6 +63,7 @@ const Meeting = () => {
               marginLeft: "36px",
               fontSize: "12px",
               color: "#737B81",
+              fontFamily: "Roboto Condensed",
             }}
           >
             {`${date.getDay()}.${date.getDate()}.${date.getFullYear()}`}
@@ -76,9 +75,11 @@ const Meeting = () => {
         checked={checkboxStates}
         setCheckedStates={setCheckboxStates}
       />
-      <div style={{ display: "flex" }}>
-        <InvestorTable votes={searchVotes} totalBonds={data.totalBonds} />
-        <Statistics votes={data.votes} />
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ overflowY: "auto", height: "500px" }}>
+          <InvestorTable votes={searchVotes} totalBonds={data.totalBonds} />
+        </div>
+        <Statistics votes={data.votes} totalBonds={data.totalBonds} />
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ const Header = (props: Props) => {
   return (
     <div className={styles.header}>
       <Link href="/">
-        <span className={styles.title}>DigiVote</span>
+        <h1 className={styles.title}>DigiVote</h1>
       </Link>
       {props.user && (
         <div className={styles.settings}>

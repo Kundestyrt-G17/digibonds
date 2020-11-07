@@ -67,6 +67,7 @@ export default function InvestorTable(props: InvestorTableProps) {
                 <th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   className={styles.tableHeader}
+                  style={{ padding: "5px 15px" }}
                 >
                   {column.render("Header")}
                   <span>
