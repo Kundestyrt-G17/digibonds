@@ -75,7 +75,11 @@ const Meeting = () => {
           setCheckedStates={setCheckboxStates}
         />
       </div>
-      <InvestorTable votes={searchVotes} totalBonds={data.totalBonds} />
+      <InvestorTable
+        votes={searchVotes}
+        totalBonds={data.totalBonds}
+        meeting={data}
+      />
     </div>
   );
 };

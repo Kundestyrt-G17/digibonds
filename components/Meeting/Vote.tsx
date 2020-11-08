@@ -10,6 +10,7 @@ import {
   ListItemText,
   MenuItem,
   Select,
+  TextField,
   withStyles,
 } from "@material-ui/core";
 import { useRouter } from "next/router";
@@ -17,6 +18,8 @@ import { IVote } from "@/schemas/vote";
 import { Document, Page, pdfjs } from "react-pdf";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { PoHStatusType } from "@/utils/types";
+import { IMeeting } from "@/schemas/meeting";
+import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -60,17 +63,30 @@ const BootstrapInput = withStyles((theme) => ({
 
 export default function Vote() {
   const router = useRouter();
+  const { meetingId } = router.query;
 
-  const { data, error } = useSWR<IVote>(`/api${router.asPath}`, fetcher);
+  const { data: vote, error: voteError } = useSWR<IVote>(
+    `/api${router.asPath}`,
+    fetcher
+  );
+  const { data: meeting, error: meetingError } = useSWR<IMeeting>(
+    `/api/meetings/${meetingId}`,
+    fetcher
+  );
   const [numPages, setNumPages] = useState(null);
-  const [pohStatus, setPohStatus] = useState<PoHStatusType>(data?.pohStatus);
+  const [pohStatus, setPohStatus] = useState<PoHStatusType>(vote?.pohStatus);
+  const [bondsOwned, setBondsOwned] = useState<number>(vote?.bondsOwned);
 
   useEffect(() => {
-    setPohStatus(data?.pohStatus);
-  }, [data]);
+    setPohStatus(vote?.pohStatus);
+    setBondsOwned(vote?.bondsOwned);
+  }, [vote]);
 
-  if (error) return <div>Failed to Load</div>;
-  if (!data) return <CircularProgress />;
+  if (voteError) return <div>Failed to Load</div>;
+  if (!vote) return <CircularProgress />;
+
+  if (meetingError) return <div>Failed to Load</div>;
+  if (!meeting) return <CircularProgress />;
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -84,49 +100,62 @@ export default function Vote() {
   const pageNumber = 1;
 
   async function save() {
-    console.log(data);
     const response = await fetch(`/api${router.asPath}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(
-        pohStatus,
-        data._id,
-        data.proofOfHolding,
-        data.bondsOwned,
-        data.favor,
-        data.company._id
-      ),
+      body: JSON.stringify({ ...vote, pohStatus, bondsOwned }),
     });
     if (response.ok) {
-      router.push("/");
+      router.push(`/meetings/${meetingId}`);
     }
   }
 
+  const date = new Date(meeting.date);
+
   return (
     <div>
-      <h2>Bondholder meeting for </h2>
-      <h3>Norwegian</h3>
-      <p>date</p>
-      <h4>{data?.company.name}</h4>
+      <h2 style={{ fontSize: "14px", color: "#737B81", margin: "0" }}>
+        Bondholder meeting for{" "}
+      </h2>
+      <div style={{ display: "flex" }}>
+        <h3 style={{ fontSize: "36px", margin: 0 }}>{meeting.meetingName}</h3>
+        <p
+          style={{ marginLeft: "50px" }}
+        >{`${date.getDay()}.${date.getDate()}.${date.getFullYear()}`}</p>
+      </div>
+      <h4 style={{ fontSize: "60px", margin: "0px" }}>{vote?.company.name}</h4>
       <div style={{ display: "flex" }}>
         <Document
-          file={data.proofOfHolding}
+          file={vote.proofOfHolding}
           onLoadSuccess={onDocumentLoadSuccess}
         >
           <Page height={450} pageNumber={pageNumber} />
         </Document>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <p>People who can vote for {data.company.name} and their broker</p>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginTop: "10px",
+          }}
+        >
+          <p>People who can vote for {vote.company.name} and their broker</p>
           <ul>
-            {data.company.bondHolders?.map((bondHolder) => (
+            {vote.company.bondHolders?.map((bondHolder) => (
               <li key={bondHolder._id}>
                 {bondHolder.name}: {bondHolder.email} -{" "}
                 {bondHolder.broker?.name}: {bondHolder.broker?.email}
               </li>
             ))}
           </ul>
-          <p>Amount of bonds owned {data.bondsOwned} NOK</p>
-          <FormControl>
+          <TextField
+            margin="normal"
+            label={`Amount of bonds owned for ${vote?.company.name}`}
+            value={bondsOwned}
+            type="number"
+            variant="outlined"
+            onChange={(e) => setBondsOwned(Number(e.target.value))}
+          />
+          <FormControl margin="normal">
             <InputLabel> Status from Nordic Trustee</InputLabel>
             <Select
               value={pohStatus}
@@ -136,7 +165,7 @@ export default function Vote() {
               <MenuItem value={"Approved"}>
                 <ListItemIcon>
                   <FiberManualRecordIcon
-                    style={{ fill: "green", alignSelf: "center" }}
+                    style={{ fill: "#77CA9D", alignSelf: "center" }}
                     fontSize="small"
                   />
                 </ListItemIcon>
@@ -145,7 +174,7 @@ export default function Vote() {
               <MenuItem value={"Pending"}>
                 <ListItemIcon>
                   <FiberManualRecordIcon
-                    style={{ fill: "orange", alignSelf: "center" }}
+                    style={{ fill: "#FFD07A", alignSelf: "center" }}
                     fontSize="small"
                   />
                 </ListItemIcon>
@@ -154,7 +183,7 @@ export default function Vote() {
               <MenuItem value={"Rejected"}>
                 <ListItemIcon>
                   <FiberManualRecordIcon
-                    style={{ fill: "red", alignSelf: "center" }}
+                    style={{ fill: "#FF5E5E", alignSelf: "center" }}
                     fontSize="small"
                   />
                 </ListItemIcon>
@@ -167,11 +196,14 @@ export default function Vote() {
             </Select>
           </FormControl>
           <Button
-            style={{ width: "30%", margin: "10px", alignSelf: "center" }}
+            style={{ width: "55%", margin: "10px", alignSelf: "center" }}
             color="primary"
-            variant="outlined"
+            startIcon={<PictureAsPdfIcon />}
+            href=".pdf"
           >
-            Download Vote
+            <a download={`${vote.company.name}.pdf`} href={vote.proofOfHolding}>
+              Download Proof of Holding
+            </a>
           </Button>
           <Button
             style={{ width: "30%", margin: "10px", alignSelf: "center" }}
@@ -191,7 +223,11 @@ export default function Vote() {
           marginTop: "20px",
         }}
       >
-        <Button color="primary" variant="outlined">
+        <Button
+          color="primary"
+          variant="outlined"
+          onClick={() => router.push(`/meetings/${meetingId}`)}
+        >
           Cancel
         </Button>
         <Button color="primary" variant="contained" onClick={save}>

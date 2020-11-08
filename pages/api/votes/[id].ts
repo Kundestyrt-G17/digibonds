@@ -33,6 +33,7 @@ export default async function handler(
         {
           favor: req.body.favor,
           proofOfHolding: req.body.proofOfHolding,
+          pohStatus: req.body.pohStatus,
           bondsOwned: req.body.bondsOwned,
         }
       );
