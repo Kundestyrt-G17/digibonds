@@ -45,7 +45,7 @@ const AlreadyVoted = () => {
   };
 
   async function handleSubmit() {
-    const favor: VoteFavorType = isChecked ? value : "Unknown";
+    const favor: VoteFavorType | string = isChecked ? value : "Unknown";
     const response = await fetch(`/api/votes/${vote._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

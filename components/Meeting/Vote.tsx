@@ -93,6 +93,7 @@ export default function Vote() {
   }
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    // @ts-ignore
     const status: PoHStatusType = e.target.value;
     setPohStatus(status);
   }

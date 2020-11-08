@@ -66,6 +66,7 @@ export default function SearchFilter(props: SearchFilterProps) {
     });
   }
 
+  // @ts-ignore
   return (
     <div style={{ position: "relative" }}>
       <Paper component="form" className={classes.root}>
@@ -109,7 +110,7 @@ export default function SearchFilter(props: SearchFilterProps) {
           <Paper
             style={{
               backgroundColor: "#F1F4FF",
-              zIndex: "10",
+              zIndex: 10,
               position: "absolute",
               top: "-102px",
               left: "270px",

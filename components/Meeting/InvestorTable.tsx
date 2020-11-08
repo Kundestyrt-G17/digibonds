@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useSortBy, useTable } from "react-table";
+import { HeaderGroup, useSortBy, useTable } from "react-table";
 import { useRouter } from "next/router";
 import styles from "@/components/Meeting/Meetings.module.css";
 import { IVote } from "@/schemas/vote";
@@ -87,11 +87,14 @@ export default function InvestorTable(props: InvestorTableProps) {
     });
   };
 
+  // @ts-ignore
+  // @ts-ignore
+  // @ts-ignore
   return (
     <>
       <table {...getTableProps()} style={{ borderSpacing: 0, width: "100%" }}>
         <thead>
-          {headerGroups.map((headerGroup) => (
+          {headerGroups.map((headerGroup: any) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th
