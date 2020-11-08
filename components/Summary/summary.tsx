@@ -144,7 +144,7 @@ const Summary = (props: SummaryProps) => {
         <tr className={styles.summaryRow}>
           <td className={styles.summaryPaddingCol1}>Upload proof of holding</td>
           <td>
-            <Tooltip title="Preview" arrow>
+            <Tooltip title="Preview of uploaded proof of holding" arrow>
               <Button
                 variant="outlined"
                 color="primary"
@@ -158,8 +158,8 @@ const Summary = (props: SummaryProps) => {
             <Dialog
               open={open}
               onClose={() => setOpen(false)}
-              aria-labelledby="simple-modal-title"
-              aria-describedby="simple-modal-description"
+              aria-labelledby="poh-preview"
+              aria-describedby="poh-preview"
               className={classes.modal}
               onBackdropClick={() => setOpen(false)}
               fullWidth={true}
