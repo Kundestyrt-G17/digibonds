@@ -24,7 +24,6 @@ interface ModalProps {
 
 export default function UserModalContent(props: ModalProps) {
   const { title, user, brokers, close, isBroker, company } = props;
-  console.log("THIS", company);
 
   const { register, control, handleSubmit } = useForm({
     defaultValues: {

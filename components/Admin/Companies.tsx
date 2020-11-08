@@ -57,7 +57,6 @@ export default function Company(props: { brokers: IUser[] }) {
   }
 
   function closeCompanyModal() {
-    console.log("Hei");
     setShowingCompanyModal(false);
     setEditingCompany(false);
     setDeletingCompany(false);
