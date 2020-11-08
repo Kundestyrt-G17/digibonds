@@ -97,17 +97,18 @@ export default function Company(props: { brokers: IUser[] }) {
         variant="contained"
         color="primary"
         onClick={() => {
+          setCompany(undefined);
           setShowingCompanyModal(true);
         }}
-        style={{ alignSelf: "flex-end", width: "20%", marginBottom: "14px" }}
+        style={{ alignSelf: "flex-end", width: "20%", marginBottom: "15px" }}
       >
         New Company
       </Button>
 
       {data.map((companyElement) => {
         return (
-          <div key={companyElement._id} style={{ marginBottom: "2px" }}>
-            <Accordion>
+          <div key={companyElement._id} style={{ marginBottom: "15px" }}>
+            <Accordion style={{ backgroundColor: "#f6f6f6" }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography>{companyElement.name}</Typography>
               </AccordionSummary>
@@ -169,7 +170,7 @@ export default function Company(props: { brokers: IUser[] }) {
             </Accordion>
             <Dialog
               open={showingCompanyModal}
-              onClose={() => setShowingCompanyModal(false)}
+              onClose={() => closeCompanyModal()}
             >
               {deletingCompany ? (
                 <DeleteModalContent
@@ -186,10 +187,7 @@ export default function Company(props: { brokers: IUser[] }) {
                 />
               )}
             </Dialog>
-            <Dialog
-              open={showingBondholder}
-              onClose={() => setShowingBondholder(false)}
-            >
+            <Dialog open={showingBondholder} onClose={() => closeBondholder()}>
               {deletingBondholder ? (
                 <DeleteModalContent
                   title="bondholder"
@@ -207,7 +205,7 @@ export default function Company(props: { brokers: IUser[] }) {
                   brokers={brokers}
                   user={bondholder}
                   close={closeBondholder}
-                  company={company}
+                  company={companyElement}
                 />
               )}
             </Dialog>
