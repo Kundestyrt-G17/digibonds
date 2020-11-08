@@ -36,7 +36,9 @@ export default function CompanyModalContent(props: CompanyModalContentProps) {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleSubmit(onSubmit)}>Add</Button>
+        <Button onClick={handleSubmit(onSubmit)}>
+          {title.includes("Add") ? "Add" : "Edit"}
+        </Button>
         <Button onClick={() => setShowing(false)}>Cancel</Button>
       </DialogActions>
       )
