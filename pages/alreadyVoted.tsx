@@ -8,7 +8,6 @@ import {
   RadioGroup,
   withStyles,
 } from "@material-ui/core";
-import Link from "next/link";
 import styles from "./alreadyVoted.module.css";
 
 const GlobalCss = withStyles({
@@ -27,6 +26,8 @@ const AlreadyVoted = () => {
     setValue(e.currentTarget.value);
   };
 
+  function handleSubmit() {}
+
   return (
     <div className={styles.alreadyVotedPage}>
       <h2 className={styles.alreadyVotedPageTitle}>THANK YOU FOR VOTING</h2>
@@ -42,12 +43,12 @@ const AlreadyVoted = () => {
               onChange={handleChange}
             >
               <FormControlLabel
-                value="infavor"
+                value="Favor"
                 control={<Radio color="primary" />}
                 label="I voted in favor of the proposed resolution"
               />
               <FormControlLabel
-                value="disfavor"
+                value="Disfavor"
                 control={<Radio color="primary" />}
                 label="I voted in disfavor of the proposed resolution"
               />
@@ -66,17 +67,9 @@ const AlreadyVoted = () => {
           label="The company allows their responsible broker to get insight in voting choice"
         />
         <div className={styles.alreadyVotedPageButton}>
-          <Link
-            href={{ pathname: "/submitted", query: { from: "alreadyVoted" } }}
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={!isChecked || value === ""}
-            >
-              Let us know
-            </Button>
-          </Link>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Let us know
+          </Button>
         </div>
       </div>
     </div>
