@@ -23,7 +23,7 @@ export default function AttendanceBar(props: AttendanceBarProps) {
           width={attendance * width}
           y="15"
           height="35"
-          fill={attendance >= 0.666 ? "#347870" : "#21487D"}
+          fill={attendance > 0.666 ? "#347870" : "#21487D"}
         />
         <text
           x={attendance * width - 40}
@@ -38,16 +38,20 @@ export default function AttendanceBar(props: AttendanceBarProps) {
       <g opacity="0.2">
         <rect width={width} y="15" height="35" fill="#21487D" />
       </g>
-      <path
+      <polygon
+        points={`${width * 0.6666} 15.000,${width * 0.6666 - 2.598} 10.500, ${
+          width * 0.6666 + 2.598
+        } 10.500`}
         opacity="0.25"
-        d="M210 15L207.402 10.5L212.598 10.5L210 15Z"
         fill="#0E294F"
       />
-      <path
+
+      <polygon
+        points={"3.000 15.000, 0.402 10.500, 5.598 10.500"}
         opacity="0.25"
-        d="M3 15L0.401924 10.5L5.59808 10.5L3 15Z"
         fill="#0E294F"
       />
+
       <text
         x={width * 0.6666 - 10}
         y={9}
@@ -69,7 +73,15 @@ export default function AttendanceBar(props: AttendanceBarProps) {
         0%
       </text>
 
-      <line x1="210" y1="15" x2="210" y2="51" stroke="#FEFEFF" />
+      <line
+        x1={width * 0.6666}
+        y1="15"
+        x2={width * 0.6666}
+        y2="51"
+        stroke="#FEFEFF"
+      />
     </svg>
   );
 }
+
+function pathToPolyConerter(path) {}

@@ -59,11 +59,11 @@ export default function Statistics(props: StatisticsProps) {
         ],
       },
     ],
-    []
+    [votes]
   );
 
   return (
-    <div style={{ marginLeft: "40px" }}>
+    <div>
       <div>
         <div
           style={{

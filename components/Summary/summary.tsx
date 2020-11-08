@@ -12,16 +12,17 @@ import {
   DialogContent,
   Tooltip,
 } from "@material-ui/core";
-import { useRouter } from "next/router";
 import { IVote } from "@/schemas/vote";
 import clsx from "clsx";
 import { Document, Page, pdfjs } from "react-pdf";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 interface SummaryProps {
   isin: string;
   ballot: IVote;
-  submitVote: (ballot: IVote) => void;
+  submitVote?: (ballot: IVote) => void;
+  alreadyVoted: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Summary = (props: SummaryProps) => {
-  const { isin, ballot, submitVote } = props;
+  const { isin, ballot, submitVote, alreadyVoted } = props;
   const [isChecked, setIsChecked] = useState(false);
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
@@ -48,7 +49,7 @@ const Summary = (props: SummaryProps) => {
 
   let rows = [
     createData("ISIN", isin),
-    createData("Company", ballot.company),
+    createData("Company", ballot.company.name),
     createData("Amount of bonds owned", ballot.bondsOwned),
     createData("You voted", ballot.favor),
   ];
@@ -58,6 +59,7 @@ const Summary = (props: SummaryProps) => {
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
+
   return (
     <div className={styles.summaryContainer}>
       <table className={styles.summaryTable}>
@@ -128,28 +130,32 @@ const Summary = (props: SummaryProps) => {
           </td>
         </tr>
       </table>
-      <FormControlLabel
-        className={styles.summaryCheckbox}
-        control={
-          <Checkbox
-            checked={isChecked}
-            onChange={() => setIsChecked(!isChecked)}
-            color="primary"
+      {!alreadyVoted && (
+        <>
+          <FormControlLabel
+            className={styles.summaryCheckbox}
+            control={
+              <Checkbox
+                checked={isChecked}
+                onChange={() => setIsChecked(!isChecked)}
+                color="primary"
+              />
+            }
+            label="I confirm that the above information is correct"
           />
-        }
-        label="I confirm that the above information is correct"
-      />
-      <div className={styles.summaryButton}>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          disabled={!isChecked}
-          onClick={() => submitVote(ballot)}
-        >
-          Go to signing
-        </Button>
-      </div>
+          <div className={styles.summaryButton}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={!isChecked}
+              onClick={() => submitVote(ballot)}
+            >
+              Go to signing
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

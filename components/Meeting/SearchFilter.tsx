@@ -51,11 +51,19 @@ export default function SearchFilter(props: SearchFilterProps) {
   const { setSearch, checked, setCheckedStates } = props;
 
   const [showFilterMenu, setShowFilterMenu] = useState<boolean>();
+  const [tempChecked, setTempChecked] = useState<{
+    voted: boolean;
+    poh: boolean;
+  }>({ voted: checked.voted, poh: checked.poh });
 
   const classes = useStyles();
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    setCheckedStates({ ...checked, [event.target.name]: event.target.checked });
+    console.log(tempChecked);
+    setTempChecked({
+      ...tempChecked,
+      [event.target.name]: event.target.checked,
+    });
   }
 
   return (
@@ -95,6 +103,7 @@ export default function SearchFilter(props: SearchFilterProps) {
         <ClickAwayListener
           onClickAway={() => {
             setShowFilterMenu(false);
+            setTempChecked(checked);
           }}
         >
           <Paper
@@ -113,7 +122,7 @@ export default function SearchFilter(props: SearchFilterProps) {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={checked.voted}
+                      checked={tempChecked.voted}
                       onChange={handleChange}
                       name="voted"
                     />
@@ -123,14 +132,19 @@ export default function SearchFilter(props: SearchFilterProps) {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={checked.poh}
+                      checked={tempChecked.poh}
                       onChange={handleChange}
                       name="poh"
                     />
                   }
                   label="Valid Proof of holding"
                 />
-                <Button onClick={() => setShowFilterMenu(false)}>
+                <Button
+                  onClick={() => {
+                    setShowFilterMenu(false);
+                    setCheckedStates(tempChecked);
+                  }}
+                >
                   Apply options
                 </Button>
               </FormGroup>

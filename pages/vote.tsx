@@ -70,12 +70,22 @@ const VotesRoute = () => {
           alt="vote_img"
         />
         <div className={styles.welcomePageButtons}>
-          <Link href="/alreadyVoted">
+          <Link
+            href={{
+              pathname: "/alreadyVoted",
+              query: { meetingId, voteId },
+            }}
+          >
             <Button variant="outlined" color="primary">
               Already voted
             </Button>
           </Link>
-          <Link href="/noLongerOwn">
+          <Link
+            href={{
+              pathname: "/noLongerOwned",
+              query: { meetingId, voteId },
+            }}
+          >
             <Button variant="outlined" color="primary">
               No longer own my bonds
             </Button>

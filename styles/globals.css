@@ -35,3 +35,12 @@ th, tr {
   width: 100%;
   padding: 20px;
 }
+
+.meetingsContainer {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px;
+}
