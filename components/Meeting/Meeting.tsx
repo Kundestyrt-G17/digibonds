@@ -37,8 +37,6 @@ const Meeting = () => {
     return vote;
   });
 
-  console.log(filterVotes);
-
   const searchVotes = filterVotes.filter((d) =>
     d.company.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -77,7 +75,11 @@ const Meeting = () => {
           setCheckedStates={setCheckboxStates}
         />
       </div>
-      <InvestorTable votes={searchVotes} totalBonds={data.totalBonds} />
+      <InvestorTable
+        votes={searchVotes}
+        totalBonds={data.totalBonds}
+        meeting={data}
+      />
     </div>
   );
 };

@@ -12,7 +12,6 @@ import {
   DialogContent,
   Tooltip,
 } from "@material-ui/core";
-import { useRouter } from "next/router";
 import { IVote } from "@/schemas/vote";
 import clsx from "clsx";
 import { Document, Page, pdfjs } from "react-pdf";

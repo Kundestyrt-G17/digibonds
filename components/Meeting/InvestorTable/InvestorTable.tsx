@@ -5,10 +5,13 @@ import styles from "@/components/Meeting/Meetings.module.css";
 import { IVote } from "@/schemas/vote";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import { IMeeting } from "@/schemas/meeting";
 
 interface InvestorTableProps {
   votes: IVote[];
   totalBonds: number;
+  meeting: IMeeting;
 }
 
 export default function InvestorTable(props: InvestorTableProps) {
@@ -37,8 +40,30 @@ export default function InvestorTable(props: InvestorTableProps) {
         accessor: "favor",
       },
       {
+        id: "pohStatus",
         Header: "Proof of Holding",
-        accessor: "pohStatus",
+        accessor: (d) => (
+          <span style={{ display: "flex" }}>
+            {d.pohStatus !== "-" ? (
+              <FiberManualRecordIcon
+                style={{
+                  fill:
+                    d.pohStatus === "Approved"
+                      ? "#77CA9D"
+                      : d.pohStatus === "Pending"
+                      ? "#FFD07A"
+                      : d.pohStatus === "Rejected"
+                      ? "#FF5E5E"
+                      : "",
+                  alignSelf: "center",
+                }}
+              />
+            ) : (
+              ""
+            )}
+            <p>{d.pohStatus}</p>
+          </span>
+        ),
       },
     ],
     []
@@ -55,7 +80,12 @@ export default function InvestorTable(props: InvestorTableProps) {
   } = tableInstance;
 
   const router = useRouter();
-  const handleRowClick = (row: any) => {};
+  const handleRowClick = (row: any) => {
+    router.push({
+      pathname: `/votes/${row.original._id}`,
+      query: { meetingId: props.meeting._id },
+    });
+  };
 
   return (
     <>
