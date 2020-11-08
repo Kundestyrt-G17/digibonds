@@ -70,22 +70,24 @@ const Meeting = () => {
           </h3>
         </div>
       </div>
-      <SearchFilter
-        setSearch={setSearch}
-        checked={checkboxStates}
-        setCheckedStates={setCheckboxStates}
-      />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div style={{ overflowY: "auto", height: "500px" }}>
-          <InvestorTable votes={searchVotes} totalBonds={data.totalBonds} />
+        <div>
+          <h4 style={{ fontSize: "24px", margin: 0 }}>Votes</h4>
+          <SearchFilter
+            setSearch={setSearch}
+            checked={checkboxStates}
+            setCheckedStates={setCheckboxStates}
+          />
+          <div style={{ overflowY: "auto", height: "700px" }}>
+            <InvestorTable
+              votes={searchVotes}
+              totalBonds={data.totalBonds}
+              meeting={data}
+            />
+          </div>
         </div>
         <Statistics votes={data.votes} totalBonds={data.totalBonds} />
       </div>
-      <InvestorTable
-        votes={searchVotes}
-        totalBonds={data.totalBonds}
-        meeting={data}
-      />
     </div>
   );
 };
