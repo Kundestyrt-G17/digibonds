@@ -8,6 +8,7 @@ import styles from "./CreateMeeting.module.css";
 import AddIcon from "@material-ui/icons/Add";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 interface CompanyInterface {
@@ -24,19 +25,15 @@ interface FormInterface {
 }
 
 const CreateMeeting = () => {
-  const { data, error } = useSWR("/api/companies", fetcher);
+  const { data: companies, error } = useSWR("/api/companies", fetcher);
+  const router = useRouter();
 
   const [fileUploadOpen, setFileUploadOpen] = useState(false);
   const [encodedSummons, setEncodedSummons] = useState("");
   const [summonsName, setSummonsName] = useState("");
-  const {
-    register,
-    control,
-    handleSubmit,
-    reset,
-    trigger,
-    setError,
-  } = useForm();
+  const [tooManyBonds, setTooManyBonds] = useState<boolean>(false);
+
+  const { register, control, handleSubmit } = useForm();
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       control,
@@ -44,10 +41,7 @@ const CreateMeeting = () => {
     }
   );
   if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
-
-  const companies = data;
-  const router = useRouter();
+  if (!companies) return <div>Loading...</div>;
 
   return (
     <div className={styles.createMeeting}>
@@ -63,25 +57,32 @@ const CreateMeeting = () => {
           const date = data.deadline;
           const totalBonds = data.totalBonds;
           const summons = data.summons;
+          let sumBonds = 0;
           const votes = data?.companies.map((elem) => {
+            //@ts-ignore
+            sumBonds += Number(elem.bondsOwned);
             //@ts-ignore
             return { company: elem.company._id, bondsOwned: elem.bondsOwned };
           });
 
-          const response = await fetch("/api/meetings", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              meetingName,
-              isin,
-              date,
-              summons,
-              totalBonds,
-              votes,
-            }),
-          });
-          if (response.ok) {
-            return router.push("/");
+          setTooManyBonds(sumBonds > Number(totalBonds));
+
+          if (sumBonds <= Number(totalBonds)) {
+            const response = await fetch("/api/meetings", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                meetingName,
+                isin,
+                date,
+                summons,
+                totalBonds,
+                votes,
+              }),
+            });
+            if (response.ok) {
+              return router.push("/");
+            }
           }
         })}
       >
@@ -235,6 +236,11 @@ const CreateMeeting = () => {
             Add new bondholder
           </Button>
         </div>
+        {tooManyBonds && (
+          <p style={{ color: "#FF5E5E" }}>
+            The sum of bonds owned surpasses the meetings total amount of bonds
+          </p>
+        )}
         <div className={styles.createMeetingButtons}>
           <Button
             variant="outlined"
