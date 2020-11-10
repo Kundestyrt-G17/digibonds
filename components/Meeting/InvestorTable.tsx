@@ -88,8 +88,6 @@ export default function InvestorTable(props: InvestorTableProps) {
   };
 
   // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
   return (
     <>
       <table {...getTableProps()} style={{ borderSpacing: 0, width: "100%" }}>

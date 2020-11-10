@@ -10,7 +10,7 @@ import {
   withStyles,
 } from "@material-ui/core";
 import styles from "./alreadyVoted.module.css";
-import useSWR from "swr/esm/use-swr";
+import useSWR from "swr";
 import { useRouter } from "next/router";
 import { VoteFavorType } from "@/utils/types";
 
