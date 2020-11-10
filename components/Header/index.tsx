@@ -3,18 +3,15 @@ import { Button } from "@material-ui/core";
 import Link from "next/link";
 import styles from "./Header.module.css";
 import { useRouter } from "next/router";
-import { withIronSession } from "next-iron-session";
+import { IUser } from "../../schemas/user";
 
-const Header = ({ user }) => {
+interface Props {
+  user: IUser;
+}
+
+const Header = (props: Props) => {
   const router = useRouter();
-
-  useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-  }, [user]);
-
-  console.log(user);
+  const { user } = props;
 
   const logOut = async () =>
     await fetch("/api/authenticate", {
@@ -42,25 +39,3 @@ const Header = ({ user }) => {
 };
 
 export default Header;
-
-export const getServerSideProps = withIronSession(
-  async ({ req, res }) => {
-    const user = req.session.get("user");
-
-    console.log(user);
-    if (!user) {
-      return { props: {} };
-    }
-
-    return {
-      props: { user },
-    };
-  },
-  {
-    cookieName: "AUTH_COOKIE",
-    cookieOptions: {
-      secure: process.env.NODE_ENV === "production" ? true : false,
-    },
-    password: "asdfasdfadsfadsf",
-  }
-);

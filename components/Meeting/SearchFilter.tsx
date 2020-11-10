@@ -86,7 +86,9 @@ export default function SearchFilter(props: SearchFilterProps) {
         <Divider className={classes.divider} orientation="vertical" />
         <Button
           className={classes.iconButton}
-          onClick={() => setShowFilterMenu(true)}
+          onClick={() => {
+            setShowFilterMenu(true);
+          }}
           startIcon={
             <FilterListIcon
               style={

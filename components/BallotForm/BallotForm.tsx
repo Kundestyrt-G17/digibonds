@@ -97,13 +97,13 @@ export default function BallotForm(props: BallotFormProps) {
                 onChange={(e) => onChange(e)}
               >
                 <FormControlLabel
-                  value="Favor"
+                  value="In favor"
                   control={<Radio color="primary" />}
                   label="I am in favor"
                 />
                 <FormControlLabel
                   control={<Radio color="primary" />}
-                  value="Disfavor"
+                  value="In disfavor"
                   label="I am in disfavor"
                 />
               </RadioGroup>

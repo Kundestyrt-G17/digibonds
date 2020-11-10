@@ -64,71 +64,77 @@ const Summary = (props: SummaryProps) => {
     <div className={styles.summaryContainer}>
       <table className={styles.summaryTable}>
         <thead className={styles.summaryColumn}>
-          <th
-            className={clsx(
-              styles.summaryTableHeader,
-              styles.summaryPaddingCol1
-            )}
-          >
-            Field
-          </th>
-          <th
-            className={clsx(
-              styles.summaryTableHeader,
-              styles.summaryPaddingCol2
-            )}
-          >
-            Value
-          </th>
-        </thead>
-        {rows.map((row) => (
-          <tr className={styles.summaryRow} key={row.id}>
-            <td className={styles.summaryPaddingCol1}>{row.field}</td>
-            <td className={styles.summaryPaddingCol2}>{row.value}</td>
-          </tr>
-        ))}
-
-        <tr className={styles.summaryRow}>
-          <td className={styles.summaryPaddingCol1}>Upload proof of holding</td>
-          <td>
-            <Tooltip title="Preview" arrow>
-              <Button
-                variant="outlined"
-                color="primary"
-                component="span"
-                size="small"
-                onClick={() => setOpen(true)}
-              >
-                Preview
-              </Button>
-            </Tooltip>
-            <Dialog
-              open={open}
-              onClose={() => setOpen(false)}
-              aria-labelledby="simple-modal-title"
-              aria-describedby="simple-modal-description"
-              className={classes.modal}
-              onBackdropClick={() => setOpen(false)}
-              fullWidth={true}
-              maxWidth={"md"}
+          <tr>
+            <th
+              className={clsx(
+                styles.summaryTableHeader,
+                styles.summaryPaddingCol1
+              )}
             >
-              <DialogContent>
-                <div>
-                  <Document
-                    file={ballot.proofOfHolding}
-                    onLoadSuccess={onDocumentLoadSuccess}
-                    style={{ marginLeft: "0", overflow: "auto" }}
-                  >
-                    <Page pageNumber={pageNumber} />
-                  </Document>
-                </div>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => setOpen(false)}>Close</Button>
-              </DialogActions>
-            </Dialog>
-          </td>
-        </tr>
+              Field
+            </th>
+            <th
+              className={clsx(
+                styles.summaryTableHeader,
+                styles.summaryPaddingCol2
+              )}
+            >
+              Value
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr className={styles.summaryRow} key={row.id}>
+              <td className={styles.summaryPaddingCol1}>{row.field}</td>
+              <td className={styles.summaryPaddingCol2}>{row.value}</td>
+            </tr>
+          ))}
+
+          <tr className={styles.summaryRow}>
+            <td className={styles.summaryPaddingCol1}>
+              Upload proof of holding
+            </td>
+            <td>
+              <Tooltip title="Preview" arrow>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  component="span"
+                  size="small"
+                  onClick={() => setOpen(true)}
+                >
+                  Preview
+                </Button>
+              </Tooltip>
+              <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                className={classes.modal}
+                onBackdropClick={() => setOpen(false)}
+                fullWidth={true}
+                maxWidth={"md"}
+              >
+                <DialogContent>
+                  <div>
+                    <Document
+                      file={ballot.proofOfHolding}
+                      onLoadSuccess={onDocumentLoadSuccess}
+                      style={{ marginLeft: "0", overflow: "auto" }}
+                    >
+                      <Page pageNumber={pageNumber} />
+                    </Document>
+                  </div>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => setOpen(false)}>Close</Button>
+                </DialogActions>
+              </Dialog>
+            </td>
+          </tr>
+        </tbody>
       </table>
       {!alreadyVoted && (
         <>

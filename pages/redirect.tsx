@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import UploadPoH from "../components/UploadPoH/uploadPoH";
 import Summary from "../components/Summary/summary";
 import useSWR from "swr";
+import { withIronSession } from "next-iron-session";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -35,7 +36,7 @@ function getSteps() {
   return ["Fill out ballot", "Upload Proof of Holding", "Summary", "Sign"];
 }
 
-const BallotPage = () => {
+const BallotPage = ({ user }) => {
   const router = useRouter();
   const { meetingId, voteId } = router.query;
   const [activeStep, setActiveStep] = useState(0);
@@ -158,3 +159,24 @@ const BallotPage = () => {
 };
 
 export default BallotPage;
+
+export const getServerSideProps = withIronSession(
+  async ({ req, res }) => {
+    const user = req.session.get("user");
+
+    if (!user) {
+      return { props: {} };
+    }
+
+    return {
+      props: { user },
+    };
+  },
+  {
+    cookieName: "AUTH_COOKIE",
+    cookieOptions: {
+      secure: process.env.NODE_ENV === "production" ? true : false,
+    },
+    password: process.env.APPLICATION_SECRET,
+  }
+);

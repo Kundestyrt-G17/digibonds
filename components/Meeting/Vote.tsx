@@ -163,32 +163,32 @@ export default function Vote() {
               onChange={handleChange}
               input={<BootstrapInput />}
             >
-              <MenuItem value={"Approved"}>
+              <MenuItem value={"Valid"}>
                 <ListItemIcon>
                   <FiberManualRecordIcon
                     style={{ fill: "#77CA9D", alignSelf: "center" }}
                     fontSize="small"
                   />
                 </ListItemIcon>
-                <ListItemText primary="Approved" />
+                <ListItemText primary="Valid" />
               </MenuItem>
-              <MenuItem value={"Pending"}>
+              <MenuItem value={"Awaiting validation"}>
                 <ListItemIcon>
                   <FiberManualRecordIcon
                     style={{ fill: "#FFD07A", alignSelf: "center" }}
                     fontSize="small"
                   />
                 </ListItemIcon>
-                <ListItemText primary="Pending" />
+                <ListItemText primary="Awaiting validation" />
               </MenuItem>
-              <MenuItem value={"Rejected"}>
+              <MenuItem value={"Invalid"}>
                 <ListItemIcon>
                   <FiberManualRecordIcon
                     style={{ fill: "#FF5E5E", alignSelf: "center" }}
                     fontSize="small"
                   />
                 </ListItemIcon>
-                <ListItemText primary="Rejected" />
+                <ListItemText primary="Invalid" />
               </MenuItem>
               <MenuItem value={"-"} style={{ justifySelf: "center" }}>
                 {" "}

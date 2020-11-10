@@ -52,8 +52,8 @@ export default function Statistics(props: StatisticsProps) {
       {
         label: "In favor",
         data: [
-          { x: "In favor", y: getAmountBonds("Favor") },
-          { x: "In disfavor", y: getAmountBonds("Disfavor") },
+          { x: "In favor", y: getAmountBonds("In favor") },
+          { x: "In disfavor", y: getAmountBonds("In disfavor") },
           { x: "Not yet voted", y: getAmountBonds("Not voted") },
           { x: "Unknown", y: getAmountBonds("Unknown") },
         ],

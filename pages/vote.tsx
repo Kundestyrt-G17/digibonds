@@ -5,10 +5,11 @@ import { useRouter } from "next/router";
 import styles from "./vote.module.css";
 import useSWR from "swr";
 import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
+import { withIronSession } from "next-iron-session";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const VotesRoute = () => {
+const VotesRoute = ({ user }) => {
   const router = useRouter();
 
   const { meetingId, voteId } = router.query;
@@ -35,7 +36,7 @@ const VotesRoute = () => {
     <>
       <div className={styles.welcomePage}>
         <h1>{meeting.meetingName}</h1>
-        <h3>{meeting.isin}</h3>
+        <p style={{ fontSize: "18px" }}>{meeting.isin}</p>
         <hr />
         <div style={{ textAlign: "justify" }}>
           <h3>SUMMONS TO BONDHOLDERS' MEETING</h3>
@@ -82,7 +83,7 @@ const VotesRoute = () => {
           </Link>
           <Link
             href={{
-              pathname: "/noLongerOwned",
+              pathname: "/noLongerOwn",
               query: { meetingId, voteId },
             }}
           >
@@ -107,3 +108,24 @@ const VotesRoute = () => {
 };
 
 export default VotesRoute;
+
+export const getServerSideProps = withIronSession(
+  async ({ req, res }) => {
+    const user = req.session.get("user");
+
+    if (!user) {
+      return { props: {} };
+    }
+
+    return {
+      props: { user },
+    };
+  },
+  {
+    cookieName: "AUTH_COOKIE",
+    cookieOptions: {
+      secure: process.env.NODE_ENV === "production" ? true : false,
+    },
+    password: process.env.APPLICATION_SECRET,
+  }
+);

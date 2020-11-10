@@ -1,8 +1,9 @@
 import React from "react";
 import NoLongerOwnForm from "../components/NoLongerOwnForm/NoLongerOwnForm";
 import styles from "./noLongerOwn.module.css";
+import { withIronSession } from "next-iron-session";
 
-const NoLongerOwn = () => {
+const NoLongerOwn = ({ user }) => {
   return (
     <div className={styles.noLongerOwnPage}>
       <h1>I have sold my bonds</h1>
@@ -22,3 +23,24 @@ const NoLongerOwn = () => {
 };
 
 export default NoLongerOwn;
+
+export const getServerSideProps = withIronSession(
+  async ({ req, res }) => {
+    const user = req.session.get("user");
+
+    if (!user) {
+      return { props: {} };
+    }
+
+    return {
+      props: { user },
+    };
+  },
+  {
+    cookieName: "AUTH_COOKIE",
+    cookieOptions: {
+      secure: process.env.NODE_ENV === "production" ? true : false,
+    },
+    password: process.env.APPLICATION_SECRET,
+  }
+);

@@ -13,6 +13,7 @@ import styles from "./alreadyVoted.module.css";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import { VoteFavorType } from "@/utils/types";
+import { withIronSession } from "next-iron-session";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -24,7 +25,7 @@ const GlobalCss = withStyles({
   },
 })(() => null);
 
-const AlreadyVoted = () => {
+const AlreadyVoted = ({ user }) => {
   const [value, setValue] = useState<VoteFavorType | string>("");
   const [isChecked, setIsChecked] = useState(false);
 
@@ -110,3 +111,24 @@ const AlreadyVoted = () => {
 };
 
 export default AlreadyVoted;
+
+export const getServerSideProps = withIronSession(
+  async ({ req, res }) => {
+    const user = req.session.get("user");
+
+    if (!user) {
+      return { props: {} };
+    }
+
+    return {
+      props: { user },
+    };
+  },
+  {
+    cookieName: "AUTH_COOKIE",
+    cookieOptions: {
+      secure: process.env.NODE_ENV === "production" ? true : false,
+    },
+    password: process.env.APPLICATION_SECRET,
+  }
+);
