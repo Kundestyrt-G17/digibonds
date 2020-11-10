@@ -15,6 +15,16 @@ import {
 import { IVote } from "@/schemas/vote";
 import clsx from "clsx";
 import { Document, Page, pdfjs } from "react-pdf";
+import {
+  Page as RenderPage,
+  Text,
+  View,
+  Document as RenderDocument,
+  StyleSheet,
+  PDFViewer,
+  pdf,
+  BlobProvider,
+} from "@react-pdf/renderer";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -35,10 +45,24 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const pdfStyles = StyleSheet.create({
+  section: {
+    margin: 10,
+    padding: 10,
+    flexGrow: 1,
+  },
+});
+
+const MyDocument = (props: { ballot: IVote; isin: string }) => {
+  const { isin, ballot } = props;
+  return;
+};
+
 const Summary = (props: SummaryProps) => {
   const { isin, ballot, submitVote, alreadyVoted } = props;
   const [isChecked, setIsChecked] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [summaryPDF, setSummaryPDF] = useState("");
   const classes = useStyles();
 
   let id = 0;
@@ -56,12 +80,43 @@ const Summary = (props: SummaryProps) => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
+  const MyDocument = (
+    <RenderDocument>
+      <RenderPage size="A4">
+        <View style={pdfStyles.section}>
+          <Text break>ISIN: {isin} </Text>
+          <Text break>Company: {ballot.company}</Text>
+          <Text break>Amount of bonds owned: {ballot.bondsOwned}</Text>
+          <Text>You voted: {ballot.favor}</Text>
+        </View>
+      </RenderPage>
+    </RenderDocument>
+  );
+
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
 
   return (
     <div className={styles.summaryContainer}>
+      <BlobProvider document={MyDocument}>
+        {({ blob, url, loading, error }) => {
+          //Do whatever you need with blob here
+          if (loading) {
+            return <div>Loading</div>;
+          }
+          const reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.addEventListener(
+            "load",
+            () => {
+              setSummaryPDF(reader.result as string);
+            },
+            false
+          );
+          return <div>There's something going on on the fly</div>;
+        }}
+      </BlobProvider>
       <table className={styles.summaryTable}>
         <thead className={styles.summaryColumn}>
           <tr>
@@ -90,7 +145,6 @@ const Summary = (props: SummaryProps) => {
               <td className={styles.summaryPaddingCol2}>{row.value}</td>
             </tr>
           ))}
-
           <tr className={styles.summaryRow}>
             <td className={styles.summaryPaddingCol1}>
               Upload proof of holding
@@ -110,8 +164,8 @@ const Summary = (props: SummaryProps) => {
               <Dialog
                 open={open}
                 onClose={() => setOpen(false)}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
+                aria-labelledby="poh-preview"
+                aria-describedby="poh-preview"
                 className={classes.modal}
                 onBackdropClick={() => setOpen(false)}
                 fullWidth={true}
