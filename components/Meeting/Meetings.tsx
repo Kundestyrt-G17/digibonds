@@ -97,8 +97,16 @@ const Meetings = (props: MeetingsProps) => {
       const vote = meeting.votes.find(
         (v: IVote) => v.company === props.user.company
       );
+      console.log(vote.favor);
+
       switch (vote.favor) {
-        case "Favor" || "Disfavor":
+        case "Favor":
+          router.push({
+            pathname: `/summary/${vote._id}`,
+            query: { meetingId: row.original._id, voteId: vote._id },
+          });
+          break;
+        case "Disfavor":
           router.push({
             pathname: `/summary/${vote._id}`,
             query: { meetingId: row.original._id, voteId: vote._id },
