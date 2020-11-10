@@ -48,11 +48,11 @@ export default function InvestorTable(props: InvestorTableProps) {
               <FiberManualRecordIcon
                 style={{
                   fill:
-                    d.pohStatus === "Approved"
+                    d.pohStatus === "Valid"
                       ? "#77CA9D"
-                      : d.pohStatus === "Pending"
+                      : d.pohStatus === "Awaiting validation"
                       ? "#FFD07A"
-                      : d.pohStatus === "Rejected"
+                      : d.pohStatus === "Invalid"
                       ? "#FF5E5E"
                       : "",
                   alignSelf: "center",

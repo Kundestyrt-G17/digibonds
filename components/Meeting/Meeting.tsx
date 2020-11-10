@@ -27,13 +27,13 @@ const Meeting = () => {
 
   const filterVotes = data.votes.filter((vote) => {
     if (checkboxStates.poh) {
-      return vote.pohStatus === "Approved";
+      return vote.pohStatus === "Valid";
     }
     if (checkboxStates.voted) {
       return vote.favor !== "Not voted";
     }
     if (checkboxStates.voted && checkboxStates.poh) {
-      return vote.favor !== "Not voted" && vote.pohStatus === "Approved";
+      return vote.favor !== "Not voted" && vote.pohStatus === "Valid";
     }
     return vote;
   });

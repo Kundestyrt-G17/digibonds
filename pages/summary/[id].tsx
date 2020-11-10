@@ -8,6 +8,7 @@ import { CircularProgress } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { withIronSession } from "next-iron-session";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -19,13 +20,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AlreadyVotedSummary = () => {
+const AlreadyVotedSummary = ({ user }) => {
   const router = useRouter();
-  const { meetingId, voteId } = router.query;
+  const { meetingId, id } = router.query;
   const classes = useStyles();
 
   const { data: vote, error: voteError } = useSWR<IVote>(
-    `/api/votes/${voteId}`,
+    `/api/votes/${id}`,
     fetcher
   );
 
@@ -61,3 +62,24 @@ const AlreadyVotedSummary = () => {
 };
 
 export default AlreadyVotedSummary;
+
+export const getServerSideProps = withIronSession(
+  async ({ req, res }) => {
+    const user = req.session.get("user");
+
+    if (!user) {
+      return { props: {} };
+    }
+
+    return {
+      props: { user },
+    };
+  },
+  {
+    cookieName: "AUTH_COOKIE",
+    cookieOptions: {
+      secure: process.env.NODE_ENV === "production" ? true : false,
+    },
+    password: process.env.APPLICATION_SECRET,
+  }
+);

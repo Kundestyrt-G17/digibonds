@@ -8,6 +8,7 @@ import { useTable } from "react-table";
 import { useRouter } from "next/router";
 
 import styles from "./Meetings.module.css";
+import { VoteFavorType } from "@/utils/types";
 
 interface MeetingsProps {
   meetings: IMeeting[];
@@ -94,22 +95,21 @@ const Meetings = (props: MeetingsProps) => {
     );
     handleRowClick = (row: any) => {
       const meeting = row.original;
-      const vote = meeting.votes.find(
+      const vote: IVote = meeting.votes.find(
         (v: IVote) => v.company === props.user.company
       );
-      console.log(vote.favor);
 
       switch (vote.favor) {
-        case "Favor":
+        case "In favor":
           router.push({
             pathname: `/summary/${vote._id}`,
-            query: { meetingId: row.original._id, voteId: vote._id },
+            query: { meetingId: row.original._id },
           });
           break;
-        case "Disfavor":
+        case "In disfavor":
           router.push({
             pathname: `/summary/${vote._id}`,
-            query: { meetingId: row.original._id, voteId: vote._id },
+            query: { meetingId: row.original._id },
           });
           break;
         case "Not voted":

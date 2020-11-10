@@ -5,6 +5,7 @@ import cx from "classnames";
 import useSWR from "swr";
 
 import styles from "./admin.module.css";
+import { withIronSession } from "next-iron-session";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -60,3 +61,24 @@ export default function admin() {
     </div>
   );
 }
+
+export const getServerSideProps = withIronSession(
+  async ({ req, res }) => {
+    const user = req.session.get("user");
+
+    if (!user) {
+      return { props: {} };
+    }
+
+    return {
+      props: { user },
+    };
+  },
+  {
+    cookieName: "AUTH_COOKIE",
+    cookieOptions: {
+      secure: process.env.NODE_ENV === "production" ? true : false,
+    },
+    password: process.env.APPLICATION_SECRET,
+  }
+);
