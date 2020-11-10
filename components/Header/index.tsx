@@ -25,7 +25,7 @@ const Header = ({ user }) => {
   return (
     <div className={styles.header}>
       <Link href="/">
-        <span className={styles.title}>DigiVote</span>
+        <h1 className={styles.title}>DigiVote</h1>
       </Link>
       {user && (
         <div className={styles.settings}>

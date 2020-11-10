@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import InvestorTable from "@/components/Meeting/InvestorTable/InvestorTable";
+import InvestorTable from "@/components/Meeting/InvestorTable";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import styles from "./Meetings.module.css";
 import { Button } from "@material-ui/core";
 import { IMeeting } from "@/schemas/meeting";
 import SearchFilter from "@/components/Meeting/SearchFilter";
+import Statistics from "@/components/Meeting/Statistics";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -62,24 +63,29 @@ const Meeting = () => {
               marginLeft: "36px",
               fontSize: "12px",
               color: "#737B81",
+              fontFamily: "Roboto Condensed",
             }}
           >
             {`${date.getDay()}.${date.getDate()}.${date.getFullYear()}`}
           </h3>
         </div>
       </div>
-      <div>
-        <SearchFilter
-          setSearch={setSearch}
-          checked={checkboxStates}
-          setCheckedStates={setCheckboxStates}
-        />
+      <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+        <div>
+          <h4 style={{ fontSize: "24px", margin: 0 }}>Votes</h4>
+          <SearchFilter
+            setSearch={setSearch}
+            checked={checkboxStates}
+            setCheckedStates={setCheckboxStates}
+          />
+          <InvestorTable
+            votes={searchVotes}
+            totalBonds={data.totalBonds}
+            meeting={data}
+          />
+        </div>
+        <Statistics votes={data.votes} totalBonds={data.totalBonds} />
       </div>
-      <InvestorTable
-        votes={searchVotes}
-        totalBonds={data.totalBonds}
-        meeting={data}
-      />
     </div>
   );
 };

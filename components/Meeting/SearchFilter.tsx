@@ -21,7 +21,7 @@ import { makeStyles } from "@material-ui/styles";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      margin: "10px 0px",
+      margin: "24px 0px",
       padding: "2px 4px",
       display: "flex",
       alignItems: "center",
@@ -51,13 +51,22 @@ export default function SearchFilter(props: SearchFilterProps) {
   const { setSearch, checked, setCheckedStates } = props;
 
   const [showFilterMenu, setShowFilterMenu] = useState<boolean>();
+  const [tempChecked, setTempChecked] = useState<{
+    voted: boolean;
+    poh: boolean;
+  }>({ voted: checked.voted, poh: checked.poh });
 
   const classes = useStyles();
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    setCheckedStates({ ...checked, [event.target.name]: event.target.checked });
+    console.log(tempChecked);
+    setTempChecked({
+      ...tempChecked,
+      [event.target.name]: event.target.checked,
+    });
   }
 
+  // @ts-ignore
   return (
     <div style={{ position: "relative" }}>
       <Paper component="form" className={classes.root}>
@@ -95,14 +104,15 @@ export default function SearchFilter(props: SearchFilterProps) {
         <ClickAwayListener
           onClickAway={() => {
             setShowFilterMenu(false);
+            setTempChecked(checked);
           }}
         >
           <Paper
             style={{
               backgroundColor: "#F1F4FF",
-              zIndex: "10",
+              zIndex: 10,
               position: "absolute",
-              top: "-108px",
+              top: "-102px",
               left: "270px",
               padding: "10px",
             }}
@@ -113,7 +123,7 @@ export default function SearchFilter(props: SearchFilterProps) {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={checked.voted}
+                      checked={tempChecked.voted}
                       onChange={handleChange}
                       name="voted"
                     />
@@ -123,14 +133,19 @@ export default function SearchFilter(props: SearchFilterProps) {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={checked.poh}
+                      checked={tempChecked.poh}
                       onChange={handleChange}
                       name="poh"
                     />
                   }
                   label="Valid Proof of holding"
                 />
-                <Button onClick={() => setShowFilterMenu(false)}>
+                <Button
+                  onClick={() => {
+                    setShowFilterMenu(false);
+                    setCheckedStates(tempChecked);
+                  }}
+                >
                   Apply options
                 </Button>
               </FormGroup>

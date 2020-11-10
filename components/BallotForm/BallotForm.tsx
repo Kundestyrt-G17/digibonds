@@ -56,7 +56,7 @@ export default function BallotForm(props: BallotFormProps) {
         name="company"
         disabled
         margin="normal"
-        value={ballot.company}
+        value={ballot.company.name}
         className={styles.ballotFormTextfield}
       />
       <div

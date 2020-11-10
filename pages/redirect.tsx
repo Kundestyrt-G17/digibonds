@@ -112,6 +112,7 @@ const BallotPage = () => {
               isin={meeting.isin}
               ballot={ballot}
               submitVote={submitVote}
+              alreadyVoted={false}
             />
           </>
         );

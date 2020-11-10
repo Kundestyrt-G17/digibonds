@@ -34,12 +34,24 @@ const Meetings = (props: MeetingsProps) => {
           accessor: "isin",
         },
         {
-          Header: "Total Bonds",
-          accessor: "totalBonds",
+          id: "votes",
+          Header: "Attendance %",
+          accessor: (d) =>
+            `${(
+              (d.votes
+                .filter((vote) => vote.favor !== "Not voted")
+                .reduce((a, b) => a + b.bondsOwned, 0) *
+                100) /
+              d.totalBonds
+            ).toPrecision(3)}%`,
         },
         {
+          id: "date",
           Header: "Date",
-          accessor: "date",
+          accessor: (data) => {
+            const date = new Date(data.date);
+            return `${date.getDay()}.${date.getDate()}.${date.getFullYear()}`;
+          },
         },
       ],
       []
@@ -70,8 +82,12 @@ const Meetings = (props: MeetingsProps) => {
           },
         },
         {
+          id: "date",
           Header: "Date",
-          accessor: "date",
+          accessor: (data) => {
+            const date = new Date(data.date);
+            return `${date.getDay()}.${date.getDate()}.${date.getFullYear()}`;
+          },
         },
       ],
       []
@@ -83,7 +99,10 @@ const Meetings = (props: MeetingsProps) => {
       );
       switch (vote.favor) {
         case "Favor" || "Disfavor":
-          //TODO
+          router.push({
+            pathname: `/summary/${vote._id}`,
+            query: { meetingId: row.original._id, voteId: vote._id },
+          });
           break;
         case "Not voted":
           router.push(`/vote/?meetingId=${meeting._id}&voteId=${vote._id}`);

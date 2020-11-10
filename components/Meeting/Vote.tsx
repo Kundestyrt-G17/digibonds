@@ -78,8 +78,8 @@ export default function Vote() {
   const [bondsOwned, setBondsOwned] = useState<number>(vote?.bondsOwned);
 
   useEffect(() => {
-    setPohStatus(vote?.pohStatus);
     setBondsOwned(vote?.bondsOwned);
+    setPohStatus(vote?.pohStatus);
   }, [vote]);
 
   if (voteError) return <div>Failed to Load</div>;
@@ -93,6 +93,7 @@ export default function Vote() {
   }
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    // @ts-ignore
     const status: PoHStatusType = e.target.value;
     setPohStatus(status);
   }
@@ -106,7 +107,7 @@ export default function Vote() {
       body: JSON.stringify({ ...vote, pohStatus, bondsOwned }),
     });
     if (response.ok) {
-      router.push(`/meetings/${meetingId}`);
+      router.back();
     }
   }
 
@@ -158,7 +159,7 @@ export default function Vote() {
           <FormControl margin="normal">
             <InputLabel> Status from Nordic Trustee</InputLabel>
             <Select
-              value={pohStatus}
+              value={pohStatus || vote?.pohStatus}
               onChange={handleChange}
               input={<BootstrapInput />}
             >
@@ -196,7 +197,7 @@ export default function Vote() {
             </Select>
           </FormControl>
           <Button
-            style={{ width: "55%", margin: "10px", alignSelf: "center" }}
+            style={{ width: "60%", margin: "10px", alignSelf: "center" }}
             color="primary"
             startIcon={<PictureAsPdfIcon />}
             href=".pdf"
@@ -206,7 +207,7 @@ export default function Vote() {
             </a>
           </Button>
           <Button
-            style={{ width: "30%", margin: "10px", alignSelf: "center" }}
+            style={{ width: "40%", margin: "10px", alignSelf: "center" }}
             color="primary"
             variant="outlined"
           >
@@ -217,7 +218,6 @@ export default function Vote() {
       <div
         style={{
           justifySelf: "center",
-          width: "50%",
           display: "flex",
           justifyContent: "space-evenly",
           marginTop: "20px",
