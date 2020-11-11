@@ -70,8 +70,8 @@ export default function Brokers(props: {
       <UserTable
         isBondholderTable={false}
         users={brokers}
-        edit={edit}
-        handleDelete={handleDelete}
+        editBroker={edit}
+        handleDeleteBroker={handleDelete}
       />
       <Dialog open={showing} onClose={() => setShowing(false)}>
         {deleting ? (

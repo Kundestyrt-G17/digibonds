@@ -72,9 +72,10 @@ export default function Company(props: { brokers: IUser[] }) {
     mutate();
   }
 
-  function edit(data) {
+  function edit(data, company) {
     setShowingBondholder(true);
     setEditingBondholder(true);
+    setCompany(company);
     const chosenBondholder: UserInterface = {
       name: data.name,
       _id: data._id,
@@ -170,8 +171,9 @@ export default function Company(props: { brokers: IUser[] }) {
                   <UserTable
                     isBondholderTable={true}
                     users={companyElement.bondHolders}
-                    handleDelete={handleDelete}
-                    edit={edit}
+                    handleDeleteBondholder={handleDelete}
+                    editBondholder={edit}
+                    company={companyElement}
                   />
                 </div>
               </AccordionDetails>

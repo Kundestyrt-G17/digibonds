@@ -5,12 +5,16 @@ import styles from "./UserTable.module.css";
 import { IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { ICompany } from "@/schemas/company";
 
 interface BrokerTableProps {
   users: IUser[];
-  edit: (data) => void;
-  handleDelete: (data) => void;
+  editBondholder?: (data, company) => void;
+  handleDeleteBondholder?: (data, company) => void;
+  editBroker?: (data) => void;
+  handleDeleteBroker?: (data) => void;
   isBondholderTable: boolean;
+  company?: ICompany;
 }
 
 export default function UserTable(props: BrokerTableProps) {
@@ -45,10 +49,14 @@ export default function UserTable(props: BrokerTableProps) {
           accessor: (d) => {
             return (
               <div>
-                <IconButton onClick={() => props.edit(d)}>
+                <IconButton
+                  onClick={() => props.editBondholder(d, props.company)}
+                >
                   <EditIcon />
                 </IconButton>
-                <IconButton onClick={() => props.handleDelete(d)}>
+                <IconButton
+                  onClick={() => props.handleDeleteBondholder(d, props.company)}
+                >
                   <DeleteIcon />
                 </IconButton>
               </div>
@@ -79,10 +87,10 @@ export default function UserTable(props: BrokerTableProps) {
           accessor: (d) => {
             return (
               <div>
-                <IconButton onClick={() => props.edit(d)}>
+                <IconButton onClick={() => props.editBroker(d)}>
                   <EditIcon />
                 </IconButton>
-                <IconButton onClick={() => props.handleDelete(d)}>
+                <IconButton onClick={() => props.handleDeleteBroker(d)}>
                   <DeleteIcon />
                 </IconButton>
               </div>
