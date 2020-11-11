@@ -16,8 +16,6 @@ const Header = (props: Props) => {
 
   const activeAdmin = router.asPath.includes("admin");
 
-  console.log(activeAdmin);
-
   const logOut = async () =>
     await fetch("/api/authenticate", {
       method: "DELETE",
@@ -40,7 +38,7 @@ const Header = (props: Props) => {
           ) : (
             ""
           )}
-          {user?.isBroker ? "Megler: " : ""}
+          {user?.isBroker ? "Broker: " : ""}
           {user?.name}
           <Button variant="contained" color="primary" onClick={() => logOut()}>
             Logout

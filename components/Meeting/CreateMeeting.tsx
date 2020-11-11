@@ -8,6 +8,7 @@ import styles from "./CreateMeeting.module.css";
 import AddIcon from "@material-ui/icons/Add";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import Loading from "@/components/Loading";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -41,7 +42,7 @@ const CreateMeeting = () => {
     }
   );
   if (error) return <div>Failed to load</div>;
-  if (!companies) return <div>Loading...</div>;
+  if (!companies) return <Loading />;
 
   return (
     <div className={styles.createMeeting}>
@@ -88,7 +89,7 @@ const CreateMeeting = () => {
       >
         <TextField
           className={styles.createMeetingTextfield}
-          label="Company name"
+          label="Bondy Issuer (Company name)"
           variant="outlined"
           inputRef={register}
           autoFocus
@@ -188,7 +189,7 @@ const CreateMeeting = () => {
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label="Company name"
+                            label="Bondholder name"
                             variant="outlined"
                             required
                             margin="normal"
@@ -206,15 +207,15 @@ const CreateMeeting = () => {
                   as={
                     <TextField
                       style={{ width: "250px" }}
-                      label="Bonds owned"
+                      label="Bonds owned (NOK)"
                       variant="outlined"
                       required
                       margin="normal"
                       type="number"
+                      helperText="If unknown leave empty"
                     />
                   }
                   control={control}
-                  defaultValue={0}
                   name={`companies[${index}].bondsOwned`}
                 />
                 <IconButton

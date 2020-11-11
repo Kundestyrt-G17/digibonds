@@ -8,7 +8,7 @@
 
 .tableCell {
   padding: 17px;
-  border-bottom: 1px solid #eee;
+  border: 1px solid #eee;
   font-size: 1em;
   text-align: left;
 }

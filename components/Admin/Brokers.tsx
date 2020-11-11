@@ -26,6 +26,8 @@ export default function Brokers(props: {
   const [deleting, setDeleting] = useState<boolean>(false);
   const [broker, setBroker] = useState<UserInterface | undefined>(undefined);
 
+  brokers.sort((brokerA, brokerB) => brokerA.name.localeCompare(brokerB.name));
+
   function edit(data) {
     setShowing(true);
     setEditing(true);
@@ -68,8 +70,8 @@ export default function Brokers(props: {
       <UserTable
         isBondholderTable={false}
         users={brokers}
-        edit={edit}
-        handleDelete={handleDelete}
+        editBroker={edit}
+        handleDeleteBroker={handleDelete}
       />
       <Dialog open={showing} onClose={() => setShowing(false)}>
         {deleting ? (

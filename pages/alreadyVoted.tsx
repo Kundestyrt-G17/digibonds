@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Button,
   Checkbox,
-  CircularProgress,
   FormControl,
   FormControlLabel,
   Radio,
@@ -14,6 +13,7 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import { VoteFavorType } from "@/utils/types";
 import { withIronSession } from "next-iron-session";
+import Loading from "@/components/Loading";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -38,7 +38,7 @@ const AlreadyVoted = ({ user }) => {
   );
 
   if (voteError) return <div>failed to load</div>;
-  if (!vote) return <CircularProgress />;
+  if (!vote) return <Loading />;
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     // @ts-ignore
@@ -72,12 +72,12 @@ const AlreadyVoted = ({ user }) => {
               onChange={handleChange}
             >
               <FormControlLabel
-                value="Favor"
+                value="In favor"
                 control={<Radio color="primary" />}
                 label="I voted in favor of the proposed resolution"
               />
               <FormControlLabel
-                value="Disfavor"
+                value="In disfavor"
                 control={<Radio color="primary" />}
                 label="I voted in disfavor of the proposed resolution"
               />

@@ -3,6 +3,7 @@ import Companies from "@/components/Admin/Companies";
 import Brokers from "@/components/Admin/Brokers";
 import cx from "classnames";
 import useSWR from "swr";
+import Loading from "@/components/Loading";
 
 import styles from "./admin.module.css";
 import { withIronSession } from "next-iron-session";
@@ -15,7 +16,7 @@ export default function admin() {
   const { data, error, mutate } = useSWR("/api/users", fetcher);
 
   if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <Loading />;
 
   const brokers = data.filter((user) => {
     return user.isBroker;
@@ -32,7 +33,6 @@ export default function admin() {
       >
         <h1>Admin</h1>
         <div className={styles.tabs}>
-          {console.log(showingCompanies)}
           <button
             className={cx(
               styles.tabButton,
@@ -40,7 +40,7 @@ export default function admin() {
             )}
             onClick={() => setShowingCompanies(true)}
           >
-            Companies
+            Bondholders
           </button>
           <button
             className={cx(

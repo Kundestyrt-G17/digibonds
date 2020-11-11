@@ -70,11 +70,18 @@ export default function Statistics(props: StatisticsProps) {
             display: "flex",
             justifyContent: "space-between",
             marginBottom: "12px",
+            alignContent: "flex-end",
           }}
         >
           <h5 style={{ fontSize: "24px", margin: "0" }}>Attendance</h5>
           <p style={{ margin: 0, fontFamily: "Roboto Condensed" }}>
-            Total {totalBonds.toPrecision(5)}
+            Total:{" "}
+            {Number(totalBonds).toLocaleString(
+              undefined, // leave undefined to use the browser's locale,
+              // or use a string like 'en-US' to override it.
+              { minimumFractionDigits: 2 }
+            )}{" "}
+            NOK
           </p>
         </div>
         <AttendanceBar attendance={attendance} />
@@ -83,7 +90,7 @@ export default function Statistics(props: StatisticsProps) {
         <h6 style={{ fontSize: "24px" }}>Voting result</h6>
         <div
           style={{
-            width: "300px",
+            width: "400px",
             height: "300px",
           }}
         >

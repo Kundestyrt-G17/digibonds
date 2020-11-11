@@ -8,6 +8,7 @@ import AddIcon from "@material-ui/icons/Add";
 import SearchIcon from "@material-ui/icons/Search";
 import Link from "next/link";
 import useSWR from "swr";
+import Loading from "@/components/Loading";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -20,12 +21,12 @@ const Index = ({ user }) => {
       router.push("/login");
     }
   });
-  if (!user) return <div>Loading</div>;
 
   const { data, error } = useSWR("/api/meetings", fetcher);
 
+  if (!user) return <Loading />;
+  if (!data) return <Loading />;
   if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
 
   const filteredData = data.filter((d) =>
     d.meetingName.toLowerCase().includes(search.toLowerCase())

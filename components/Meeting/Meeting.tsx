@@ -7,6 +7,9 @@ import { Button } from "@material-ui/core";
 import { IMeeting } from "@/schemas/meeting";
 import SearchFilter from "@/components/Meeting/SearchFilter";
 import Statistics from "@/components/Meeting/Statistics";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import Loading from "@/components/Loading";
+import ExportAsCSV from "./ExportAsCSV";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -23,7 +26,7 @@ const Meeting = () => {
   });
 
   if (error) return <div>Failed to Load</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <Loading />;
 
   const filterVotes = data.votes.filter((vote) => {
     if (checkboxStates.poh) {
@@ -46,7 +49,10 @@ const Meeting = () => {
 
   return (
     <div>
-      <Button href={"/"}>Back</Button>
+      <Button href={"/"}>
+        <ArrowBackIosIcon />
+        Back
+      </Button>
       {error && (
         <p className={styles.errorMessage}>
           An error has occurred. Please contact the IT department.{" "}
@@ -66,18 +72,32 @@ const Meeting = () => {
               fontFamily: "Roboto Condensed",
             }}
           >
-            {`${date.getDay()}.${date.getDate()}.${date.getFullYear()}`}
+            {date.toLocaleDateString("no-NO")}
           </h3>
         </div>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-        <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <div style={{ minWidth: "700px" }}>
           <h4 style={{ fontSize: "24px", margin: 0 }}>Votes</h4>
-          <SearchFilter
-            setSearch={setSearch}
-            checked={checkboxStates}
-            setCheckedStates={setCheckboxStates}
-          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <SearchFilter
+              setSearch={setSearch}
+              checked={checkboxStates}
+              setCheckedStates={setCheckboxStates}
+            />
+            <ExportAsCSV votes={data.votes} exportName={data.meetingName} />
+          </div>
           <InvestorTable
             votes={searchVotes}
             totalBonds={data.totalBonds}

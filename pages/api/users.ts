@@ -21,7 +21,7 @@ export default async function handler(
       const createdUser = new User(req.body);
       await createdUser.save();
 
-      if(req.body.company){
+      if (req.body.company) {
         await Company.findByIdAndUpdate(
           { _id: req.body.company },
           { $push: { bondHolders: createdUser } }
@@ -34,11 +34,15 @@ export default async function handler(
       res.status(200).json(users);
       break;
     case "PUT":
-      const user = await User.findByIdAndUpdate({_id: req.body.id}, req.body);
+      const user = await User.findByIdAndUpdate({ _id: req.body.id }, req.body);
       res.status(200).json(user);
       break;
     case "DELETE":
-      const deleteUser = await User.findByIdAndDelete({_id: req.body.id});
+      const deleteUser = await User.findByIdAndDelete({ _id: req.body.id });
+      await Company.findOneAndUpdate(
+        { bondHolders: req.body.id },
+        { $pull: { bondHolders: req.body.id } }
+      );
       res.status(200).json(deleteUser);
       break;
     default:

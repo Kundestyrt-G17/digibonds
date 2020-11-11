@@ -2,7 +2,6 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import useSWR from "swr";
 import {
   Button,
-  CircularProgress,
   FormControl,
   InputBase,
   InputLabel,
@@ -20,6 +19,7 @@ import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { PoHStatusType } from "@/utils/types";
 import { IMeeting } from "@/schemas/meeting";
 import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
+import Loading from "@/components/Loading";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -83,10 +83,10 @@ export default function Vote() {
   }, [vote]);
 
   if (voteError) return <div>Failed to Load</div>;
-  if (!vote) return <CircularProgress />;
+  if (!vote) return <Loading />;
 
   if (meetingError) return <div>Failed to Load</div>;
-  if (!meeting) return <CircularProgress />;
+  if (!meeting) return <Loading />;
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -120,9 +120,7 @@ export default function Vote() {
       </h2>
       <div style={{ display: "flex" }}>
         <h3 style={{ fontSize: "36px", margin: 0 }}>{meeting.meetingName}</h3>
-        <p
-          style={{ marginLeft: "50px" }}
-        >{`${date.getDay()}.${date.getDate()}.${date.getFullYear()}`}</p>
+        <p style={{ marginLeft: "50px" }}>{date.toLocaleDateString("no-NO")}</p>
       </div>
       <h4 style={{ fontSize: "60px", margin: "0px" }}>{vote?.company.name}</h4>
       <div style={{ display: "flex" }}>
@@ -155,6 +153,7 @@ export default function Vote() {
             type="number"
             variant="outlined"
             onChange={(e) => setBondsOwned(Number(e.target.value))}
+            disabled={vote.favor !== "Not voted"}
           />
           <FormControl margin="normal">
             <InputLabel> Status from Nordic Trustee</InputLabel>
@@ -211,7 +210,7 @@ export default function Vote() {
             color="primary"
             variant="outlined"
           >
-            Send Email
+            Send To Trustee
           </Button>
         </div>
       </div>

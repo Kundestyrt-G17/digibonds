@@ -17,6 +17,7 @@ import { IUser } from "@/schemas/user";
 import { UserInterface } from "@/components/Admin/Brokers";
 import CompanyModalContent from "@/components/Admin/CompanyModalContent";
 import AddIcon from "@material-ui/icons/Add";
+import Loading from "@/components/Loading";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -29,7 +30,10 @@ export interface CompanyInterface {
 export default function Company(props: { brokers: IUser[] }) {
   const { brokers } = props;
 
-  const { data, error, mutate } = useSWR<ICompany[]>("/api/companies", fetcher);
+  const { data: companies, error, mutate } = useSWR<ICompany[]>(
+    "/api/companies",
+    fetcher
+  );
 
   const [showingBondholder, setShowingBondholder] = useState<boolean>(false);
   const [showingCompanyModal, setShowingCompanyModal] = useState<boolean>(
@@ -46,7 +50,11 @@ export default function Company(props: { brokers: IUser[] }) {
   const [editingBondholder, setEditingBondholder] = useState<boolean>(false);
 
   if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!companies) return <Loading />;
+
+  const data = companies.sort((companyA, companyB) =>
+    companyA.name.localeCompare(companyB.name)
+  );
 
   function closeBondholder() {
     setShowingBondholder(false);
@@ -64,9 +72,10 @@ export default function Company(props: { brokers: IUser[] }) {
     mutate();
   }
 
-  function edit(data) {
+  function edit(data, company) {
     setShowingBondholder(true);
     setEditingBondholder(true);
+    setCompany(company);
     const chosenBondholder: UserInterface = {
       name: data.name,
       _id: data._id,
@@ -91,7 +100,7 @@ export default function Company(props: { brokers: IUser[] }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <h2>Companies</h2>
+      <h2>Bondholders</h2>
       <Button
         startIcon={<AddIcon />}
         variant="contained"
@@ -100,9 +109,9 @@ export default function Company(props: { brokers: IUser[] }) {
           setCompany(undefined);
           setShowingCompanyModal(true);
         }}
-        style={{ alignSelf: "flex-end", width: "20%", marginBottom: "15px" }}
+        style={{ alignSelf: "flex-end", width: "25%", marginBottom: "15px" }}
       >
-        New Company
+        New bondholder
       </Button>
 
       {data.map((companyElement) => {
@@ -156,62 +165,60 @@ export default function Company(props: { brokers: IUser[] }) {
                         setShowingBondholder(true);
                       }}
                     >
-                      New bondholder
+                      New Contact Person
                     </Button>
                   </div>
                   <UserTable
                     isBondholderTable={true}
                     users={companyElement.bondHolders}
-                    handleDelete={handleDelete}
-                    edit={edit}
+                    handleDeleteBondholder={handleDelete}
+                    editBondholder={edit}
+                    company={companyElement}
                   />
                 </div>
               </AccordionDetails>
             </Accordion>
-            <Dialog
-              open={showingCompanyModal}
-              onClose={() => closeCompanyModal()}
-            >
-              {deletingCompany ? (
-                <DeleteModalContent
-                  title="company"
-                  close={closeCompanyModal}
-                  company={company}
-                />
-              ) : (
-                <CompanyModalContent
-                  title={!editingCompany ? "Add new company" : "Edit company"}
-                  setShowing={setShowingCompanyModal}
-                  close={closeCompanyModal}
-                  company={company}
-                />
-              )}
-            </Dialog>
-            <Dialog open={showingBondholder} onClose={() => closeBondholder()}>
-              {deletingBondholder ? (
-                <DeleteModalContent
-                  title="bondholder"
-                  close={closeBondholder}
-                  user={bondholder}
-                />
-              ) : (
-                <UserModalContent
-                  title={
-                    !editingBondholder
-                      ? "Add new bondholder"
-                      : "Edit bondholder"
-                  }
-                  isBroker={false}
-                  brokers={brokers}
-                  user={bondholder}
-                  close={closeBondholder}
-                  company={companyElement}
-                />
-              )}
-            </Dialog>
           </div>
         );
       })}
+      <Dialog open={showingCompanyModal} onClose={() => closeCompanyModal()}>
+        {deletingCompany ? (
+          <DeleteModalContent
+            title="company"
+            close={closeCompanyModal}
+            company={company}
+          />
+        ) : (
+          <CompanyModalContent
+            title={!editingCompany ? "Add new company" : "Edit company"}
+            setShowing={setShowingCompanyModal}
+            close={closeCompanyModal}
+            company={company}
+          />
+        )}
+      </Dialog>
+      <Dialog open={showingBondholder} onClose={() => closeBondholder()}>
+        {deletingBondholder ? (
+          <DeleteModalContent
+            title="bondholder"
+            close={closeBondholder}
+            user={bondholder}
+          />
+        ) : (
+          <UserModalContent
+            title={
+              !editingBondholder
+                ? `Add new contact person to ${company?.name}`
+                : `Edit contact person in ${company?.name}`
+            }
+            isBroker={false}
+            brokers={brokers}
+            user={bondholder}
+            close={closeBondholder}
+            company={company}
+          />
+        )}
+      </Dialog>
     </div>
   );
 }

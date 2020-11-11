@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import { IVote } from "@/schemas/vote";
 import { IMeeting } from "@/schemas/meeting";
-import { CircularProgress } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { withIronSession } from "next-iron-session";
+import Loading from "@/components/Loading";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -36,10 +36,10 @@ const AlreadyVotedSummary = ({ user }) => {
   );
 
   if (voteError) return <div>Failed to Load</div>;
-  if (!vote) return <CircularProgress />;
+  if (!vote) return <Loading />;
 
   if (meetingError) return <div>Failed to Load</div>;
-  if (!meeting) return <CircularProgress />;
+  if (!meeting) return <Loading />;
 
   return (
     <div>

@@ -41,7 +41,6 @@ export default function CompanyModalContent(props: CompanyModalContentProps) {
         </Button>
         <Button onClick={() => setShowing(false)}>Cancel</Button>
       </DialogActions>
-      )
     </>
   );
 

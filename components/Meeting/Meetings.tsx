@@ -36,7 +36,7 @@ const Meetings = (props: MeetingsProps) => {
         },
         {
           id: "votes",
-          Header: "Attendance %",
+          Header: "Attendance (%)",
           accessor: (d) =>
             `${(
               (d.votes
@@ -51,7 +51,7 @@ const Meetings = (props: MeetingsProps) => {
           Header: "Date",
           accessor: (data) => {
             const date = new Date(data.date);
-            return `${date.getDay()}.${date.getDate()}.${date.getFullYear()}`;
+            return date.toLocaleDateString("no-NO");
           },
         },
       ],
@@ -87,7 +87,7 @@ const Meetings = (props: MeetingsProps) => {
           Header: "Date",
           accessor: (data) => {
             const date = new Date(data.date);
-            return `${date.getDay()}.${date.getDate()}.${date.getFullYear()}`;
+            return date.toLocaleDateString("no-NO");
           },
         },
       ],

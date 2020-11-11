@@ -17,6 +17,7 @@
     "@types/mongoose": "^5.7.36",
     "@types/react-table": "^7.0.24",
     "classnames": "^2.2.6",
+    "json2csv": "^5.0.3",
     "material-ui-dropzone": "^3.5.0",
     "mongoose": "^5.10.11",
     "next": "10.0.0",

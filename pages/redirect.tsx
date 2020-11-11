@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import styles from "./redirect.module.css";
 import BallotForm from "../components/BallotForm/BallotForm";
 import { IVote } from "../schemas/vote";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import {
+  Stepper,
+  Step,
+  StepLabel,
+  Typography,
+  Button,
+  createStyles,
+  makeStyles,
+  Theme,
+} from "@material-ui/core";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { useRouter } from "next/router";
 import UploadPoH from "../components/UploadPoH/uploadPoH";
@@ -15,6 +19,7 @@ import Summary from "../components/Summary/summary";
 import Signature from "../components/Signature/Signature";
 import useSWR from "swr";
 import { withIronSession } from "next-iron-session";
+import Loading from "@/components/Loading";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -60,7 +65,7 @@ const BallotPage = ({ user }) => {
   }, [vote]);
 
   if (meetingError || voteError) return <div>failed to load</div>;
-  if (!meeting || !vote) return <div>loading...</div>;
+  if (!meeting || !vote) return <Loading />;
 
   const handleBack = (step: number) => {
     step === 0

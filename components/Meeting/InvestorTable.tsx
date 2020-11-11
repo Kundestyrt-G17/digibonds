@@ -19,12 +19,18 @@ export default function InvestorTable(props: InvestorTableProps) {
   const columns = useMemo(
     () => [
       {
-        Header: "Company",
+        Header: "Bondholder",
         accessor: "company.name",
       },
       {
+        id: "bondsOwned",
         Header: "Amount (NOK)",
-        accessor: "bondsOwned",
+        accessor: (d) =>
+          Number(d.bondsOwned).toLocaleString(
+            undefined, // leave undefined to use the browser's locale,
+            // or use a string like 'en-US' to override it.
+            { minimumFractionDigits: 2 }
+          ),
       },
       {
         id: "percentage",

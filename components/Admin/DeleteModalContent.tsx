@@ -37,7 +37,6 @@ export default function DeleteModalContent(props: ModalProps) {
         </Button>
         <Button onClick={close}>Cancel</Button>
       </DialogActions>
-      )
     </>
   );
 
