@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import Button from '@material-ui/core/Button';
 import { IVote } from '../../schemas/vote';
 
