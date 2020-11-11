@@ -8,7 +8,6 @@ import {
   StepLabel,
   Typography,
   Button,
-  CircularProgress,
   createStyles,
   makeStyles,
   Theme,
@@ -19,6 +18,7 @@ import UploadPoH from "../components/UploadPoH/uploadPoH";
 import Summary from "../components/Summary/summary";
 import useSWR from "swr";
 import { withIronSession } from "next-iron-session";
+import Loading from "@/components/Loading";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -64,7 +64,7 @@ const BallotPage = ({ user }) => {
   }, [vote]);
 
   if (meetingError || voteError) return <div>failed to load</div>;
-  if (!meeting || !vote) return <CircularProgress />;
+  if (!meeting || !vote) return <Loading />;
 
   const handleBack = (step: number) => {
     step === 0

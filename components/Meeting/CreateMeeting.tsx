@@ -1,11 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import {
-  Button,
-  TextField,
-  IconButton,
-  CircularProgress,
-} from "@material-ui/core";
+import { Button, TextField, IconButton } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Delete } from "@material-ui/icons";
 import { DropzoneDialog } from "material-ui-dropzone";
@@ -13,6 +8,7 @@ import styles from "./CreateMeeting.module.css";
 import AddIcon from "@material-ui/icons/Add";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import Loading from "@/components/Loading";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -46,7 +42,7 @@ const CreateMeeting = () => {
     }
   );
   if (error) return <div>Failed to load</div>;
-  if (!companies) return <CircularProgress />;
+  if (!companies) return <Loading />;
 
   return (
     <div className={styles.createMeeting}>
