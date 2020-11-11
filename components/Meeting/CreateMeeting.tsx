@@ -89,7 +89,7 @@ const CreateMeeting = () => {
       >
         <TextField
           className={styles.createMeetingTextfield}
-          label="Company name"
+          label="Bondy Issuer (Company name)"
           variant="outlined"
           inputRef={register}
           autoFocus
@@ -189,7 +189,7 @@ const CreateMeeting = () => {
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label="Company name"
+                            label="Bondholder name"
                             variant="outlined"
                             required
                             margin="normal"
@@ -207,15 +207,15 @@ const CreateMeeting = () => {
                   as={
                     <TextField
                       style={{ width: "250px" }}
-                      label="Bonds owned"
+                      label="Bonds owned (NOK)"
                       variant="outlined"
                       required
                       margin="normal"
                       type="number"
+                      helperText="If unknown leave empty"
                     />
                   }
                   control={control}
-                  defaultValue={0}
                   name={`companies[${index}].bondsOwned`}
                 />
                 <IconButton
