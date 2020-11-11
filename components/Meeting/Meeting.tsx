@@ -70,7 +70,7 @@ const Meeting = () => {
               fontFamily: "Roboto Condensed",
             }}
           >
-            {`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`}
+            {date.toLocaleDateString("no-NO")}
           </h3>
         </div>
       </div>
