@@ -8,6 +8,7 @@ import { IMeeting } from "@/schemas/meeting";
 import SearchFilter from "@/components/Meeting/SearchFilter";
 import Statistics from "@/components/Meeting/Statistics";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ExportAsCSV from './ExportAsCSV';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -77,11 +78,14 @@ const Meeting = () => {
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
           <h4 style={{ fontSize: "24px", margin: 0 }}>Votes</h4>
-          <SearchFilter
-            setSearch={setSearch}
-            checked={checkboxStates}
-            setCheckedStates={setCheckboxStates}
-          />
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+            <SearchFilter
+              setSearch={setSearch}
+              checked={checkboxStates}
+              setCheckedStates={setCheckboxStates}
+            />
+            <ExportAsCSV votes={data.votes} exportName={data.meetingName} />
+          </div>
           <InvestorTable
             votes={searchVotes}
             totalBonds={data.totalBonds}
