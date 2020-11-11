@@ -29,7 +29,10 @@ export interface CompanyInterface {
 export default function Company(props: { brokers: IUser[] }) {
   const { brokers } = props;
 
-  const { data, error, mutate } = useSWR<ICompany[]>("/api/companies", fetcher);
+  const { data: companies, error, mutate } = useSWR<ICompany[]>(
+    "/api/companies",
+    fetcher
+  );
 
   const [showingBondholder, setShowingBondholder] = useState<boolean>(false);
   const [showingCompanyModal, setShowingCompanyModal] = useState<boolean>(
@@ -46,7 +49,11 @@ export default function Company(props: { brokers: IUser[] }) {
   const [editingBondholder, setEditingBondholder] = useState<boolean>(false);
 
   if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!companies) return <div>Loading...</div>;
+
+  const data = companies.sort((companyA, companyB) =>
+    companyA.name.localeCompare(companyB.name)
+  );
 
   function closeBondholder() {
     setShowingBondholder(false);
@@ -198,8 +205,8 @@ export default function Company(props: { brokers: IUser[] }) {
                 <UserModalContent
                   title={
                     !editingBondholder
-                      ? `Add new bondholder to ${company.name}`
-                      : `Edit bondholder in ${company.name}`
+                      ? `Add new bondholder to ${company?.name}`
+                      : `Edit bondholder in ${companyElement?.name}`
                   }
                   isBroker={false}
                   brokers={brokers}

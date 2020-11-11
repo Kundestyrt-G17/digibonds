@@ -18,6 +18,8 @@ export default function UserTable(props: BrokerTableProps) {
 
   let columns;
 
+  props.users.sort((userA, userB) => userA.name.localeCompare(userB.name));
+
   if (props.isBondholderTable) {
     columns = useMemo(
       () => [

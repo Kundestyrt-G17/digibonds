@@ -32,7 +32,6 @@ export default function admin() {
       >
         <h1>Admin</h1>
         <div className={styles.tabs}>
-          {console.log(showingCompanies)}
           <button
             className={cx(
               styles.tabButton,
