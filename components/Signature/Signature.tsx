@@ -50,11 +50,11 @@ const Signature = (props: SignatureProps) => {
     console.log(documentOptions);
 
     if (!urlReady) {
-        ApiFetchTest().finally()
+        uploadBallotAndGetSigningUrl().finally()
         return <div>Loading...</div>;
     }
 
-    async function ApiFetchTest(){
+    async function uploadBallotAndGetSigningUrl(){
         const response = await fetch("api/signature", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
