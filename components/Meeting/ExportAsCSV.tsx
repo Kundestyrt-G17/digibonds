@@ -5,7 +5,7 @@ import { IVote } from '../../schemas/vote';
 const { Parser, transforms: { flatten } } = require('json2csv');
 interface ExportResultProps {
     votes: IVote[];
-    exportName: String;
+    exportName: string;
 }
 
 export default function ExportAsCSV(props: ExportResultProps) {
