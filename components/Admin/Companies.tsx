@@ -6,6 +6,7 @@ import {
   Button,
   Dialog,
   Typography,
+  CircularProgress,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { ICompany } from "@/schemas/company";
@@ -49,7 +50,7 @@ export default function Company(props: { brokers: IUser[] }) {
   const [editingBondholder, setEditingBondholder] = useState<boolean>(false);
 
   if (error) return <div>Failed to load</div>;
-  if (!companies) return <div>Loading...</div>;
+  if (!companies) return <CircularProgress />;
 
   const data = companies.sort((companyA, companyB) =>
     companyA.name.localeCompare(companyB.name)

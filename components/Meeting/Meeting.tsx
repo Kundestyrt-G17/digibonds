@@ -3,7 +3,7 @@ import InvestorTable from "@/components/Meeting/InvestorTable";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import styles from "./Meetings.module.css";
-import { Button } from "@material-ui/core";
+import { Button, CircularProgress } from "@material-ui/core";
 import { IMeeting } from "@/schemas/meeting";
 import SearchFilter from "@/components/Meeting/SearchFilter";
 import Statistics from "@/components/Meeting/Statistics";
@@ -24,7 +24,7 @@ const Meeting = () => {
   });
 
   if (error) return <div>Failed to Load</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <CircularProgress />;
 
   const filterVotes = data.votes.filter((vote) => {
     if (checkboxStates.poh) {

@@ -3,6 +3,7 @@ import Companies from "@/components/Admin/Companies";
 import Brokers from "@/components/Admin/Brokers";
 import cx from "classnames";
 import useSWR from "swr";
+import { CircularProgress } from "@material-ui/core";
 
 import styles from "./admin.module.css";
 import { withIronSession } from "next-iron-session";
@@ -15,7 +16,7 @@ export default function admin() {
   const { data, error, mutate } = useSWR("/api/users", fetcher);
 
   if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <CircularProgress />;
 
   const brokers = data.filter((user) => {
     return user.isBroker;

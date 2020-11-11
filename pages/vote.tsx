@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@material-ui/core";
+import { Button, CircularProgress } from "@material-ui/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "./vote.module.css";
@@ -24,7 +24,7 @@ const VotesRoute = ({ user }) => {
   );
 
   if (meetingError || voteError) return <div>failed to load</div>;
-  if (!meeting || !vote) return <div>loading...</div>;
+  if (!meeting || !vote) return <CircularProgress />;
 
   //   const signicatRedirect = () => {
   //     window.location.href =
