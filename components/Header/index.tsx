@@ -16,8 +16,6 @@ const Header = (props: Props) => {
 
   const activeAdmin = router.asPath.includes("admin");
 
-  console.log(activeAdmin);
-
   const logOut = async () =>
     await fetch("/api/authenticate", {
       method: "DELETE",

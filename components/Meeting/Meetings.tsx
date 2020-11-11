@@ -51,7 +51,7 @@ const Meetings = (props: MeetingsProps) => {
           Header: "Date",
           accessor: (data) => {
             const date = new Date(data.date);
-            return `${date.getDay()}.${date.getDate()}.${date.getFullYear()}`;
+            return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
           },
         },
       ],
@@ -87,7 +87,7 @@ const Meetings = (props: MeetingsProps) => {
           Header: "Date",
           accessor: (data) => {
             const date = new Date(data.date);
-            return `${date.getDay()}.${date.getDate()}.${date.getFullYear()}`;
+            return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
           },
         },
       ],

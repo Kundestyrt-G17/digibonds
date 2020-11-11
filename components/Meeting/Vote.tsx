@@ -122,7 +122,7 @@ export default function Vote() {
         <h3 style={{ fontSize: "36px", margin: 0 }}>{meeting.meetingName}</h3>
         <p
           style={{ marginLeft: "50px" }}
-        >{`${date.getDay()}.${date.getDate()}.${date.getFullYear()}`}</p>
+        >{`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`}</p>
       </div>
       <h4 style={{ fontSize: "60px", margin: "0px" }}>{vote?.company.name}</h4>
       <div style={{ display: "flex" }}>

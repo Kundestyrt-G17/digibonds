@@ -70,11 +70,12 @@ export default function Statistics(props: StatisticsProps) {
             display: "flex",
             justifyContent: "space-between",
             marginBottom: "12px",
+            alignContent: "end",
           }}
         >
           <h5 style={{ fontSize: "24px", margin: "0" }}>Attendance</h5>
           <p style={{ margin: 0, fontFamily: "Roboto Condensed" }}>
-            Total {totalBonds.toPrecision(5)}
+            Total {totalBonds} NOK
           </p>
         </div>
         <AttendanceBar attendance={attendance} />

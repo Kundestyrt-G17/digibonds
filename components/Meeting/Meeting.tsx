@@ -7,6 +7,7 @@ import { Button } from "@material-ui/core";
 import { IMeeting } from "@/schemas/meeting";
 import SearchFilter from "@/components/Meeting/SearchFilter";
 import Statistics from "@/components/Meeting/Statistics";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -46,7 +47,10 @@ const Meeting = () => {
 
   return (
     <div>
-      <Button href={"/"}>Back</Button>
+      <Button href={"/"}>
+        <ArrowBackIosIcon />
+        Back
+      </Button>
       {error && (
         <p className={styles.errorMessage}>
           An error has occurred. Please contact the IT department.{" "}
@@ -66,7 +70,7 @@ const Meeting = () => {
               fontFamily: "Roboto Condensed",
             }}
           >
-            {`${date.getDay()}.${date.getDate()}.${date.getFullYear()}`}
+            {`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`}
           </h3>
         </div>
       </div>

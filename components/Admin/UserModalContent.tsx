@@ -108,8 +108,6 @@ export default function UserModalContent(props: ModalProps) {
 
     if (user) {
       const id = user._id;
-
-      console.log(company);
       const response = await fetch(`/api/users`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

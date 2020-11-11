@@ -198,14 +198,14 @@ export default function Company(props: { brokers: IUser[] }) {
                 <UserModalContent
                   title={
                     !editingBondholder
-                      ? "Add new bondholder"
-                      : "Edit bondholder"
+                      ? `Add new bondholder to ${company.name}`
+                      : `Edit bondholder in ${company.name}`
                   }
                   isBroker={false}
                   brokers={brokers}
                   user={bondholder}
                   close={closeBondholder}
-                  company={companyElement}
+                  company={company ? company : companyElement}
                 />
               )}
             </Dialog>
