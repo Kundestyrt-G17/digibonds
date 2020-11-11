@@ -206,8 +206,8 @@ export default function Company(props: { brokers: IUser[] }) {
           <UserModalContent
             title={
               !editingBondholder
-                ? `Add new bondholder to ${company?.name}`
-                : `Edit bondholder in ${company?.name}`
+                ? `Add new contact person to ${company?.name}`
+                : `Edit contact person in ${company?.name}`
             }
             isBroker={false}
             brokers={brokers}

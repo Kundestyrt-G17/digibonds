@@ -38,18 +38,27 @@ export default function UserModalContent(props: ModalProps) {
     <>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <TextField inputRef={register} name="name" label="Full name" required />
+        <TextField
+          inputRef={register}
+          name="name"
+          label="Full name"
+          required
+          margin="normal"
+          style={{ marginRight: "10px" }}
+        />
         <TextField
           inputRef={register}
           type="email"
           name="email"
           label="Email"
           required
+          margin="normal"
         />
         <TextField
           inputRef={register}
           name="phone"
           label="Phone number"
+          margin="normal"
           required
         />
         {!isBroker && (
@@ -67,9 +76,13 @@ export default function UserModalContent(props: ModalProps) {
                   getOptionSelected={(user, value) => {
                     return user._id === value._id;
                   }}
-                  style={{ width: 300 }}
+                  style={{ width: 200 }}
                   renderInput={(params) => (
-                    <TextField {...params} label="Broker name" />
+                    <TextField
+                      {...params}
+                      label="Broker name"
+                      margin="normal"
+                    />
                   )}
                 />
               );
@@ -94,7 +107,6 @@ export default function UserModalContent(props: ModalProps) {
         </Button>
         <Button onClick={close}>Cancel</Button>
       </DialogActions>
-      )
     </>
   );
 
