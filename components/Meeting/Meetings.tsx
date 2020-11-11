@@ -36,7 +36,7 @@ const Meetings = (props: MeetingsProps) => {
         },
         {
           id: "votes",
-          Header: "Attendance %",
+          Header: "Attendance (%)",
           accessor: (d) =>
             `${(
               (d.votes

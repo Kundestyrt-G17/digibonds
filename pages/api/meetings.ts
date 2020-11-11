@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Meeting } from "../../schemas/meeting";
+import { IMeeting, Meeting } from "../../schemas/meeting";
 import { Vote } from "../../schemas/vote";
 import { url } from "../../utils/connection";
 
@@ -30,7 +30,10 @@ export default async function handler(
       res.status(200).json(createdMeeting);
       break;
     case "GET":
-      const meetings = await Meeting.find({}).populate("votes");
+      const meetings: IMeeting[] = await Meeting.find({}).populate("votes");
+      meetings.sort((a, b) => {
+        return a.date.valueOf() - b.date.valueOf();
+      });
       res.status(200).json(meetings);
       break;
     default:
