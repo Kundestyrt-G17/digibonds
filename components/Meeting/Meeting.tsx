@@ -74,7 +74,7 @@ const Meeting = () => {
           </h3>
         </div>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
           <h4 style={{ fontSize: "24px", margin: 0 }}>Votes</h4>
           <SearchFilter

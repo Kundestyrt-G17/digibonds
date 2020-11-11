@@ -153,6 +153,7 @@ export default function Vote() {
             type="number"
             variant="outlined"
             onChange={(e) => setBondsOwned(Number(e.target.value))}
+            disabled={vote.favor !== "Not voted"}
           />
           <FormControl margin="normal">
             <InputLabel> Status from Nordic Trustee</InputLabel>
@@ -209,7 +210,7 @@ export default function Vote() {
             color="primary"
             variant="outlined"
           >
-            Send Email
+            Send To Trustee
           </Button>
         </div>
       </div>

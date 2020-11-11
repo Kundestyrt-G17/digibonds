@@ -24,7 +24,7 @@ export default function UserTable(props: BrokerTableProps) {
     columns = useMemo(
       () => [
         {
-          Header: "Bondholder Name",
+          Header: "Contact Person Name",
           accessor: "name",
         },
         {

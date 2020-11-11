@@ -40,7 +40,7 @@ export default function admin() {
             )}
             onClick={() => setShowingCompanies(true)}
           >
-            Companies
+            Bondholders
           </button>
           <button
             className={cx(
