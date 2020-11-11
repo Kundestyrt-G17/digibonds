@@ -72,12 +72,12 @@ const AlreadyVoted = ({ user }) => {
               onChange={handleChange}
             >
               <FormControlLabel
-                value="Favor"
+                value="In favor"
                 control={<Radio color="primary" />}
                 label="I voted in favor of the proposed resolution"
               />
               <FormControlLabel
-                value="Disfavor"
+                value="In disfavor"
                 control={<Radio color="primary" />}
                 label="I voted in disfavor of the proposed resolution"
               />
