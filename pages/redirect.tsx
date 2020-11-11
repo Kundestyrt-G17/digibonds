@@ -127,6 +127,7 @@ const BallotPage = ({ user }) => {
             <Signature
               isin={meeting.isin}
               ballot={ballot}
+              submitVote={submitVote}
             />
           </>
         );
