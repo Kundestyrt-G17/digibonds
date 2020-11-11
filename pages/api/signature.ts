@@ -12,7 +12,8 @@ export default async function handler(
             const documentUpload = await client.signature.createDocument(req.body).then(results => {
                 return results.signers[0].url;
             });
-            res.status(200).json(documentUpload);
+            res.status(200).json(JSON.stringify(documentUpload));
+
             break;
         default:
             res.setHeader("Allow", ["POST"]);

@@ -215,7 +215,7 @@ const Summary = (props: SummaryProps) => {
                 setActiveStep(3);
               }}
             >
-              Go to signing
+              Continue
             </Button>
           </div>
         </>

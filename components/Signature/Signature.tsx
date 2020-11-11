@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {IVote} from "@/schemas/vote";
+import {Button} from "@material-ui/core";
 // const { IdfyClient } = require('@idfy/sdk');
 
 interface SignatureProps {
@@ -19,7 +20,7 @@ let documentOptions = {
             },
         }
     ],
-    title: "Upload test 6",
+    title: "Upload test 9",
     description: "Upload of document using the idfy SDK",
     externalId: "ae7b9ca7-3839-4e0d-a070-9f14bffbbf55",
     dataToSign: {
@@ -43,25 +44,39 @@ async function uploadBallot() {
     console.log(documentUpload);
 }
 */
-async function ApiFetchTest(){
-    const response = await fetch("api/signature", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(documentOptions)
-    })
-    if (response.ok){
-        console.log("success");
-    }
-}
+let signicatUrl = "https://www.vg.no";
 
 const Signature = (props: SignatureProps) => {
     const { isin, ballot } = props;
+    const [urlReady, setUrlReady] = useState(false);
 
-    ApiFetchTest();
+    if (!urlReady) {
+        ApiFetchTest().finally()
+        return <div>Loading...</div>;
+    }
+
+    async function ApiFetchTest(){
+        const response = await fetch("api/signature", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(documentOptions)
+        }).then(res => res.json()).then((data) => {
+            signicatUrl = data;
+            setUrlReady(true);
+        });
+
+    }
 
     return (
         <div>
-
+            <Button
+                color={"primary"}
+                onClick={() => {
+                    window.open(signicatUrl, "_blank");
+                }}
+            >
+                Click here to start signing
+            </Button>
         </div>
     )
 }
