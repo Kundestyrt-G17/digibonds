@@ -1,11 +1,12 @@
 import React from "react";
-import { Button, CircularProgress } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "./vote.module.css";
 import useSWR from "swr";
 import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
 import { withIronSession } from "next-iron-session";
+import Loading from "@/components/Loading";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -24,7 +25,7 @@ const VotesRoute = ({ user }) => {
   );
 
   if (meetingError || voteError) return <div>failed to load</div>;
-  if (!meeting || !vote) return <CircularProgress />;
+  if (!meeting || !vote) return <Loading />;
 
   //   const signicatRedirect = () => {
   //     window.location.href =

@@ -2,7 +2,6 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import useSWR from "swr";
 import {
   Button,
-  CircularProgress,
   FormControl,
   InputBase,
   InputLabel,
@@ -20,6 +19,7 @@ import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { PoHStatusType } from "@/utils/types";
 import { IMeeting } from "@/schemas/meeting";
 import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
+import Loading from "@/components/Loading";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -83,10 +83,10 @@ export default function Vote() {
   }, [vote]);
 
   if (voteError) return <div>Failed to Load</div>;
-  if (!vote) return <CircularProgress />;
+  if (!vote) return <Loading />;
 
   if (meetingError) return <div>Failed to Load</div>;
-  if (!meeting) return <CircularProgress />;
+  if (!meeting) return <Loading />;
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);

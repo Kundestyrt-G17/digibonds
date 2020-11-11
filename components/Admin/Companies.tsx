@@ -6,7 +6,6 @@ import {
   Button,
   Dialog,
   Typography,
-  CircularProgress,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { ICompany } from "@/schemas/company";
@@ -18,6 +17,7 @@ import { IUser } from "@/schemas/user";
 import { UserInterface } from "@/components/Admin/Brokers";
 import CompanyModalContent from "@/components/Admin/CompanyModalContent";
 import AddIcon from "@material-ui/icons/Add";
+import Loading from "@/components/Loading";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -50,7 +50,7 @@ export default function Company(props: { brokers: IUser[] }) {
   const [editingBondholder, setEditingBondholder] = useState<boolean>(false);
 
   if (error) return <div>Failed to load</div>;
-  if (!companies) return <CircularProgress />;
+  if (!companies) return <Loading />;
 
   const data = companies.sort((companyA, companyB) =>
     companyA.name.localeCompare(companyB.name)
