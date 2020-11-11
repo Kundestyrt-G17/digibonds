@@ -114,9 +114,10 @@ export default function SearchFilter(props: SearchFilterProps) {
               backgroundColor: "#F1F4FF",
               zIndex: 10,
               position: "absolute",
-              top: "-102px",
+              top: "-80px",
               left: "270px",
               padding: "10px",
+              width: "200px",
             }}
           >
             <FormControl component="fieldset">

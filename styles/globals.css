@@ -37,7 +37,7 @@ th, tr {
 }
 
 .meetingsContainer {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: auto;
   display: flex;
   flex-direction: column;
