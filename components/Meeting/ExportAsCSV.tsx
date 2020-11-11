@@ -9,7 +9,6 @@ interface ExportResultProps {
 }
 
 export default function ExportAsCSV(props: ExportResultProps) {
-    const anchorRef = useRef<HTMLDivElement>(null);
     const votes = [...props.votes];
     const fields = ['company.name', 'bondsOwned', 'pohStatus', 'favor'];
     const options = { fields };
@@ -17,7 +16,6 @@ export default function ExportAsCSV(props: ExportResultProps) {
     let csv = null;
   
     const handleClick = () => {
-        console.info(votes)
         try {
             csv = csvParser.parse(votes);
             const element = document.createElement("a")
@@ -40,5 +38,5 @@ export default function ExportAsCSV(props: ExportResultProps) {
             Export Results
         </Button>
     );
-};
+}
   
