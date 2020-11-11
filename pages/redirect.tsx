@@ -12,6 +12,7 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { useRouter } from "next/router";
 import UploadPoH from "../components/UploadPoH/uploadPoH";
 import Summary from "../components/Summary/summary";
+import Signature from "../components/Signature/Signature";
 import useSWR from "swr";
 import { withIronSession } from "next-iron-session";
 
@@ -110,6 +111,7 @@ const BallotPage = ({ user }) => {
           <>
             <h1 style={{ textAlign: "center" }}>{getSteps()[2]}</h1>
             <Summary
+              setActiveStep={setActiveStep}
               isin={meeting.isin}
               ballot={ballot}
               submitVote={submitVote}
@@ -117,6 +119,18 @@ const BallotPage = ({ user }) => {
             />
           </>
         );
+
+      case 3:
+        return (
+          <>
+            <h1 style={{ textAlign: "center" }}>{getSteps()[3]}</h1>
+            <Signature
+              isin={meeting.isin}
+              ballot={ballot}
+            />
+          </>
+        );
+
 
       default:
         return "Unknown stepIndex";

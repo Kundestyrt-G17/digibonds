@@ -29,6 +29,7 @@ import {
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 interface SummaryProps {
+  setActiveStep: (index: number) => void;
   isin: string;
   ballot: IVote;
   submitVote?: (ballot: IVote) => void;
@@ -59,7 +60,7 @@ const MyDocument = (props: { ballot: IVote; isin: string }) => {
 };
 
 const Summary = (props: SummaryProps) => {
-  const { isin, ballot, submitVote, alreadyVoted } = props;
+  const { setActiveStep, isin, ballot, submitVote, alreadyVoted } = props;
   const [isChecked, setIsChecked] = useState(false);
   const [open, setOpen] = useState(false);
   const [summaryPDF, setSummaryPDF] = useState("");
@@ -85,7 +86,7 @@ const Summary = (props: SummaryProps) => {
       <RenderPage size="A4">
         <View style={pdfStyles.section}>
           <Text break>ISIN: {isin} </Text>
-          <Text break>Company: {ballot.company}</Text>
+          <Text break>Company: {ballot.company.name}</Text>
           <Text break>Amount of bonds owned: {ballot.bondsOwned}</Text>
           <Text>You voted: {ballot.favor}</Text>
         </View>
@@ -209,7 +210,10 @@ const Summary = (props: SummaryProps) => {
               variant="contained"
               color="primary"
               disabled={!isChecked}
-              onClick={() => submitVote(ballot)}
+              onClick={() => {
+                // submitVote(ballot);
+                setActiveStep(3);
+              }}
             >
               Go to signing
             </Button>
