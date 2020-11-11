@@ -26,10 +26,10 @@ export default function AttendanceBar(props: AttendanceBarProps) {
           fill={attendance > 0.666 ? "#347870" : "#21487D"}
         />
         <text
-          x={attendance * width - 40}
+          x={attendance * width - 30}
           y="40"
           fontFamily="Roboto Condensed"
-          fontSize="14px"
+          fontSize="12px"
           fill={"white"}
         >
           {attendance * 100}%
