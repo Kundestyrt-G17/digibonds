@@ -8,7 +8,7 @@ import { IMeeting } from "@/schemas/meeting";
 import SearchFilter from "@/components/Meeting/SearchFilter";
 import Statistics from "@/components/Meeting/Statistics";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import ExportAsCSV from './ExportAsCSV';
+import ExportAsCSV from "./ExportAsCSV";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -75,10 +75,21 @@ const Meeting = () => {
           </h3>
         </div>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <div style={{ minWidth: "700px" }}>
           <h4 style={{ fontSize: "24px", margin: 0 }}>Votes</h4>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <SearchFilter
               setSearch={setSearch}
               checked={checkboxStates}
