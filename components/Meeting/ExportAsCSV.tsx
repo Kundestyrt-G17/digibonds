@@ -1,39 +1,44 @@
 import React, { useRef } from "react";
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import { IVote } from '../../schemas/vote';
 
-export default function ExportAsCSV() {
+const { Parser, transforms: { flatten } } = require('json2csv');
+interface ExportResultProps {
+    votes: IVote[];
+    exportName: String;
+}
+
+export default function ExportAsCSV(props: ExportResultProps) {
     const anchorRef = useRef<HTMLDivElement>(null);
+    const votes = [...props.votes];
+    const fields = ['company.name', 'bondsOwned', 'pohStatus', 'favor'];
+    const options = { fields };
+    const csvParser = new Parser(options);
+    let csv = null;
   
     const handleClick = () => {
-      console.info(`You just clicked the button!`);
-    };
-
-    const handleToggle = () => {
-        console.info(`You just clicked the arrow. It does nothing yeaaaaah!`);
+        console.info(votes)
+        try {
+            csv = csvParser.parse(votes);
+            const element = document.createElement("a")
+            const downloadFile = new Blob([csv], {type: "text/csv;charset=UTF-8"});
+            element.href = URL.createObjectURL(downloadFile)
+            element.download = `Results ${props.exportName}.csv`
+            document.body.appendChild(element)  
+            element.click()
+        } catch (err) {
+            console.error(err);
+        }
     };
   
     return (
-      <Grid container direction="column" alignItems="center">
-        <Grid item xs={12}>
-          <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button">
-            <Button onClick={handleClick}>Export Results</Button>
-            <Button
-              color="primary"
-              size="small"
-              aria-controls={open ? 'split-button-menu' : undefined}
-              aria-expanded={open ? 'true' : undefined}
-              aria-label="Export Results"
-              aria-haspopup="menu"
-              onClick={handleToggle}
-            >
-              <ArrowDropDownIcon />
-            </Button>
-          </ButtonGroup>
-        </Grid>
-      </Grid>
+        <Button onClick={handleClick}
+        variant="contained"
+        color="primary"
+        style={{maxHeight: '36px', minHeight: '36px'}}
+        >
+            Export Results
+        </Button>
     );
 };
   
