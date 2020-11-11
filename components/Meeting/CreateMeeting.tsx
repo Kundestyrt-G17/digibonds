@@ -1,6 +1,11 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { Button, TextField, IconButton } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+  IconButton,
+  CircularProgress,
+} from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Delete } from "@material-ui/icons";
 import { DropzoneDialog } from "material-ui-dropzone";
@@ -41,7 +46,7 @@ const CreateMeeting = () => {
     }
   );
   if (error) return <div>Failed to load</div>;
-  if (!companies) return <div>Loading...</div>;
+  if (!companies) return <CircularProgress />;
 
   return (
     <div className={styles.createMeeting}>
