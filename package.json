@@ -8,9 +8,11 @@
     "start": "next start"
   },
   "dependencies": {
+    "@idfy/sdk": "^1.0.0-beta.3",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
+    "@react-pdf/renderer": "^1.6.12",
     "@types/classnames": "^2.2.10",
     "@types/mongoose": "^5.7.36",
     "@types/react-table": "^7.0.24",
@@ -21,6 +23,7 @@
     "next": "10.0.0",
     "next-iron-session": "^4.1.9",
     "performance-now": "^2.1.0",
+    "package": "^1.0.1",
     "prettier": "^2.1.2",
     "react": "17.0.1",
     "react-charts": "^2.0.0-beta.7",
