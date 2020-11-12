@@ -41,7 +41,7 @@ const Header = (props: Props) => {
           {user?.isBroker ? "Broker: " : ""}
           {user?.name}
           <Button variant="contained" color="primary" onClick={() => logOut()}>
-            Logout
+            Sign out
           </Button>
         </div>
       )}
