@@ -7,6 +7,7 @@ import useSWR from "swr";
 import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
 import { withIronSession } from "next-iron-session";
 import Loading from "@/components/Loading";
+import dateOptions from "@/utils/date";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -32,6 +33,7 @@ const VotesRoute = ({ user }) => {
   //       "https://login-test.signicat.io/connect/authorize?response_type=code&scope=openid+profile&client_id=ta3c5289814a3422b961cd596e4980e4c&redirect_uri=http://localhost:5000/redirect&state=123";
   //   };
   //
+  const date = new Date(meeting.date);
 
   return (
     <>
@@ -43,18 +45,14 @@ const VotesRoute = ({ user }) => {
           <h3>SUMMONS TO BONDHOLDERS' MEETING</h3>
           Nordic Trustee AS acts as bond trustee (the "Bond Trustee") for the
           holders of bonds (the "Bonds") in the above-mentioned bond issues
-          (each a "Bond Issue" and together the "Bond Issues") issued by
-          Norwegian Air Shuttle ASA (the "Issuer" or the "Company").
+          (each a "Bond Issue" and together the "Bond Issues") issued by{" "}
+          {meeting.meetingName} (the "Issuer" or the "Company").
           <br />
           Unless otherwise stated herein, all capitalised terms used herein
-          shall have the meaning ascribed to them in (i) the bond terms for
-          NAS07 dated 9 December 2015 (as later amended and restated), (ii) the
-          bond terms for NAS09 dated 7 February 2017 (as later amended and
-          restated), (iii) the bond terms for NAS09 dated 16 November 2017 and
-          (iv) the bond terms for the CB dated 13 November 2019, each of which
-          are entered into between the Bond Trustee and the Issuer (the "Bond
-          Terms"). References to clauses and paragraphs are references to
-          clauses and paragraphs of the relevant Bond Terms.
+          shall have the meaning ascribed to them in the bond terms for{" "}
+          {meeting.isin} dated {date.toLocaleDateString("en-UK", dateOptions)}{" "}
+          (as later amended and restated). References to clauses and paragraphs
+          are references to clauses and paragraphs of the relevant Bond Terms.
         </div>
         <Button
           startIcon={<PictureAsPdfIcon />}
