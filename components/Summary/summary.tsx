@@ -29,7 +29,7 @@ import {
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 interface SummaryProps {
-  setActiveStep: (index: number) => void;
+  setActiveStep?: (index: number) => void;
   isin: string;
   ballot: IVote;
   submitVote?: (ballot: IVote) => void;
@@ -54,11 +54,6 @@ const pdfStyles = StyleSheet.create({
   },
 });
 
-const MyDocument = (props: { ballot: IVote; isin: string }) => {
-  const { isin, ballot } = props;
-  return;
-};
-
 const Summary = (props: SummaryProps) => {
   const { setActiveStep, isin, ballot, submitVote, alreadyVoted } = props;
   const [isChecked, setIsChecked] = useState(false);
@@ -81,43 +76,12 @@ const Summary = (props: SummaryProps) => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
-  const MyDocument = (
-    <RenderDocument>
-      <RenderPage size="A4">
-        <View style={pdfStyles.section}>
-          <Text break>ISIN: {isin} </Text>
-          <Text break>Company: {ballot.company.name}</Text>
-          <Text break>Amount of bonds owned: {ballot.bondsOwned}</Text>
-          <Text>You voted: {ballot.favor}</Text>
-        </View>
-      </RenderPage>
-    </RenderDocument>
-  );
-
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
 
   return (
     <div className={styles.summaryContainer}>
-      <BlobProvider document={MyDocument}>
-        {({ blob, url, loading, error }) => {
-          //Do whatever you need with blob here
-          if (loading) {
-            return <div>Loading</div>;
-          }
-          const reader = new FileReader();
-          reader.readAsDataURL(blob);
-          reader.addEventListener(
-            "load",
-            () => {
-              setSummaryPDF(reader.result as string);
-            },
-            false
-          );
-          return <div></div>;
-        }}
-      </BlobProvider>
       <table className={styles.summaryTable}>
         <thead className={styles.summaryColumn}>
           <tr>
