@@ -24,6 +24,11 @@ export default function LoginForm() {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
 
+  const signicatRedirect = () => {
+    window.location.href =
+     "https://login-test.signicat.io/connect/authorize?response_type=code&scope=openid+profile&client_id=ta3c5289814a3422b961cd596e4980e4c&redirect_uri=http://localhost:5000&state=123";
+  };
+
   return (
     <div className={style.loginForm}>
       <h2 className={style.loginFormTitle}>Sign in</h2>
@@ -32,18 +37,30 @@ export default function LoginForm() {
           setError("");
           const email = data.email;
           const password = data.password;
+          let isBroker;
 
-          const response = await fetch("/api/authenticate", {
+          await fetch("/api/authenticate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
-          });
+          }).then(function(response){
+              if (!response.ok) {
+                  setError("Wrong username or password");
+                  // return router.push("/");
+              } else {
+                  // return router.push("/");
+                  return response.json();
+              }
+          }).then((data => {
+              if (!error){
+                  if (!data) {
+                      signicatRedirect();
+                  } else {
+                      router.push("/");
+                  }
+              }
 
-          if (response.ok) {
-            return router.push("/");
-          } else {
-            setError("Wrong username or password");
-          }
+          }));
         })}
       >
         <TextField

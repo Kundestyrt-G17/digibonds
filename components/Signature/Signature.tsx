@@ -20,7 +20,7 @@ const Signature = (props: SignatureProps) => {
     ballot.company.name.toUpperCase() +
     " with a holding of " +
     ballot.bondsOwned +
-    ", are voting " +
+    " NOK, are voting " +
     ballot.favor.toUpperCase() +
     " on the proposals concerning ISIN " +
     isin +
