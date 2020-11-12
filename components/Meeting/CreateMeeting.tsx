@@ -90,7 +90,7 @@ const CreateMeeting = () => {
       >
         <TextField
           className={styles.createMeetingTextfield}
-          label="Bondy Issuer (Company name)"
+          label="Bond Issuer (Company name)"
           variant="outlined"
           inputRef={register}
           autoFocus
