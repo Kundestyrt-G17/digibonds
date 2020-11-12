@@ -63,12 +63,12 @@ const Meeting = () => {
       <div>
         <h1 style={{ fontSize: "24px" }}>Bondholder meeting for </h1>
         <div style={{ display: "flex", marginBottom: "36px" }}>
-          <h2 style={{ fontSize: "60px", margin: "0" }}>{data?.meetingName}</h2>
+          <h2 style={{ fontSize: "50px", margin: "0" }}>{data?.meetingName}</h2>
           <h3
             style={{
               alignSelf: "flex-end",
               marginLeft: "36px",
-              fontSize: "12px",
+              fontSize: "20px",
               color: "#737B81",
               fontFamily: "Roboto Condensed",
             }}
@@ -77,8 +77,10 @@ const Meeting = () => {
           </h3>
         </div>
       </div>
+      <hr />
       <div
         style={{
+          marginTop: "40px",
           display: "flex",
           justifyContent: "space-between",
         }}

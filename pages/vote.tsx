@@ -37,7 +37,7 @@ const VotesRoute = ({ user }) => {
     <>
       <div className={styles.welcomePage}>
         <h1>{meeting.meetingName}</h1>
-        <p style={{ fontSize: "18px" }}>{meeting.isin}</p>
+        <p style={{ fontSize: "18px" }}>ISIN: {meeting.isin}</p>
         <hr />
         <div style={{ textAlign: "justify" }}>
           <h3>SUMMONS TO BONDHOLDERS' MEETING</h3>

@@ -28,7 +28,7 @@ const Meetings = (props: MeetingsProps) => {
     columns = useMemo(
       () => [
         {
-          Header: "Meeting Name",
+          Header: "Issuing Company",
           accessor: "meetingName",
         },
         {
@@ -49,7 +49,7 @@ const Meetings = (props: MeetingsProps) => {
         },
         {
           id: "date",
-          Header: "Date",
+          Header: "Date (Deadline)",
           accessor: (data) => {
             const date = new Date(data.date);
             return date.toLocaleDateString("en-UK", dateOptions);
@@ -68,7 +68,7 @@ const Meetings = (props: MeetingsProps) => {
     columns = useMemo(
       () => [
         {
-          Header: "Meeting Name",
+          Header: "Issuing Company",
           accessor: "meetingName",
         },
         {
@@ -85,7 +85,7 @@ const Meetings = (props: MeetingsProps) => {
         },
         {
           id: "date",
-          Header: "Date",
+          Header: "Date (Deadline)",
           accessor: (data) => {
             const date = new Date(data.date);
             return date.toLocaleDateString("en-UK", dateOptions);

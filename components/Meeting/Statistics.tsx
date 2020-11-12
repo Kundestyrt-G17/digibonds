@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { IVote } from "@/schemas/vote";
 import { Chart } from "react-charts";
 import { VoteFavorType } from "@/utils/types";
@@ -50,7 +50,7 @@ export default function Statistics(props: StatisticsProps) {
   const data = React.useMemo(
     () => [
       {
-        label: "In favor",
+        label: "Percentage of total",
         data: [
           { x: "In favor", y: getAmountBonds("In favor") },
           { x: "In disfavor", y: getAmountBonds("In disfavor") },
@@ -74,27 +74,28 @@ export default function Statistics(props: StatisticsProps) {
           }}
         >
           <h5 style={{ fontSize: "24px", margin: "0" }}>Attendance</h5>
-          <p style={{ margin: 0, fontFamily: "Roboto Condensed" }}>
-            Total:{" "}
-            {Number(totalBonds).toLocaleString(
-              undefined, // leave undefined to use the browser's locale,
-              // or use a string like 'en-US' to override it.
-              { minimumFractionDigits: 2 }
-            )}{" "}
-            NOK
-          </p>
         </div>
         <AttendanceBar attendance={attendance} />
+        <p style={{ margin: "20px 0", fontSize: "20px" }}>
+          Total:{" "}
+          {Number(totalBonds).toLocaleString(
+            "no-NO", // leave undefined to use the browser's locale,
+            // or use a string like 'en-US' to override it.
+            { minimumFractionDigits: 2 }
+          )}{" "}
+          NOK
+        </p>
       </div>
+      <hr />
       <div>
-        <h6 style={{ fontSize: "24px" }}>Voting result</h6>
+        <h6 style={{ fontSize: "24px", marginTop: "30px" }}>Voting result</h6>
         <div
           style={{
             width: "400px",
             height: "300px",
           }}
         >
-          <Chart series={series} axes={axes} data={data} datums={6} />
+          <Chart series={series} axes={axes} data={data} datums={4} tooltip />
         </div>
       </div>
     </div>
