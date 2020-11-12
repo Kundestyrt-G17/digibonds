@@ -32,7 +32,7 @@ export default function AttendanceBar(props: AttendanceBarProps) {
           fontSize="12px"
           fill={"white"}
         >
-          {attendance * 100}%
+          {(attendance * 100).toPrecision(3)}%
         </text>
       </g>
       <g opacity="0.2">

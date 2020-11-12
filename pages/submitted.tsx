@@ -2,9 +2,23 @@ import React from "react";
 import { useRouter } from "next/router";
 import styles from "./submitted.module.css";
 import { withIronSession } from "next-iron-session";
+import Button from "@material-ui/core/Button";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import { createStyles, makeStyles, Theme } from "@material-ui/core";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    modal: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  })
+);
 
 const Submitted = ({ user }) => {
   const router = useRouter();
+  const classes = useStyles();
   function renderCorrectPage() {
     switch (router.query.from) {
       case "vote":
@@ -20,6 +34,14 @@ const Submitted = ({ user }) => {
 
   return (
     <div className={styles.submittedPage}>
+      <Button
+        href="/"
+        className={classes.backButton}
+        style={{ alignSelf: "flex-start" }}
+      >
+        <ArrowBackIosIcon />
+        Back to front page
+      </Button>
       <h1>Thank you!</h1>
       {renderCorrectPage()}
       <img
