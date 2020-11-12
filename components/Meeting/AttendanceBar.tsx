@@ -23,7 +23,7 @@ export default function AttendanceBar(props: AttendanceBarProps) {
           width={attendance * width}
           y="15"
           height="35"
-          fill={attendance > 0.666 ? "#347870" : "#21487D"}
+          fill={attendance > 0.5 ? "#347870" : "#21487D"}
         />
         <text
           x={attendance * width - 30}
@@ -39,8 +39,8 @@ export default function AttendanceBar(props: AttendanceBarProps) {
         <rect width={width} y="15" height="35" fill="#21487D" />
       </g>
       <polygon
-        points={`${width * 0.6666} 15.000,${width * 0.6666 - 2.598} 10.500, ${
-          width * 0.6666 + 2.598
+        points={`${width * 0.5} 15.000,${width * 0.5 - 2.598} 10.500, ${
+          width * 0.5 + 2.598
         } 10.500`}
         opacity="0.25"
         fill="#0E294F"
@@ -53,14 +53,14 @@ export default function AttendanceBar(props: AttendanceBarProps) {
       />
 
       <text
-        x={width * 0.6666 - 10}
+        x={width * 0.5 - 10}
         y={9}
         fill={"#21487D"}
         opacity={0.5}
         fontSize="10px"
         fontFamily="Roboto Condensed"
       >
-        66.6%
+        50%
       </text>
       <text
         x={0}
@@ -74,9 +74,9 @@ export default function AttendanceBar(props: AttendanceBarProps) {
       </text>
 
       <line
-        x1={width * 0.6666}
+        x1={width * 0.5}
         y1="15"
-        x2={width * 0.6666}
+        x2={width * 0.5}
         y2="51"
         stroke="#FEFEFF"
       />
