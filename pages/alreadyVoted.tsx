@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
   Button,
-  Checkbox,
+  Checkbox, createStyles,
   FormControl,
-  FormControlLabel,
+  FormControlLabel, makeStyles,
   Radio,
-  RadioGroup,
+  RadioGroup, Theme,
   withStyles,
 } from "@material-ui/core";
 import styles from "./alreadyVoted.module.css";
@@ -14,8 +14,17 @@ import { useRouter } from "next/router";
 import { VoteFavorType } from "@/utils/types";
 import { withIronSession } from "next-iron-session";
 import Loading from "@/components/Loading";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+      backButton: {
+        marginRight: theme.spacing(1),
+      },
+    })
+);
 
 const GlobalCss = withStyles({
   "@global": {
@@ -31,6 +40,7 @@ const AlreadyVoted = ({ user }) => {
 
   const router = useRouter();
   const { voteId } = router.query;
+  const classes = useStyles();
 
   const { data: vote, error: voteError } = useSWR(
     `/api/votes/${voteId}`,
@@ -59,6 +69,14 @@ const AlreadyVoted = ({ user }) => {
 
   return (
     <div className={styles.alreadyVotedPage}>
+      <Button
+          onClick={() => router.back()}
+          className={classes.backButton}
+          style={{alignSelf: "start"}}
+      >
+        <ArrowBackIosIcon />
+        Back
+      </Button>
       <h2 className={styles.alreadyVotedPageTitle}>THANK YOU FOR VOTING</h2>
       <div className={styles.alreadyVotedPageBody}>
         <div className={styles.alreadyVotedPageParagraph}>
