@@ -46,13 +46,12 @@ const VotesRoute = ({ user }) => {
           Nordic Trustee AS acts as bond trustee (the "Bond Trustee") for the
           holders of bonds (the "Bonds") in the above-mentioned bond issues
           (each a "Bond Issue" and together the "Bond Issues") issued by{" "}
-          {meeting.meetingName} (the "Issuer" or the "Company").
-          <br />
-          Unless otherwise stated herein, all capitalised terms used herein
-          shall have the meaning ascribed to them in the bond terms for{" "}
-          {meeting.isin} dated {date.toLocaleDateString("en-UK", dateOptions)}{" "}
-          (as later amended and restated). References to clauses and paragraphs
-          are references to clauses and paragraphs of the relevant Bond Terms.
+          {meeting.meetingName} (the "Issuer" or the "Company"). Unless
+          otherwise stated herein, all capitalised terms used herein shall have
+          the meaning ascribed to them in the bond terms for {meeting.isin}{" "}
+          dated {date.toLocaleDateString("en-UK", dateOptions)} (as later
+          amended and restated). References to clauses and paragraphs are
+          references to clauses and paragraphs of the relevant Bond Terms.
         </div>
         <Button
           startIcon={<PictureAsPdfIcon />}
