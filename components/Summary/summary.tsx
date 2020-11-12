@@ -70,7 +70,14 @@ const Summary = (props: SummaryProps) => {
   let rows = [
     createData("ISIN", isin),
     createData("Company", ballot.company.name),
-    createData("Amount of bonds owned", ballot.bondsOwned),
+    createData(
+      "Amount of bonds owned",
+      ballot.bondsOwned.toLocaleString(
+        "no-NO", // leave undefined to use the browser's locale,
+        // or use a string like 'en-US' to override it.
+        { minimumFractionDigits: 2 }
+      )
+    ),
     createData("You voted", ballot.favor),
   ];
   const [numPages, setNumPages] = useState(null);
