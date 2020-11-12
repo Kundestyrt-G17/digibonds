@@ -190,7 +190,7 @@ export default function Company(props: { brokers: IUser[] }) {
           />
         ) : (
           <CompanyModalContent
-            title={!editingCompany ? "Add new company" : "Edit company"}
+            title={!editingCompany ? "Add new bondholder" : "Edit bondholder"}
             setShowing={setShowingCompanyModal}
             close={closeCompanyModal}
             company={company}
@@ -200,7 +200,7 @@ export default function Company(props: { brokers: IUser[] }) {
       <Dialog open={showingBondholder} onClose={() => closeBondholder()}>
         {deletingBondholder ? (
           <DeleteModalContent
-            title="bondholder"
+            title="contact person"
             close={closeBondholder}
             user={bondholder}
           />

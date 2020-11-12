@@ -41,6 +41,7 @@ const CreateMeeting = () => {
       name: "companies",
     }
   );
+
   if (error) return <div>Failed to load</div>;
   if (!companies) return <Loading />;
 
@@ -114,7 +115,7 @@ const CreateMeeting = () => {
           required
           margin="normal"
           type="date"
-          defaultValue="2020-12-24" //TODO: Possible value is today + 7 days? Need 3rd party date-library
+          defaultValue={new Date().toISOString().split("T")[0].toString()}
           name="deadline"
         />
         <TextField

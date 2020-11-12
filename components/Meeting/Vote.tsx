@@ -20,6 +20,7 @@ import { PoHStatusType } from "@/utils/types";
 import { IMeeting } from "@/schemas/meeting";
 import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
 import Loading from "@/components/Loading";
+import dateOptions from "@/utils/date";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -120,7 +121,9 @@ export default function Vote() {
       </h2>
       <div style={{ display: "flex" }}>
         <h3 style={{ fontSize: "36px", margin: 0 }}>{meeting.meetingName}</h3>
-        <p style={{ marginLeft: "50px" }}>{date.toLocaleDateString("no-NO")}</p>
+        <p style={{ marginLeft: "50px" }}>
+          {date.toLocaleDateString("en-UK", dateOptions)}
+        </p>
       </div>
       <h4 style={{ fontSize: "60px", margin: "0px" }}>{vote?.company.name}</h4>
       <div style={{ display: "flex" }}>

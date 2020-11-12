@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 
 import styles from "./Meetings.module.css";
 import { VoteFavorType } from "@/utils/types";
+import dateOptions from "@/utils/date";
 
 interface MeetingsProps {
   meetings: IMeeting[];
@@ -51,7 +52,7 @@ const Meetings = (props: MeetingsProps) => {
           Header: "Date",
           accessor: (data) => {
             const date = new Date(data.date);
-            return date.toLocaleDateString("no-NO");
+            return date.toLocaleDateString("en-UK", dateOptions);
           },
         },
       ],
@@ -87,7 +88,7 @@ const Meetings = (props: MeetingsProps) => {
           Header: "Date",
           accessor: (data) => {
             const date = new Date(data.date);
-            return date.toLocaleDateString("no-NO");
+            return date.toLocaleDateString("en-UK", dateOptions);
           },
         },
       ],

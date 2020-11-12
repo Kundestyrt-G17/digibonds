@@ -103,7 +103,7 @@ export default function UserModalContent(props: ModalProps) {
               : handleSubmit(onSubmitBondHolder)
           }
         >
-          Add
+          {title.includes("Add") ? "Add" : "Edit"}
         </Button>
         <Button onClick={close}>Cancel</Button>
       </DialogActions>

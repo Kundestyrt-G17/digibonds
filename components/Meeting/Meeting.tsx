@@ -10,6 +10,7 @@ import Statistics from "@/components/Meeting/Statistics";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Loading from "@/components/Loading";
 import ExportAsCSV from "./ExportAsCSV";
+import dateOptions from "@/utils/date";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -72,7 +73,7 @@ const Meeting = () => {
               fontFamily: "Roboto Condensed",
             }}
           >
-            {date.toLocaleDateString("no-NO")}
+            {date.toLocaleDateString("en-UK", dateOptions)}
           </h3>
         </div>
       </div>
