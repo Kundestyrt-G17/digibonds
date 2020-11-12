@@ -1,11 +1,13 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
+import { Button } from "@material-ui/core";
 import { IVote } from "../../schemas/vote";
+import GetAppIcon from "@material-ui/icons/GetApp";
 
 const {
   Parser,
   transforms: { flatten },
 } = require("json2csv");
+
 interface ExportResultProps {
   votes: IVote[];
   exportName: string;
@@ -37,7 +39,12 @@ export default function ExportAsCSV(props: ExportResultProps) {
       onClick={handleClick}
       variant="contained"
       color="primary"
-      style={{ maxHeight: "36px", minHeight: "36px" }}
+      style={{
+        maxHeight: "36px",
+        minHeight: "36px",
+        backgroundColor: "#57B18B",
+      }}
+      startIcon={<GetAppIcon />}
     >
       Export Results
     </Button>
