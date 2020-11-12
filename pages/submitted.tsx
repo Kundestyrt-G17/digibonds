@@ -8,10 +8,8 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    modal: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
+    backButton: {
+      marginRight: theme.spacing(1),
     },
   })
 );
