@@ -12,6 +12,7 @@ export default async function handler(
             const documentUpload = await client.signature.createDocument(req.body).then(results => {
                 return results.signers[0].url;
             });
+            console.log(documentUpload);
             res.status(200).json(JSON.stringify(documentUpload));
 
             break;
@@ -25,5 +26,5 @@ export default async function handler(
 const client = new IdfyClient(
     "tc8d80e3ad1f34c308bbe92dacd13eade",
     "bqhDrNzeOfophmhx3D6noVwh9IrXVJ2B",
-    ['document_read', 'document_write']
+    ['document_read', 'document_write', 'document_file']
 )

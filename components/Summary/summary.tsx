@@ -115,7 +115,7 @@ const Summary = (props: SummaryProps) => {
             },
             false
           );
-          return <div>There's something going on on the fly</div>;
+          return <div></div>;
         }}
       </BlobProvider>
       <table className={styles.summaryTable}>
