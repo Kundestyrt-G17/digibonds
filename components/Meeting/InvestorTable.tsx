@@ -27,7 +27,7 @@ export default function InvestorTable(props: InvestorTableProps) {
         Header: "Amount (NOK)",
         accessor: (d) =>
           Number(d.bondsOwned).toLocaleString(
-            undefined, // leave undefined to use the browser's locale,
+            "no-NO", // leave undefined to use the browser's locale,
             // or use a string like 'en-US' to override it.
             { minimumFractionDigits: 2 }
           ),
