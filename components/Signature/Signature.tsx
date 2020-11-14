@@ -87,11 +87,22 @@ const Signature = (props: SignatureProps) => {
   }
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-around" }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <h3>
+        To finish the voting process you must digitally sign your ballot. This
+        will open in a new window.
+      </h3>
       <Button
         type={"button"}
         variant={"contained"}
         color={"primary"}
+        style={{ width: "400px", marginBottom: "20px" }}
         onClick={() => {
           window.open(
             signicatUrl,
@@ -101,18 +112,19 @@ const Signature = (props: SignatureProps) => {
           setButtonPressed(true);
         }}
       >
-        Click here to start signing
+        Click here sign ballot
       </Button>
       <Button
         type={"submit"}
         variant={"contained"}
         color={"primary"}
         disabled={!buttonPressed}
+        style={{ width: "400px" }}
         onClick={() => {
           submitVote(ballot);
         }}
       >
-        Click here after you are done signing
+        Finish
       </Button>
     </div>
   );

@@ -67,7 +67,7 @@ export default function BallotForm(props: BallotFormProps) {
       >
         <TextField
           name="bondsOwned"
-          label="Amount of bonds owned"
+          label="Amount of bonds owned (NOK)"
           variant="outlined"
           type="number"
           required

@@ -79,6 +79,7 @@ const VotesRoute = ({ user }) => {
               Already voted
             </Button>
           </Link>
+          {/*
           <Link
             href={{
               pathname: "/noLongerOwn",
@@ -89,6 +90,7 @@ const VotesRoute = ({ user }) => {
               No longer own my bonds
             </Button>
           </Link>
+            */}
           <Link
             href={{
               pathname: "/redirect",
