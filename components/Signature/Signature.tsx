@@ -13,7 +13,12 @@ let signicatUrl = "";
 const Signature = (props: SignatureProps) => {
   const { isin, ballot, submitVote } = props;
   const [urlReady, setUrlReady] = useState(false);
+  const [error, setError] = useState("");
   const [buttonPressed, setButtonPressed] = useState(false);
+
+  if (error) {
+      return <div>Something went wrong.</div>;
+  }
 
   let ballotText =
     "You, " +
@@ -54,24 +59,31 @@ const Signature = (props: SignatureProps) => {
     },
   };
 
-  console.log(documentOptions);
-
   if (!urlReady) {
     uploadBallotAndGetSigningUrl().finally();
     return <div>Loading...</div>;
   }
 
   async function uploadBallotAndGetSigningUrl() {
-    const response = await fetch("api/signature", {
+    await fetch("api/signature", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(documentOptions),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        signicatUrl = data;
-        setUrlReady(true);
-      });
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Something went wrong");
+          }
+        })
+        .then((data) => {
+            signicatUrl = data;
+            setUrlReady(true);
+        })
+        .catch((error) => {
+            setError(error);
+        });
   }
 
   return (
