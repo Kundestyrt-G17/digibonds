@@ -54,7 +54,9 @@ export default function LoginForm() {
           }).then((data => {
               if (!error){
                   if (!data) {
-                      signicatRedirect();
+                      // BankID login disabled for demonstration
+                      // signicatRedirect();
+                      router.push("/");
                   } else {
                       router.push("/");
                   }
