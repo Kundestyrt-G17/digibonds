@@ -1,30 +1,72 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# DigiBonds
 
 ## Getting Started
 
-First, run the development server:
+In the `package.json` file, following 'scripts' are available:
 
-```bash
-npm run dev
-# or
-yarn dev
+`dev` - Runs `next dev` which starts Next.js in development mode
+`build` - Runs `next build` which builds the application for production usage
+`start` - Runs `next start` which starts a Next.js production server
+
+## Fetch Source code and Install Packages
+
+Clone the project
+```sh
+$ git clone git@github.com:Kundestyrt-G17/digibonds.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Enter the bonds folder
+```sh
+$ cd digibonds
+```
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Install dependencies
+```sh
+$ yarn
+```
 
-## Learn More
+## Database
 
-To learn more about Next.js, take a look at the following resources:
+There are many ways of getting hold of a development mongodb database. The easiest way is to run a docker container with mongodb. For this, you need docker and docker-compose installed.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`Docker` - Install from https://docs.docker.com/get-docker
+`docker-compose` - Install from https://docs.docker.com/compose/install
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The project comes with a `docker-compose.yml` that will start the mongodb database.
+```sh
+$ docker-compose up -d
+```
 
-## Deploy on Vercel
+Another solution is to create a development database on a cloud service like Atlas https://www.mongodb.com/cloud/atlas. Atlas can be used to host both development and production databases.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Environment Variables
+There are a few environment variables needed to allow the backend to speak to the database, and an application secret needed to ensure that session tokens work securely. These secrets should be located in \texttt{.env} file in the root of the project.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```sh
+# Copy shell .env-local file to .env
+$ cp .env-local .env
+
+# Use a text editor to edit the following fields
+# The DATEBASE_X fields are your database credentials
+# The APPLICATION_SECRET is a random string you should generate
+DATABASE_USER=<INSERT>
+DATABASE_PASSWORD=<INSERT>
+DATABASE_NAME=<INSERT>
+APPLICATION_SECRET=<RANDOM STRING>
+```
+
+
+## Build and Run Project
+Use the following commands to run and build the project
+```sh
+# Start development server
+$ yarn dev
+
+# Build production build
+$ yarn build
+
+# Run production server
+$ yarn start
+```
+
+Open `http://localhost:5000` to view the development or production server.
