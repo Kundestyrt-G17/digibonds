@@ -11,16 +11,19 @@ In the `package.json` file, following 'scripts' are available:
 ## Fetch Source code and Install Packages
 
 Clone the project
+
 ```sh
 $ git clone git@github.com:Kundestyrt-G17/digibonds.git
 ```
 
 Enter the bonds folder
+
 ```sh
 $ cd digibonds
 ```
 
 Install dependencies
+
 ```sh
 $ yarn
 ```
@@ -33,6 +36,7 @@ There are many ways of getting hold of a development mongodb database. The easie
 `docker-compose` - Install from https://docs.docker.com/compose/install
 
 The project comes with a `docker-compose.yml` that will start the mongodb database.
+
 ```sh
 $ docker-compose up -d
 ```
@@ -40,6 +44,7 @@ $ docker-compose up -d
 Another solution is to create a development database on a cloud service like Atlas https://www.mongodb.com/cloud/atlas. Atlas can be used to host both development and production databases.
 
 ## Environment Variables
+
 There are a few environment variables needed to allow the backend to speak to the database, and an application secret needed to ensure that session tokens work securely. These secrets should be located in \texttt{.env} file in the root of the project.
 
 ```sh
@@ -55,9 +60,12 @@ DATABASE_NAME=<INSERT>
 APPLICATION_SECRET=<RANDOM STRING>
 ```
 
+> PS: You need to change the connection string located in utils/connection.ts to point at the mongodb database you are using. If you are using localhost or mongodb this string will different
 
 ## Build and Run Project
+
 Use the following commands to run and build the project
+
 ```sh
 # Start development server
 $ yarn dev
