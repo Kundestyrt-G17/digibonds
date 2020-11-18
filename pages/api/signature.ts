@@ -9,12 +9,15 @@ export default async function handler(
 
     switch (method) {
         case "POST":
-            const documentUpload = await client.signature.createDocument(req.body).then(results => {
-                return results.signers[0].url;
-            });
-            console.log(documentUpload);
-            res.status(200).json(JSON.stringify(documentUpload));
-
+            try {
+                const documentUpload = await client.signature.createDocument(req.body)
+                    .then(results => {
+                        return results.signers[0].url;
+                    });
+                res.status(200).json(JSON.stringify(documentUpload));
+            } catch (e) {
+                res.status(500).send(e);
+            }
             break;
         default:
             res.setHeader("Allow", ["POST"]);

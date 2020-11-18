@@ -21,7 +21,7 @@ export default withIronSession(
       if (foundUser) {
         req.session.set("user", foundUser);
         await req.session.save();
-        return res.status(201).send("");
+        return res.status(201).json(foundUser.isBroker);
       }
       return res.status(403).send("");
     }

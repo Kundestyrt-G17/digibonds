@@ -13,14 +13,19 @@ let signicatUrl = "";
 const Signature = (props: SignatureProps) => {
   const { isin, ballot, submitVote } = props;
   const [urlReady, setUrlReady] = useState(false);
+  const [error, setError] = useState("");
   const [buttonPressed, setButtonPressed] = useState(false);
+
+  if (error) {
+      return <div>Something went wrong.</div>;
+  }
 
   let ballotText =
     "You, " +
     ballot.company.name.toUpperCase() +
     " with a holding of " +
     ballot.bondsOwned +
-    ", are voting " +
+    " NOK, are voting " +
     ballot.favor.toUpperCase() +
     " on the proposals concerning ISIN " +
     isin +
@@ -54,32 +59,50 @@ const Signature = (props: SignatureProps) => {
     },
   };
 
-  console.log(documentOptions);
-
   if (!urlReady) {
     uploadBallotAndGetSigningUrl().finally();
     return <div>Loading...</div>;
   }
 
   async function uploadBallotAndGetSigningUrl() {
-    const response = await fetch("api/signature", {
+    await fetch("api/signature", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(documentOptions),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        signicatUrl = data;
-        setUrlReady(true);
-      });
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Something went wrong");
+          }
+        })
+        .then((data) => {
+            signicatUrl = data;
+            setUrlReady(true);
+        })
+        .catch((error) => {
+            setError(error);
+        });
   }
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-around" }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <h3>
+        To finish the voting process you must digitally sign your ballot. This
+        will open in a new window.
+      </h3>
       <Button
         type={"button"}
         variant={"contained"}
         color={"primary"}
+        style={{ width: "400px", marginBottom: "20px" }}
         onClick={() => {
           window.open(
             signicatUrl,
@@ -89,18 +112,19 @@ const Signature = (props: SignatureProps) => {
           setButtonPressed(true);
         }}
       >
-        Click here to start signing
+        Click here sign ballot
       </Button>
       <Button
         type={"submit"}
         variant={"contained"}
         color={"primary"}
         disabled={!buttonPressed}
+        style={{ width: "400px" }}
         onClick={() => {
           submitVote(ballot);
         }}
       >
-        Click here after you are done signing
+        Finish
       </Button>
     </div>
   );

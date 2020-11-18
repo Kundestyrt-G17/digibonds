@@ -17,13 +17,8 @@ import clsx from "clsx";
 import { Document, Page, pdfjs } from "react-pdf";
 import {
   Page as RenderPage,
-  Text,
-  View,
   Document as RenderDocument,
   StyleSheet,
-  PDFViewer,
-  pdf,
-  BlobProvider,
 } from "@react-pdf/renderer";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -72,11 +67,11 @@ const Summary = (props: SummaryProps) => {
     createData("Company", ballot.company.name),
     createData(
       "Amount of bonds owned",
-      ballot.bondsOwned.toLocaleString(
+      Number(ballot.bondsOwned).toLocaleString(
         "no-NO", // leave undefined to use the browser's locale,
         // or use a string like 'en-US' to override it.
         { minimumFractionDigits: 2 }
-      )
+      ) + " NOK"
     ),
     createData("You voted", ballot.favor),
   ];
@@ -182,11 +177,10 @@ const Summary = (props: SummaryProps) => {
               color="primary"
               disabled={!isChecked}
               onClick={() => {
-                // submitVote(ballot);
                 setActiveStep(3);
               }}
             >
-              Continue
+              Go to Signing
             </Button>
           </div>
         </>
